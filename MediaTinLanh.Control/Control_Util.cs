@@ -16,8 +16,8 @@ namespace MediaTinLanh.Control
 
         public static string[] StringSplit(string Content)
         {
-             //return Content.Split('\n');
-             return Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+             return Content.Split('\n');
+             //return Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
         }
         public  static  string FixFormat(string Content)
         {

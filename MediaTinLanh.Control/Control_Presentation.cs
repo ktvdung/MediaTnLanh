@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace MediaTinLanh.Control
 {
     public class Control_Presentation
     {
-        public static void CreateFiles(string location, string Content, string[] format)
+        public static void CreateFiles(string location, string Content, string[] format, Stream img)
         {
             string font = format[0];
             string size = format[1];
@@ -25,9 +26,20 @@ namespace MediaTinLanh.Control
             for (int i = 1; i < sentences.Length; i++)
             {
                 //Chèn dữ liệu vào slide
-                CreateSlide2(i, powerpointDoc, sentences[i], font, size, style);
+                CreateSlide2 (i-1, powerpointDoc, sentences[i], font, size, style);
             }
-
+            if (img != Stream.Null)
+            {
+                ILayoutSlide layoutSlide = powerpointDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+                //Set background of the layout slide
+                layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
+                //Get the stream of an image
+                Stream pictureStream = img;
+                //Add the picture into layout slide
+                layoutSlide.Shapes.AddPicture(pictureStream, 100, 100, 100, 100);
+                //Add a slide of new designed custom layout to the presentation
+                ISlide slide = powerpointDoc.Slides.Add(layoutSlide);
+            }
             //Lưu tệp tin lại
             powerpointDoc.Save(location);
 
@@ -39,47 +51,68 @@ namespace MediaTinLanh.Control
 
         public static void CreateSlide1(IPresentation presentation, string content)
         {
-            ISlide slide1 = presentation.Slides.Add(SlideLayoutType.TitleOnly);
-            IShape shape1 = slide1.Shapes[0] as IShape;
-            shape1.Left = 1.5 * 72;
-            shape1.Top = 1.94 * 72;
-            shape1.Width = 10.32 * 72;
-            shape1.Height = 2 * 72;
+            ISlide firstSlide = presentation.Slides.Add(SlideLayoutType.Blank);
+            IShape textShape = firstSlide.AddTextBox(100, 75, 756, 200);
+            IParagraph paragraph = textShape.TextBody.AddParagraph();
+            
+            //Set the horizontal alignment of paragraph
+            paragraph.HorizontalAlignment = HorizontalAlignmentType.Center;
 
-            ITextBody textFrame1 = shape1.TextBody;
-            IParagraphs paragraphs1 = textFrame1.Paragraphs;
-            IParagraph paragraph1 = paragraphs1.Add();
-            ITextPart textPart1 = paragraph1.AddTextPart();
-            paragraphs1[0].IndentLevelNumber = 0;
-            textPart1.Text = content;
-            textPart1.Font.FontName = "HelveticaNeue LT 65 Medium";
-            textPart1.Font.FontSize = 80;
-            textPart1.Font.Bold = true;
-            slide1.Shapes.RemoveAt(0);
+            //Adds a textPart in the paragraph
+            ITextPart textPart = paragraph.AddTextPart(content);
+
+          
+            //Applies font formatting to the text
+            textPart.Font.FontSize = 80;
+            textPart.Font.Bold = true;
         }
 
         #endregion
 
         #region Cac slide tiep theo
 
-        #region Slide2
-        public static  void CreateSlide2(int index,IPresentation presentation, string Content, string font, string size, string style)
+        public static void CreateSlide2(int index, IPresentation presentation, string Content, string font, string size, string style)
         {
-            ISlide slide2 = presentation.Slides.Add(SlideLayoutType.Title);
-            IShape shape1 = slide2.Shapes[0] as IShape;
-            ITextBody textFrame1 = shape1.TextBody;
+            ISlide Slide = presentation.Slides.Add(SlideLayoutType.Blank);
+            IShape textShape = Slide.AddTextBox(100, 75, 756, 200);
+            IParagraph paragraph = textShape.TextBody.AddParagraph();
 
-            //Instance to hold paragraphs in textframe
-            IParagraphs paragraphs1 = textFrame1.Paragraphs;
-            IParagraph paragraph1 = paragraphs1.Add();
-            ITextPart textpart1 = paragraph1.AddTextPart();
-            paragraphs1[0].HorizontalAlignment = HorizontalAlignmentType.Left;
-            textpart1.Text = Content;
-            textpart1.Font.FontName = font;
-            textpart1.Font.FontSize = Int16.Parse(size);
-            slide2.Shapes.RemoveAt(index);
+            //Set the horizontal alignment of paragraph
+            paragraph.HorizontalAlignment = HorizontalAlignmentType.Center;
+
+            //Adds a textPart in the paragraph
+            ITextPart textPart = paragraph.AddTextPart(Content);
+
+            //Applies font formatting to the text
+            textPart.Font.FontName = font;
+            textPart.Font.FontSize = int.Parse(size);
+            textPart.Font.Bold = true;
         }
-        # endregion
+        #endregion
+
+        #region Theme
+
+        public static void CreateTheme(IPresentation pptxDoc, Stream pictureStream, string LayoutSlideName, string location)
+        {
+            //Add a new LayoutSlide to the PowerPoint file
+            ILayoutSlide layoutSlide = pptxDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, LayoutSlideName);
+
+            //Add a shape to the LayoutSlide
+            IShape shape = layoutSlide.Shapes.AddShape(AutoShapeType.Diamond, 30, 20, 400, 300);
+
+            //Change the background color for LayoutSlide
+            layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
+            layoutSlide.Shapes.AddPicture(pictureStream, 100, 100, 100, 100);
+            
+            //Add a slide of new designed custom layout to the presentation
+            ISlide slide = pptxDoc.Slides.Add(layoutSlide);
+            //Save the PowerPoint file
+            pptxDoc.Save(location);
+
+            //Close the Presentation instance
+            pptxDoc.Close();
+        }
+        
 
         #endregion
 

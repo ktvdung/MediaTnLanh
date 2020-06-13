@@ -38,6 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cbbStyle = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnimg = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -91,7 +92,7 @@
             "Helvetica CE 35 Thin",
             "Arial",
             "Times New Roman"});
-            this.cbbFonts.Location = new System.Drawing.Point(110, 41);
+            this.cbbFonts.Location = new System.Drawing.Point(73, 41);
             this.cbbFonts.Name = "cbbFonts";
             this.cbbFonts.Size = new System.Drawing.Size(116, 21);
             this.cbbFonts.TabIndex = 5;
@@ -99,7 +100,7 @@
             // cbbSize
             // 
             this.cbbSize.FormattingEnabled = true;
-            this.cbbSize.Location = new System.Drawing.Point(291, 41);
+            this.cbbSize.Location = new System.Drawing.Point(254, 41);
             this.cbbSize.Name = "cbbSize";
             this.cbbSize.Size = new System.Drawing.Size(116, 21);
             this.cbbSize.TabIndex = 7;
@@ -107,7 +108,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(233, 44);
+            this.label3.Location = new System.Drawing.Point(196, 44);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 6;
@@ -120,7 +121,7 @@
             "In đậm",
             "In nghiêng",
             "Gạch chân"});
-            this.cbbStyle.Location = new System.Drawing.Point(471, 41);
+            this.cbbStyle.Location = new System.Drawing.Point(434, 41);
             this.cbbStyle.Name = "cbbStyle";
             this.cbbStyle.Size = new System.Drawing.Size(116, 21);
             this.cbbStyle.TabIndex = 9;
@@ -128,17 +129,28 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(413, 44);
+            this.label4.Location = new System.Drawing.Point(376, 44);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "Kiểu chữ:";
+            // 
+            // btnimg
+            // 
+            this.btnimg.Location = new System.Drawing.Point(572, 39);
+            this.btnimg.Name = "btnimg";
+            this.btnimg.Size = new System.Drawing.Size(75, 23);
+            this.btnimg.TabIndex = 10;
+            this.btnimg.Text = "Chọn ảnh";
+            this.btnimg.UseVisualStyleBackColor = true;
+            this.btnimg.Click += new System.EventHandler(this.btnimg_Click);
             // 
             // frmTextToPP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 440);
+            this.Controls.Add(this.btnimg);
             this.Controls.Add(this.cbbStyle);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbbSize);
@@ -169,5 +181,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbbStyle;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnimg;
     }
 }
