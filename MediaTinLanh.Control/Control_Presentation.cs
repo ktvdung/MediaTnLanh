@@ -36,9 +36,9 @@ namespace MediaTinLanh.Control
                 //Get the stream of an image
                 Stream pictureStream = img;
                 //Add the picture into layout slide
-                layoutSlide.Shapes.AddPicture(pictureStream, 100, 100, 100, 100);
-                //Add a slide of new designed custom layout to the presentation
-                ISlide slide = powerpointDoc.Slides.Add(layoutSlide);
+                layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
+                 //Add a slide of new designed custom layout to the presentation
+                 ISlide slide = powerpointDoc.Slides.Add(layoutSlide);
             }
             //Lưu tệp tin lại
             powerpointDoc.Save(location);
