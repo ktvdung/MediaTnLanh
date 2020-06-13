@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MediaTinLanh.Control
 {
-   public class Control_Util
+    public class Control_Util
     {
         public static string RemoveSpecialCharacters(string Input)
         {
@@ -16,10 +16,9 @@ namespace MediaTinLanh.Control
 
         public static string[] StringSplit(string Content)
         {
-             return Content.Split('\n');
-             //return Content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            return Content.Split('\n');
         }
-        public  static  string FixFormat(string Content)
+        public static string FixFormat(string Content)
         {
             return Content;
         }
