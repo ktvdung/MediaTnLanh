@@ -17,7 +17,6 @@ namespace MediaTinLanh.Control
             try
             {                
                 dt = (DataTable)JsonConvert.DeserializeObject(jsonString, (typeof(DataTable)));
-               
             }
             catch (Exception ex)
             {

@@ -56,7 +56,6 @@
             this.panel10 = new System.Windows.Forms.Panel();
             this.button15 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
-            this.firstCustomControl1 = new MediaTinLanh.FirstCustomControl();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -450,13 +449,7 @@
             this.button16.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button16.UseVisualStyleBackColor = true;
             this.button16.Click += new System.EventHandler(this.button16_Click);
-            // 
-            // firstCustomControl1
-            // 
-            this.firstCustomControl1.Location = new System.Drawing.Point(209, 156);
-            this.firstCustomControl1.Name = "firstCustomControl1";
-            this.firstCustomControl1.Size = new System.Drawing.Size(805, 423);
-            this.firstCustomControl1.TabIndex = 5;
+            
             // 
             // FrmMain
             // 
@@ -465,7 +458,6 @@
             this.ClientSize = new System.Drawing.Size(1026, 583);
             this.Controls.Add(this.panel10);
             this.Controls.Add(this.panel4);
-            this.Controls.Add(this.firstCustomControl1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -497,7 +489,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button13;
-        private FirstCustomControl firstCustomControl1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel9;
