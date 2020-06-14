@@ -31,14 +31,13 @@ namespace MediaTinLanh.Control
             if (img != Stream.Null)
             {
                 ILayoutSlide layoutSlide = powerpointDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
-                //Set background of the layout slide
+                //Thiết lập background
                 layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
-                //Get the stream of an image
+                //Đọc file ảnh
                 Stream pictureStream = img;
-                //Add the picture into layout slide
+                //Thêm ảnh vào slide
                 layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
-                 //Add a slide of new designed custom layout to the presentation
-                 ISlide slide = powerpointDoc.Slides.Add(layoutSlide);
+                ISlide slide = powerpointDoc.Slides.Add(layoutSlide);
             }
             //Lưu tệp tin lại
             powerpointDoc.Save(location);
