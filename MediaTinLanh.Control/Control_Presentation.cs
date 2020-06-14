@@ -21,23 +21,33 @@ namespace MediaTinLanh.Control
             string[] sentences = Control_Util.StringSplit(Content);
             //Tạo file
             IPresentation powerpointDoc = Presentation.Create();
-            //Tạo slide đầu tiên
-            CreateSlide1(powerpointDoc, sentences[0]);
-            for (int i = 1; i < sentences.Length; i++)
-            {
-                //Chèn dữ liệu vào slide
-                CreateSlide2 (i-1, powerpointDoc, sentences[i], font, size, style);
-            }
             if (img != Stream.Null)
             {
                 ILayoutSlide layoutSlide = powerpointDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
                 //Thiết lập background
-                layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
-                //Đọc file ảnh
-                Stream pictureStream = img;
-                //Thêm ảnh vào slide
-                layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
-                ISlide slide = powerpointDoc.Slides.Add(layoutSlide);
+                ISlideSize slidesize = layoutSlide.SlideSize;
+
+                //Thêm Background
+                //layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
+                layoutSlide.Shapes.AddPicture(img, 0, 0, slidesize.Width, slidesize.Height);
+
+                ////Tạo slide đầu tiên
+                CreateSlide1(powerpointDoc, sentences[0], layoutSlide);
+                for (int i = 1; i < sentences.Length; i++)
+                {
+                    //Chèn dữ liệu vào slide
+                    CreateSlide2(i - 1, powerpointDoc, sentences[i], font, size, style, layoutSlide);
+                }
+            }
+            else
+            {
+                ILayoutSlide layoutSlide = powerpointDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+                CreateSlide1(powerpointDoc, sentences[0], layoutSlide);
+                for (int i = 1; i < sentences.Length; i++)
+                {
+                    //Tạo slide khác
+                    CreateSlide2(i - 1, powerpointDoc, sentences[i], font, size, style, layoutSlide);
+                }
             }
             //Lưu tệp tin lại
             powerpointDoc.Save(location);
@@ -48,41 +58,43 @@ namespace MediaTinLanh.Control
 
         #region  Slide đầu tiên
 
-        public static void CreateSlide1(IPresentation presentation, string content)
+        public static void CreateSlide1(IPresentation presentation, string content,ILayoutSlide LayputLayoutSlide)
         {
-            ISlide firstSlide = presentation.Slides.Add(SlideLayoutType.Blank);
-            IShape textShape = firstSlide.AddTextBox(100, 75, 756, 200);
+            ISlide firstSlide = presentation.Slides.Add(LayputLayoutSlide);
+            IShape textShape = firstSlide.AddTextBox(0, 0, firstSlide.SlideSize.Width, firstSlide.SlideSize.Height);
+
             IParagraph paragraph = textShape.TextBody.AddParagraph();
             
-            //Set the horizontal alignment of paragraph
+            //Căn giữa
             paragraph.HorizontalAlignment = HorizontalAlignmentType.Center;
 
-            //Adds a textPart in the paragraph
+            //Thêm textbox
             ITextPart textPart = paragraph.AddTextPart(content);
-
-          
-            //Applies font formatting to the text
-            textPart.Font.FontSize = 80;
+            
+            //Font chữ
+            textPart.Font.Color = ColorObject.FromArgb(255, 255, 255);
             textPart.Font.Bold = true;
+            textPart.Font.FontSize = 80;
         }
 
         #endregion
 
         #region Cac slide tiep theo
 
-        public static void CreateSlide2(int index, IPresentation presentation, string Content, string font, string size, string style)
+        public static void CreateSlide2(int index, IPresentation presentation, string Content, string font, string size, string style, ILayoutSlide layoutSlide)
         {
-            ISlide Slide = presentation.Slides.Add(SlideLayoutType.Blank);
-            IShape textShape = Slide.AddTextBox(100, 75, 756, 200);
+            ISlide Slide = presentation.Slides.Add(layoutSlide);
+            IShape textShape = Slide.AddTextBox(0, 0, Slide.SlideSize.Width, Slide.SlideSize.Height);
             IParagraph paragraph = textShape.TextBody.AddParagraph();
 
-            //Set the horizontal alignment of paragraph
+            //Căn giữa
             paragraph.HorizontalAlignment = HorizontalAlignmentType.Center;
 
-            //Adds a textPart in the paragraph
+            //Thêm textbox
             ITextPart textPart = paragraph.AddTextPart(Content);
 
-            //Applies font formatting to the text
+            //Font chữ
+            textPart.Font.Color = ColorObject.FromArgb(255, 255, 255);
             textPart.Font.FontName = font;
             textPart.Font.FontSize = int.Parse(size);
             textPart.Font.Bold = true;
@@ -95,13 +107,14 @@ namespace MediaTinLanh.Control
         {
             //Add a new LayoutSlide to the PowerPoint file
             ILayoutSlide layoutSlide = pptxDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, LayoutSlideName);
+            ISlideSize slidesize = layoutSlide.SlideSize;
 
             //Add a shape to the LayoutSlide
-            IShape shape = layoutSlide.Shapes.AddShape(AutoShapeType.Diamond, 30, 20, 400, 300);
+            IShape shape = layoutSlide.Shapes.AddShape(AutoShapeType.Diamond, 0, 0, layoutSlide.SlideSize.Width, layoutSlide.SlideSize.Height);
 
             //Change the background color for LayoutSlide
-            layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
-            layoutSlide.Shapes.AddPicture(pictureStream, 100, 100, 100, 100);
+            //layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
+            layoutSlide.Shapes.AddPicture(pictureStream, 0, 0, slidesize.Width, slidesize.Height);
             
             //Add a slide of new designed custom layout to the presentation
             ISlide slide = pptxDoc.Slides.Add(layoutSlide);
