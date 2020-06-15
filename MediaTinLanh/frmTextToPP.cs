@@ -10,7 +10,6 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.LookAndFeel;
 using MediaTinLanh.Control;
 
 namespace MediaTinLanh
