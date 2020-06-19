@@ -13,9 +13,11 @@ using System.Windows.Forms;
 using MediaTinLanh.Control;
 
 namespace MediaTinLanh
-{
+{   
+
     public partial class frmTextToPP : Form
     {
+
         public frmTextToPP()
         {
             InitializeComponent();
@@ -36,6 +38,8 @@ namespace MediaTinLanh
             }
 
             txtLocaltion.Text = Application.StartupPath;
+
+            var ngonNgus = NgonNgusController.Context.All(); // Lấy dữ liệu từ Database qua Controller
         }
 
         private void btnimg_Click(object sender, EventArgs e)
