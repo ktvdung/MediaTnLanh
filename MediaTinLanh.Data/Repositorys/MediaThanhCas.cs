@@ -8,6 +8,5 @@ namespace MediaTinLanh.Data
 {
     public partial class MediaThanhCas : Repository<MediaThanhCa>
     {
-        public MediaThanhCas(MediaTinLanhContext context) : base(context) { }
     }
 }

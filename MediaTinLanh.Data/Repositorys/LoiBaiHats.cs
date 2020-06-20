@@ -8,6 +8,5 @@ namespace MediaTinLanh.Data
 {
     public partial class LoiBaiHats : Repository<LoiBaiHat>
     {
-        public LoiBaiHats(MediaTinLanhContext context) : base(context) { }
     }
 }

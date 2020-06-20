@@ -8,6 +8,5 @@ namespace MediaTinLanh.Data
 {
     public partial class GopYPhanMems : Repository<GopYPhanMem>
     {
-        public GopYPhanMems(MediaTinLanhContext context) : base(context) { }
     }
 }

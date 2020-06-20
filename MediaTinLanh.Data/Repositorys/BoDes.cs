@@ -8,6 +8,5 @@ namespace MediaTinLanh.Data
 {
     public partial class BoDes : Repository<BoDe>
     {
-        public BoDes(MediaTinLanhContext context) : base(context) { }
     }
 }

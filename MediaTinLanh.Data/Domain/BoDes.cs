@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MediaTinLanh.Data
 {
-    public class Class1
+    public partial class BoDe : Entity<BoDe>
     {
     }
 }

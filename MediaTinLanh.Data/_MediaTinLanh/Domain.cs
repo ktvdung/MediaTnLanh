@@ -9,10 +9,10 @@ namespace MediaTinLanh.Data
 {
     //Domain objects
 
-    public partial class BanDichCau
+    public partial class BanDichCau: Entity<BanDichCau>
     {
-        //public BanDichCau() { }
-        //public BanDichCau(bool defaults) : base(defaults) { }
+        public BanDichCau() { }
+        public BanDichCau(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? CauId { get; set; }
@@ -20,10 +20,10 @@ namespace MediaTinLanh.Data
         public int? NgonNguId { get; set; }
     }
 
-    public partial class BanDichPhienBan
+    public partial class BanDichPhienBan: Entity<BanDichPhienBan>
     {
-        //public BanDichPhienBan() { }
-        //public BanDichPhienBan(bool defaults) : base(defaults) { }
+        public BanDichPhienBan() { }
+        public BanDichPhienBan(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? PhienBanId { get; set; }
@@ -31,10 +31,10 @@ namespace MediaTinLanh.Data
         public int? NgonNguId { get; set; }
     }
 
-    public partial class BanDichSach
+    public partial class BanDichSach: Entity<BanDichSach>
     {
-        //public BanDichSach() { }
-        //public BanDichSach(bool defaults) : base(defaults) { }
+        public BanDichSach() { }
+        public BanDichSach(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? SachId { get; set; }
@@ -42,20 +42,20 @@ namespace MediaTinLanh.Data
         public int? NgonNguId { get; set; }
     }
 
-    public partial class BoDe
+    public partial class BoDe: Entity<BoDe>
     {
-        //public BoDe() { }
-        //public BoDe(bool defaults) : base(defaults) { }
+        public BoDe() { }
+        public BoDe(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string Ten { get; set; }
         public int? ChuDeId { get; set; }
     }
 
-    public partial class CauDo
+    public partial class CauDo: Entity<CauDo>
     {
-        //public CauDo() { }
-        //public CauDo(bool defaults) : base(defaults) { }
+        public CauDo() { }
+        public CauDo(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? BoDeId { get; set; }
@@ -64,20 +64,20 @@ namespace MediaTinLanh.Data
         public string GoiY { get; set; }
     }
 
-    public partial class CauHoi
+    public partial class CauHoi: Entity<CauHoi>
     {
-        //public CauHoi() { }
-        //public CauHoi(bool defaults) : base(defaults) { }
+        public CauHoi() { }
+        public CauHoi(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string NoiDung { get; set; }
         public int? MediaId { get; set; }
     }
 
-    public partial class CauKinhThanh
+    public partial class CauKinhThanh: Entity<CauKinhThanh>
     {
-        //public CauKinhThanh() { }
-        //public CauKinhThanh(bool defaults) : base(defaults) { }
+        public CauKinhThanh() { }
+        public CauKinhThanh(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? SachId { get; set; }
@@ -87,10 +87,10 @@ namespace MediaTinLanh.Data
         public int? TemplateId { get; set; }
     }
 
-    public partial class ChuDe
+    public partial class ChuDe: Entity<ChuDe>
     {
-        //public ChuDe() { }
-        //public ChuDe(bool defaults) : base(defaults) { }
+        public ChuDe() { }
+        public ChuDe(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string Ten { get; set; }
@@ -98,40 +98,39 @@ namespace MediaTinLanh.Data
         public DateTime? ThoiGian { get; set; }
     }
 
-    public partial class DapAn
+    public partial class DapAn: Entity<DapAn>
     {
-        //public DapAn() { }
-        //public DapAn(bool defaults) : base(defaults) { }
+        public DapAn() { }
+        public DapAn(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string NoiDung { get; set; }
         public int? CauKinhThanhId { get; set; }
     }
 
-    public partial class GopYPhanMem
+    public partial class GopYPhanMem: Entity<GopYPhanMem>
     {
-        //public GopYPhanMem() { }
-        //public GopYPhanMem(bool defaults) : base(defaults) { }
+        public GopYPhanMem() { }
+        public GopYPhanMem(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string TieuDe { get; set; }
         public string NoiDung { get; set; }
-        public DateTime? NgayGopY { get; set; }
     }
 
-    public partial class LoaiThanhCa
+    public partial class LoaiThanhCa: Entity<LoaiThanhCa>
     {
-        //public LoaiThanhCa() { }
-        //public LoaiThanhCa(bool defaults) : base(defaults) { }
+        public LoaiThanhCa() { }
+        public LoaiThanhCa(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string Ten { get; set; }
     }
 
-    public partial class LoiBaiHat
+    public partial class LoiBaiHat: Entity<LoiBaiHat>
     {
-        //public LoiBaiHat() { }
-        //public LoiBaiHat(bool defaults) : base(defaults) { }
+        public LoiBaiHat() { }
+        public LoiBaiHat(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? ThanhCaId { get; set; }
@@ -139,10 +138,10 @@ namespace MediaTinLanh.Data
         public string NoiDung { get; set; }
     }
 
-    public partial class Media
+    public partial class Media: Entity<Media>
     {
-        //public Media() { }
-        //public Media(bool defaults) : base(defaults) { }
+        public Media() { }
+        public Media(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string Ten { get; set; }
@@ -152,20 +151,20 @@ namespace MediaTinLanh.Data
         public int? Loai { get; set; }
     }
 
-    public partial class MediaThanhCa
+    public partial class MediaThanhCa: Entity<MediaThanhCa>
     {
-        //public MediaThanhCa() { }
-        //public MediaThanhCa(bool defaults) : base(defaults) { }
+        public MediaThanhCa() { }
+        public MediaThanhCa(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? MediaId { get; set; }
         public int? ThanhCaId { get; set; }
     }
 
-    public partial class MediaType
+    public partial class MediaType: Entity<MediaType>
     {
-        //public MediaType() { }
-        //public MediaType(bool defaults) : base(defaults) { }
+        public MediaType() { }
+        public MediaType(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string Ten { get; set; }
@@ -175,30 +174,30 @@ namespace MediaTinLanh.Data
         public string DinhDang { get; set; }
     }
 
-    public partial class NgonNgu
+    public partial class NgonNgu: Entity<NgonNgu>
     {
-        //public NgonNgu() { }
-        //public NgonNgu(bool defaults) : base(defaults) { }
+        public NgonNgu() { }
+        public NgonNgu(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string Ten { get; set; }
         public string MoTa { get; set; }
     }
 
-    public partial class PhienBan
+    public partial class PhienBan: Entity<PhienBan>
     {
-        //public PhienBan() { }
-        //public PhienBan(bool defaults) : base(defaults) { }
+        public PhienBan() { }
+        public PhienBan(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public string Ten { get; set; }
         public int? Nam { get; set; }
     }
 
-    public partial class Sach
+    public partial class Sach: Entity<Sach>
     {
-        //public Sach() { }
-        //public Sach(bool defaults) : base(defaults) { }
+        public Sach() { }
+        public Sach(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? STT { get; set; }
@@ -207,19 +206,19 @@ namespace MediaTinLanh.Data
         public int? PhienBanId { get; set; }
     }
 
-    public partial class Template
+    public partial class Template: Entity<Template>
     {
-        //public Template() { }
-        //public Template(bool defaults) : base(defaults) { }
+        public Template() { }
+        public Template(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? MediaId { get; set; }
     }
 
-    public partial class ThanhCa
+    public partial class ThanhCa: Entity<ThanhCa>
     {
-        //public ThanhCa() { }
-        //public ThanhCa(bool defaults) : base(defaults) { }
+        public ThanhCa() { }
+        public ThanhCa(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
         public int? STT { get; set; }

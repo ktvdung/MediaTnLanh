@@ -8,6 +8,5 @@ namespace MediaTinLanh.Data
 {
     public partial class CauKinhThanhs : Repository<CauKinhThanh>
     {
-        public CauKinhThanhs(MediaTinLanhContext context) : base(context) { }
     }
 }

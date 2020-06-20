@@ -8,6 +8,5 @@ namespace MediaTinLanh.Data
 {
     public partial class Templates : Repository<Template>
     {
-        public Templates(MediaTinLanhContext context) : base(context) { }
     }
 }

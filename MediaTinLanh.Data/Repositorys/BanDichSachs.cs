@@ -8,6 +8,5 @@ namespace MediaTinLanh.Data
 {
     public partial class BanDichSachs : Repository<BanDichSach>
     {
-        public BanDichSachs(MediaTinLanhContext context) : base(context) { }
     }
 }

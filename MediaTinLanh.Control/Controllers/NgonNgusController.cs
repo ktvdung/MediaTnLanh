@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using dbMediaTinLanh = MediaTinLanh.Data.MediaTinLanhDB;
+using dbMediaTinLanh = MediaTinLanh.Data.MediaTinLanhContext;
 
 namespace MediaTinLanh.Control
 {
@@ -16,7 +16,8 @@ namespace MediaTinLanh.Control
 
         public IEnumerable<NgonNguModel> All()
         {
-            return Mapper.Map<IEnumerable<NgonNgu>, IEnumerable<NgonNguModel>>(dbMediaTinLanh.NgonNgus.All());
+            var ngonNgus = dbMediaTinLanh.NgonNgus.All();
+            return Mapper.Map<IEnumerable<NgonNgu>, IEnumerable<NgonNguModel>>(ngonNgus);
         }
     }
 }

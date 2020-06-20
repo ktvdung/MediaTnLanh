@@ -14,62 +14,40 @@ using System.Threading.Tasks;
 namespace MediaTinLanh.Data
 {
     //MediaTinLanh DB
-    public partial class MediaTinLanhContext : DbContext
-    {
-        public MediaTinLanhContext() : base("DB.MediaTinLanh") { }
-        //public MediaTinLanhContext() : base(GetConnection(), false)
-        //{
-
-        //}
-
-        //public static DbConnection GetConnection()
-        //{
-        //    var connection = ConfigurationManager.ConnectionStrings["DB.MediaTinLanh"];
-        //    var factory = DbProviderFactories.GetFactory(connection.ProviderName);
-        //    var dbCon = factory.CreateConnection();
-        //    dbCon.ConnectionString = connection.ConnectionString;
-        //    return dbCon;
-        //}
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer<MediaTinLanhContext>(null);
-            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            //base.OnModelCreating(modelBuilder);
-        }
-
-        public DbSet<BanDichCau> BanDichCaus { get; set; }
-        public DbSet<BanDichSach> BanDichSachs { get; set; }
-        public DbSet<BanDichPhienBan> BanDichPhienBans { get; set; }
-        public DbSet<BoDe> BoDes { get; set; }
-        public DbSet<CauDo> CauDos { get; set; }
-        public DbSet<CauHoi> CauHois { get; set; }
-        public DbSet<DapAn> DapAns { get; set; }
-        public DbSet<ChuDe> ChuDes { get; set; }
-        public DbSet<CauKinhThanh> CauKinhThanhs { get; set; }
-        public DbSet<GopYPhanMem> GopYPhanMems { get; set; }
-        public DbSet<LoaiThanhCa> LoaiThanhCas { get; set; }
-        public DbSet<ThanhCa> ThanhCas { get; set; }
-        public DbSet<MediaType> MediaTypes { get; set; }
-        public DbSet<Media> Medias { get; set; }
-        public DbSet<MediaThanhCa> MediaThanhCas { get; set; }
-        public DbSet<Template> Templates { get; set; }
-        public DbSet<NgonNgu> NgonNgus { get; set; }
-        public DbSet<PhienBan> PhienBans { get; set; }
-        public DbSet<Sach> Sachs { get; set; }
-        public DbSet<LoiBaiHat> LoiBaiHats { get; set; }
-    }
-
-    //public class NgonNguMap : EntityTypeConfiguration<NgonNgu>
+    //public partial class MediaTinLanhContext : DbContext
     //{
-    //    public NgonNguMap()
+    //    public MediaTinLanhContext() : base("DB.MediaTinLanh") { }
+
+    //    protected override void OnModelCreating(DbModelBuilder modelBuilder)
     //    {
-    //        ToTable("NgonNgus");
-
-    //        Property(p => p.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-    //        Property(p => p.Ten).IsRequired();
-    //        Property(p => p.MoTa).IsOptional();
-
+    //        Database.SetInitializer<MediaTinLanhContext>(null);
     //    }
+
+    //    public DbSet<BanDichCau> BanDichCaus { get; set; }
+    //    public DbSet<BanDichSach> BanDichSachs { get; set; }
+    //    public DbSet<BanDichPhienBan> BanDichPhienBans { get; set; }
+    //    public DbSet<BoDe> BoDes { get; set; }
+    //    public DbSet<CauDo> CauDos { get; set; }
+    //    public DbSet<CauHoi> CauHois { get; set; }
+    //    public DbSet<DapAn> DapAns { get; set; }
+    //    public DbSet<ChuDe> ChuDes { get; set; }
+    //    public DbSet<CauKinhThanh> CauKinhThanhs { get; set; }
+    //    public DbSet<GopYPhanMem> GopYPhanMems { get; set; }
+    //    public DbSet<LoaiThanhCa> LoaiThanhCas { get; set; }
+    //    public DbSet<ThanhCa> ThanhCas { get; set; }
+    //    public DbSet<MediaType> MediaTypes { get; set; }
+    //    public DbSet<Media> Medias { get; set; }
+    //    public DbSet<MediaThanhCa> MediaThanhCas { get; set; }
+    //    public DbSet<Template> Templates { get; set; }
+    //    public DbSet<NgonNgu> NgonNgus { get; set; }
+    //    public DbSet<PhienBan> PhienBans { get; set; }
+    //    public DbSet<Sach> Sachs { get; set; }
+    //    public DbSet<LoiBaiHat> LoiBaiHats { get; set; }
     //}
+
+    public partial class MediaTinLanhDb : Db
+    {
+        public MediaTinLanhDb() : base("DB.MediaTinLanh") { }
+
+    }
 }

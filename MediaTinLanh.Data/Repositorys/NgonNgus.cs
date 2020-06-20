@@ -9,6 +9,6 @@ namespace MediaTinLanh.Data
 {
     public partial class NgonNgus : Repository<NgonNgu>
     {
-        public NgonNgus(MediaTinLanhContext context) : base(context) { }
+        //public NgonNgus(Db db=null) : base(db) { }
     }
 }

@@ -68,7 +68,28 @@
     <Compile Include="DataService.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Data\Data.partial.cs" />
     <Compile Include="Data_Xml.cs" />
+    <Compile Include="Domain\BanDichCaus.cs" />
+    <Compile Include="Domain\BanDichPhienBans.cs" />
+    <Compile Include="Domain\BanDichSachs.cs" />
+    <Compile Include="Domain\BoDes.cs" />
+    <Compile Include="Domain\CauDos.cs" />
+    <Compile Include="Domain\CauHois.cs" />
+    <Compile Include="Domain\CauKinhThanhs.cs" />
+    <Compile Include="Domain\ChuDes.cs" />
+    <Compile Include="Domain\DapAns.cs" />
+    <Compile Include="Domain\GopYPhanMems.cs" />
+    <Compile Include="Domain\LoaiThanhCas.cs" />
+    <Compile Include="Domain\LoiBaiHats.cs" />
+    <Compile Include="Domain\Medias.cs" />
+    <Compile Include="Domain\MediaThanhCas.cs" />
+    <Compile Include="Domain\MediaTypes.cs" />
+    <Compile Include="Domain\NgonNgu.cs" />
+    <Compile Include="Domain\PhienBans.cs" />
+    <Compile Include="Domain\Sachs.cs" />
+    <Compile Include="Domain\Templates.cs" />
+    <Compile Include="Domain\ThanhCas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositorys\BanDichCaus.cs" />
     <Compile Include="Repositorys\BanDichPhienBans.cs" />
@@ -91,9 +112,11 @@
     <Compile Include="Repositorys\Sachs.cs" />
     <Compile Include="Repositorys\Templates.cs" />
     <Compile Include="Repositorys\ThanhCas.cs" />
+    <Compile Include="_MediaTinLanh\Core.cs" />
     <Compile Include="_MediaTinLanh\Data.cs" />
     <Compile Include="_MediaTinLanh\Domain.cs" />
     <Compile Include="_MediaTinLanh\Repository.cs" />
+    <Compile Include="_MediaTinLanh\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

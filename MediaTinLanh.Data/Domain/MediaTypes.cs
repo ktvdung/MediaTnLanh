@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MediaTinLanh.Data
 {
-    public partial class MediaTypes : Repository<MediaType>
+    public partial class MediaType : Entity<MediaType>
     {
     }
 }

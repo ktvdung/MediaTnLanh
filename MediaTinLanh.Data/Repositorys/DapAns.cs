@@ -8,6 +8,5 @@ namespace MediaTinLanh.Data
 {
     public partial class DapAns : Repository<DapAn>
     {
-        public DapAns(MediaTinLanhContext context) : base(context) { }
     }
 }
