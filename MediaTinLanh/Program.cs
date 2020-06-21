@@ -16,7 +16,7 @@ namespace MediaTinLanh
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTextToPP());
+            Application.Run(new FrmMain());
         }
     }
 }
