@@ -12,7 +12,6 @@ namespace MediaTinLanh.Control
     public class BaseController
     {
         static bool initialized = false;
-
         static BaseController()
         {
 
