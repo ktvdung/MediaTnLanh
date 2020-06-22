@@ -54,6 +54,9 @@
     <Reference Include="DevExpress.Utils.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -143,11 +146,29 @@
     <Compile Include="SplashScreen1.Designer.cs">
       <DependentUpon>SplashScreen1.cs</DependentUpon>
     </Compile>
-    <Compile Include="UC_ThanhCa.cs">
+    <Compile Include="ThanhCa\ucThanhCa.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UC_ThanhCa.Designer.cs">
-      <DependentUpon>UC_ThanhCa.cs</DependentUpon>
+    <Compile Include="ThanhCa\ucThanhCa.Designer.cs">
+      <DependentUpon>ucThanhCa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_ThietKe.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_ThietKe.Designer.cs">
+      <DependentUpon>uc_ThanhCa_ThietKe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_ThietKe_Line.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_ThietKe_Line.Designer.cs">
+      <DependentUpon>uc_ThanhCa_ThietKe_Line.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_ThuVienBaiHat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_ThuVienBaiHat.Designer.cs">
+      <DependentUpon>uc_ThanhCa_ThuVienBaiHat.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
@@ -169,8 +190,17 @@
     <EmbeddedResource Include="SplashScreen1.resx">
       <DependentUpon>SplashScreen1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC_ThanhCa.resx">
-      <DependentUpon>UC_ThanhCa.cs</DependentUpon>
+    <EmbeddedResource Include="ThanhCa\ucThanhCa.resx">
+      <DependentUpon>ucThanhCa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThanhCa\uc_ThanhCa_ThietKe.resx">
+      <DependentUpon>uc_ThanhCa_ThietKe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThanhCa\uc_ThanhCa_ThietKe_Line.resx">
+      <DependentUpon>uc_ThanhCa_ThietKe_Line.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThanhCa\uc_ThanhCa_ThuVienBaiHat.resx">
+      <DependentUpon>uc_ThanhCa_ThuVienBaiHat.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
