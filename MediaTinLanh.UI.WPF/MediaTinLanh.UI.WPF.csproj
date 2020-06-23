@@ -338,5 +338,14 @@
     <Resource Include="Skin\Images\trinh-chieu\sub menu copy 72.png" />
     <Resource Include="Skin\Images\trinh-chieu\user.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="config.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MediaTinLanh.Control\MediaTinLanh.Control.csproj">
+      <Project>{d5125a60-ecb0-4092-a09e-3c8b8011daa8}</Project>
+      <Name>MediaTinLanh.Control</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -46,6 +46,7 @@ namespace MediaTinLanh.Control
                                    " "
                                };
         #endregion
+
         #region Bảng chữ số
         private int[] So ={
                                 2110,2111,2112,2113,2114,2115,//a
@@ -84,6 +85,7 @@ namespace MediaTinLanh.Control
                                 1000                           // " " dấu cách
                            };//kết thúc mảng So[] 
         #endregion
+
         #region Các Hàm
         public int[] Tim(string kytu)
         {

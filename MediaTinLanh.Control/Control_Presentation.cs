@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Syncfusion.Presentation;
+using System.Drawing.Imaging;
+using Syncfusion.OfficeChartToImageConverter;
 
 namespace MediaTinLanh.Control
 {
     public class Control_Presentation
     {
+
+        #region Tạo file Powerpoint
+
         public static void CreateFiles(string location, string Content, string[] format, Stream img)
         {
             string font = format[0];
@@ -55,6 +61,8 @@ namespace MediaTinLanh.Control
             //Đóng quá trình tạo
             powerpointDoc.Close();
         }
+
+        #endregion
 
         #region  Slide đầu tiên
 
@@ -124,13 +132,15 @@ namespace MediaTinLanh.Control
             //Close the Presentation instance
             pptxDoc.Close();
         }
-        
+
 
         #endregion
 
+        #region Powerpoint to Text
+
         public static string CreateText(Presentation pp)
         {
-            string pps="";
+            string pps = "";
             foreach (Microsoft.Office.Interop.PowerPoint.Slide slide in pp.Slides)
             {
                 foreach (Microsoft.Office.Interop.PowerPoint.Shape shape in slide.Shapes)
@@ -149,6 +159,63 @@ namespace MediaTinLanh.Control
             }
             return pps;
         }
+        #endregion
 
+        #region Slide sang JPG
+
+        public static Image SlideToImage (string fileName, int indexSlide, int customWidth,
+            int customHeight)
+        {
+            //Opens a PowerPoint Presentation file
+            IPresentation pptxDoc = Presentation.Open(fileName);
+
+            //Creates an instance of ChartToImageConverter
+            Stream stream = pptxDoc.Slides[indexSlide].ConvertToImage(Syncfusion.Drawing.ImageFormat.Emf);
+
+            Bitmap bitmap = new Bitmap(customWidth, customHeight, PixelFormat.Format32bppPArgb);
+            Graphics graphics = Graphics.FromImage(bitmap);
+
+            //Sets the resolution
+            bitmap.SetResolution(graphics.DpiX, graphics.DpiY);
+
+            //Recreates the image in custom size
+            graphics.DrawImage(Image.FromStream(stream), new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+
+            //Saves the image as bitmap 
+            bitmap.Save("ImageOutput" + Guid.NewGuid().ToString() + ".jpeg");
+
+            //Closes the presentation
+            pptxDoc.Close();
+
+            //Convert bitmap to Image
+            Image img = (Image)bitmap;
+
+            return img ;
+        }
+        #endregion
+
+        #region Áp dụng theme cho file
+
+        public static void ApplyTheme(string filepath, string img)
+        {
+            //Open the template presentation
+            IPresentation pptxDoc = Presentation.Open(filepath);
+            //Add a new custom layout slide to the master collection with a specific layout type and name
+            ILayoutSlide layoutSlide = pptxDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+            //Set background of the layout slide
+            layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
+            //Get the stream of an image
+            Stream pictureStream = File.Open(img, FileMode.Open);
+            //Add the picture into layout slide
+            layoutSlide.Shapes.AddPicture(pictureStream, 0, 0, layoutSlide.SlideSize.Width, layoutSlide.SlideSize.Height);
+            //Add a slide of new designed custom layout to the presentation
+            ISlide slide = pptxDoc.Slides.Add(layoutSlide);
+            //Save the presentation
+            pptxDoc.Save(filepath);
+            //Close the presentation
+            pptxDoc.Close();
+        }
+
+        #endregion
     }
 }

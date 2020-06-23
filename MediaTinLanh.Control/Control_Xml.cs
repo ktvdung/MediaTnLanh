@@ -22,6 +22,14 @@ namespace MediaTinLanh.Control
             databasename = ConnectionInfo[4];
         }
 
+        public void GetFtpAccount(string xmlfilepath, ref string server, ref string username, ref string password)
+        {
+            string[] FTPInfo = m_Xml_Data.ReadXMLFile(xmlfilepath);
+            server = FTPInfo[5];
+            username = FTPInfo[6];
+            password = FTPInfo[7];
+        }
+        
         public void CheckVersion(string xmlfilepath, ref string nowversion, ref string newversion, ref string dateupdate,
             ref string datenewversion)
         {
@@ -35,12 +43,14 @@ namespace MediaTinLanh.Control
             dateupdate = ConnectionInfo[4];
 
         }
-        public void SaveFile(string xmlfilepath, string servername, string port, string username, string password, string databasename)
+        public void SaveFile(string xmlfilepath, string servername, string port, string username, string password, string databasename,
+            string fptserver, string ftpusername, string ftppassword)
         {
             //mã hóa password
             Control_Security baomatdata = new Control_Security();
             password = baomatdata.Mahoa(password, "lnduc");
-            m_Xml_Data.WriteXMLFile(xmlfilepath, servername, port, username, password, databasename);
+            m_Xml_Data.WriteXMLFile(xmlfilepath, servername, port, username, password, databasename, fptserver,
+                ftpusername, ftppassword);
         }
         public string LayTenSCDL(string xmlfilepath)
         {
