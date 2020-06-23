@@ -152,6 +152,12 @@
     <Compile Include="ThanhCa\ucThanhCa.Designer.cs">
       <DependentUpon>ucThanhCa.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_Template.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_Template.Designer.cs">
+      <DependentUpon>uc_ThanhCa_Template.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThanhCa\uc_ThanhCa_ThietKe.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -163,6 +169,12 @@
     </Compile>
     <Compile Include="ThanhCa\uc_ThanhCa_ThietKe_Line.Designer.cs">
       <DependentUpon>uc_ThanhCa_ThietKe_Line.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_ThietKe_Slide.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThanhCa\uc_ThanhCa_ThietKe_Slide.Designer.cs">
+      <DependentUpon>uc_ThanhCa_ThietKe_Slide.cs</DependentUpon>
     </Compile>
     <Compile Include="ThanhCa\uc_ThanhCa_ThuVienBaiHat.cs">
       <SubType>UserControl</SubType>
@@ -193,11 +205,17 @@
     <EmbeddedResource Include="ThanhCa\ucThanhCa.resx">
       <DependentUpon>ucThanhCa.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ThanhCa\uc_ThanhCa_Template.resx">
+      <DependentUpon>uc_ThanhCa_Template.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ThanhCa\uc_ThanhCa_ThietKe.resx">
       <DependentUpon>uc_ThanhCa_ThietKe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ThanhCa\uc_ThanhCa_ThietKe_Line.resx">
       <DependentUpon>uc_ThanhCa_ThietKe_Line.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThanhCa\uc_ThanhCa_ThietKe_Slide.resx">
+      <DependentUpon>uc_ThanhCa_ThietKe_Slide.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ThanhCa\uc_ThanhCa_ThuVienBaiHat.resx">
       <DependentUpon>uc_ThanhCa_ThuVienBaiHat.cs</DependentUpon>
