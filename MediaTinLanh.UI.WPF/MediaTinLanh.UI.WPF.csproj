@@ -79,6 +79,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Temp.xaml.cs">
+      <DependentUpon>Temp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TrinhChieuWindow.xaml.cs">
+      <DependentUpon>TrinhChieuWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,10 +93,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converter\MathConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Temp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TrinhChieuWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -110,6 +125,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Database\Media.db" />
+    <None Include="Database\Media.encrypted.db" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -346,6 +363,25 @@
       <Project>{d5125a60-ecb0-4092-a09e-3c8b8011daa8}</Project>
       <Name>MediaTinLanh.Control</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Skin\Images\main\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Skin\Images\main\Closed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Skin\Images\main\maximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Skin\Images\main\minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Skin\Images\main\restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Skin\Images\trinh-chieu\Layer 21.svg" />
+    <Resource Include="Skin\Images\trinh-chieu\LogoLeft.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

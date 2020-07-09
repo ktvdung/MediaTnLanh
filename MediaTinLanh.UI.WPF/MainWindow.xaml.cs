@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace MediaTinLanh.UI.WPF
 {
@@ -23,6 +24,32 @@ namespace MediaTinLanh.UI.WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            StartCloseTimer();
+        }
+
+        private void StartCloseTimer()
+        {
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(3d);
+            timer.Tick += TimerTick;
+            timer.Start();
+        }
+
+        private void TimerTick(object sender, EventArgs e)
+        {
+            DispatcherTimer timer = (DispatcherTimer)sender;
+            if(timer.Interval == TimeSpan.Zero)
+            {
+                timer.Stop();
+                TrinhChieuWindow trinhChieu = new TrinhChieuWindow();
+                trinhChieu.Owner = this;
+                this.Hide(); // not required if using the child events below
+                trinhChieu.ShowDialog();
+            }
+
+            timer.Interval = timer.Interval.Add(TimeSpan.FromSeconds(-1));
+
         }
     }
 }
