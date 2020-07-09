@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MediaTinLanh.Control;
 
 namespace MediaTinLanh
 {
@@ -56,6 +57,11 @@ namespace MediaTinLanh
         private void panel2_DoubleClick(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            var ngonNgus = NgonNgusController.Context.All(); // Lấy dữ liệu từ Database qua Controller
         }
     }
 }
