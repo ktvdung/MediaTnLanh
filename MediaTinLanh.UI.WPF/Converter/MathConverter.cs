@@ -310,4 +310,82 @@ namespace MediaTinLanh.UI.WPF
             return tmp;
         }
     }
+
+    public class TrangThaiConverter: IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool tmp;
+            string rs = "";
+
+            if (value.ToString() != string.Empty)
+            {
+                if (bool.TryParse(value.ToString(), out tmp))
+                {
+                    rs = tmp == false ? "Xem online" : "Xem";
+                }
+                else
+                {
+                    // Handle Error - Some non-numeric, operator, or grouping character found in string
+                    throw new InvalidCastException();
+                }
+            }
+
+            return rs;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class BoolToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+        object parameter, CultureInfo culture)
+        {
+            var booool = (bool)value;
+            if (booool == false)
+                return Visibility.Hidden;
+            else
+                return Visibility.Visible;
+
+        }
+
+        public object ConvertBack(object value, Type targetType,
+            object parameter, CultureInfo culture)
+        {
+            if (value is Visibility && (Visibility)value == Visibility.Visible)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public class BoolToHiddenConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+        object parameter, CultureInfo culture)
+        {
+            var booool = (bool)value;
+            if (booool == false)
+                return Visibility.Visible;
+            else
+                return Visibility.Hidden;
+
+        }
+
+        public object ConvertBack(object value, Type targetType,
+            object parameter, CultureInfo culture)
+        {
+            if (value is Visibility && (Visibility)value == Visibility.Visible)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
 }

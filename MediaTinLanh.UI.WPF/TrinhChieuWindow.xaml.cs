@@ -30,6 +30,7 @@ namespace MediaTinLanh.UI.WPF
             public int? Id { get; set; }
             public int? STT { get; set; }
             public string Ten { get; set; }
+            public bool?  TrangThai { get; set; } // false - Chưa tải về, true - Đã tải về
             public LoaiThanhCaModel Loai { get; set; }
         }
 
@@ -44,25 +45,27 @@ namespace MediaTinLanh.UI.WPF
             danhSachLoaiThanhCa.Add(new LoaiThanhCaModel() { Id = 3, Ten = "Biệt Thánh Ca"});
             danhSachLoaiThanhCa.Add(new LoaiThanhCaModel() { Id = 4, Ten = "Kinh Thánh Đối Đáp"});
 
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 1, STT = 1, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI"});
+            danhSachThanhCa.Add(new ThanhCaModel() { Id = 1, STT = 1, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI", TrangThai = false});
             danhSachThanhCa[0].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 2, STT = 2, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI" });
+            danhSachThanhCa.Add(new ThanhCaModel() { Id = 2, STT = 2, Ten = "NGUYỆN TỤNG MỸ CHÚA LINH NĂNG", TrangThai = false });
             danhSachThanhCa[1].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 3, STT = 3, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI" });
+            danhSachThanhCa.Add(new ThanhCaModel() { Id = 3, STT = 3, Ten = "NGỢI GIÊ-HÔ-VA THÁNH ĐẾ", TrangThai = true });
             danhSachThanhCa[2].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 4, STT = 4, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI" });
+            danhSachThanhCa.Add(new ThanhCaModel() { Id = 4, STT = 4, Ten = "HA-LÊ-LU-GIA! VINH DANH NGÀI", TrangThai = false });
             danhSachThanhCa[3].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 5, STT = 5, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI" });
+            danhSachThanhCa.Add(new ThanhCaModel() { Id = 5, STT = 5, Ten = "MUÔN DÂN TRÊN HOÀN CẦU NÊN CA XƯỚNG", TrangThai = true });
             danhSachThanhCa[4].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 6, STT = 6, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI" });
+            danhSachThanhCa.Add(new ThanhCaModel() { Id = 6, STT = 6, Ten = "THÀNH TÂM TÔN VUA THÁNH", TrangThai = true });
             danhSachThanhCa[5].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 7, STT = 7, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI" });
+            danhSachThanhCa.Add(new ThanhCaModel() { Id = 7, STT = 7, Ten = "CA CẢM TẠ", TrangThai = false });
             danhSachThanhCa[6].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 8, STT = 8, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI" });
+            danhSachThanhCa.Add(new ThanhCaModel() { Id = 8, STT = 8, Ten = "NGỢI DANH GIÊ-XU RẤT OAI QUYỀN", TrangThai = false });
             danhSachThanhCa[7].Loai = danhSachLoaiThanhCa[0];
 
             listBoxLoaiThanhCa.ItemsSource = danhSachLoaiThanhCa;
             listViewThanhCa.ItemsSource = danhSachThanhCa;
+
+
 
             btnThanCa.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }

@@ -10,6 +10,9 @@
     <Window.Resources>
         <local:MathConverter x:Key="mathConverter"/>
         <local:MarginConverter x:Key="marginConverter"/>
+        <local:TrangThaiConverter x:Key="TrangThaiConverter"/>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <local:BoolToHiddenConverter x:Key="BoolToHiddenConverter"/>
         <!-- Colors -->
         <Color x:Key="ExtWhiteColor">#FFEFEFEF</Color>
         <Color x:Key="ExtGrayColor">#535353</Color>
@@ -309,7 +312,7 @@
                                         Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}" Click="btnThanhCa_Click">
                                     <TextBlock x:Name="menuThanhCa"
                                      Foreground="White"
-                                     FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}" 
+                                     FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.023}" 
                                      FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnThanCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                      LineStackingStrategy="BlockLineHeight" TextAlignment="Left" VerticalAlignment="Bottom" TextWrapping="Wrap" Text="Thánh Ca"/>
                                 </Button>
@@ -317,7 +320,7 @@
                                 Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}" Click="btnKinhThanh_Click">
                                     <TextBlock x:Name="menuKinhThanh"
                                    Foreground="White"
-                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}"
+                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.023}"
                                    FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnKinhThanh, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" TextWrapping="Wrap" Text="Kinh Thánh"/>
                                 </Button>
@@ -325,7 +328,7 @@
                                 Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}">
                                     <TextBlock x:Name="menuVideo"
                                    Foreground="White"
-                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}"
+                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.023}"
                                    FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnKinhThanh, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" TextWrapping="Wrap" Text="Video"/>
                                 </Button>
@@ -333,7 +336,7 @@
                                 Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}">
                                     <TextBlock x:Name="menuHinhAnh"
                                    Foreground="White"
-                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}"
+                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.023}"
                                    FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnKinhThanh, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" TextWrapping="Wrap" Text="Hình ảnh"/>
                                 </Button>
@@ -341,7 +344,7 @@
                                 Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}">
                                     <TextBlock x:Name="menuDoKinhThanh"
                                    Foreground="White"
-                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}"
+                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.023}"
                                    FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnKinhThanh, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" TextWrapping="Wrap" Text="Đố Kinh Thánh"/>
                                 </Button>
@@ -349,7 +352,7 @@
                                 Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}">
                                     <TextBlock x:Name="menuTruyenTranh"
                                    Foreground="White"
-                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}"
+                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.023}"
                                    FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnKinhThanh, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" TextWrapping="Wrap" Text="Truyện tranh"/>
                                 </Button>
@@ -357,7 +360,7 @@
                                 Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}">
                                     <TextBlock x:Name="menuTranhToMau"
                                    Foreground="White"
-                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}"
+                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.023}"
                                    FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnKinhThanh, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" TextWrapping="Wrap" Text="Tranh Tô Màu"/>
                                 </Button>
@@ -365,7 +368,7 @@
                                 Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}">
                                     <TextBlock x:Name="menuThietKe"
                                    Foreground="White"
-                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}"
+                                   FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.023}"
                                    FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnKinhThanh, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" TextWrapping="Wrap" Text="Thiết Kế"/>
                                 </Button>
@@ -639,7 +642,7 @@
                                             </ListBox>
                                         </Border>
                                         <Border Grid.Row="2">
-                                            <ListView x:Name="listViewThanhCa" ItemsSource="{Binding YourData}" Background="Transparent" BorderThickness="0"
+                                            <ListView x:Name="listViewThanhCa" Background="Transparent" BorderThickness="0"
                                               ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
@@ -680,9 +683,9 @@
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.View>
-                                                    <GridView>
+                                                    <GridView x:Name="gridViewBaiHat">
                                                         <GridViewColumn Header="Tên bài hát"
-                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/3*2}">
+                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/4*2}">
                                                             <GridViewColumn.HeaderContainerStyle>
                                                                 <Style TargetType="GridViewColumnHeader">
                                                                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -733,10 +736,10 @@
                                                                 <DataTemplate>
                                                                     <Border BorderBrush="{DynamicResource SeperateLineColor}" BorderThickness="0,0,2,0" Margin="0,0,0,-5">
                                                                         <TextBlock Text="{Binding Ten}" Margin="0,2,0,2"
-                                                                       HorizontalAlignment="Center"
+                                                                       HorizontalAlignment="Left"
                                                                        Foreground="{DynamicResource TextColor}"
                                                                        FontFamily="{DynamicResource RobotoMedium}"
-                                                                       FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.025}"/>
+                                                                       FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.022}"/>
                                                                     </Border>
                                                                     <!--<TextBlock Text="{Binding Ten}" 
                                                                        HorizontalAlignment="Center"
@@ -747,7 +750,7 @@
                                                             </GridViewColumn.CellTemplate>
                                                         </GridViewColumn>
                                                         <GridViewColumn Header="Thể loại"
-                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/3*1}">
+                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/4*1}">
                                                             <GridViewColumn.HeaderContainerStyle>
                                                                 <Style TargetType="GridViewColumnHeader">
                                                                     <Setter Property="BorderBrush" Value="Transparent"></Setter>
@@ -794,10 +797,158 @@
                                                             </GridViewColumn.HeaderContainerStyle>
                                                             <GridViewColumn.CellTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding Loai.Ten}" 
+                                                                    <Border BorderBrush="{DynamicResource SeperateLineColor}" BorderThickness="0,0,2,0" Margin="0,0,0,-5">
+                                                                        <TextBlock Text="{Binding Loai.Ten}" Margin="0,2,0,2" HorizontalAlignment="Center"
                                                                        Foreground="{DynamicResource TextColor}"
                                                                        FontFamily="{DynamicResource RobotoMedium}"
-                                                                       FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.025}"/>
+                                                                       FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.022}"/>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+                                                        <GridViewColumn Header="Trạng thái"
+                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/4*1}">
+                                                            <GridViewColumn.HeaderContainerStyle>
+                                                                <Style TargetType="GridViewColumnHeader">
+                                                                    <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                                                                    <Setter Property="BorderThickness" Value="0"></Setter>
+                                                                    <Setter Property="Template">
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate TargetType="GridViewColumnHeader">
+                                                                                <Grid>
+                                                                                    <Border Name="HeaderBorder"
+                                                                                    BorderThickness="0"
+                                                                                    BorderBrush="Transparent"
+                                                                                    Background="Transparent"
+                                                                                    Padding="2,0,2,0">
+                                                                                        <ContentPresenter Name="HeaderContent"
+                                                                                                  TextElement.Foreground="White"
+                                                                                                  Margin="0,0,0,1"
+                                                                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                                                  RecognizesAccessKey="True"
+                                                                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                                                    </Border>
+                                                                                </Grid>
+                                                                                <ControlTemplate.Triggers>
+                                                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                                                        <Setter TargetName="HeaderBorder" Property="Background">
+                                                                                            <Setter.Value>
+                                                                                                <SolidColorBrush Color="{DynamicResource ExtGrayColor}"></SolidColorBrush>
+                                                                                            </Setter.Value>
+                                                                                        </Setter>
+                                                                                    </Trigger>
+                                                                                </ControlTemplate.Triggers>
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="Foreground" Value="{DynamicResource TextColor}"></Setter>
+                                                                    <Setter Property="Background">
+                                                                        <Setter.Value>
+                                                                            <SolidColorBrush Color="{DynamicResource ExtGrayDarkestColor}"></SolidColorBrush>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="FontFamily" Value="{DynamicResource RobotoMedium}"></Setter>
+                                                                    <Setter Property="FontSize" Value="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.04}"></Setter>
+                                                                </Style>
+                                                            </GridViewColumn.HeaderContainerStyle>
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <!--<TextBlock Text="{Binding TrangThai, Converter={StaticResource TrangThaiConverter}}" 
+                                                                       Foreground="{DynamicResource TextColor}"
+                                                                       FontFamily="{DynamicResource RobotoMedium}"
+                                                                       FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}">
+                                                                    </TextBlock>-->
+                                                                    <Grid>
+                                                                        <Button Content="Xem"
+                                                                                Visibility="{Binding TrangThai, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                                VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                                                FontFamily="{DynamicResource RobotoMedium}"
+                                                                                FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}">
+                                                                            <Button.Style>
+                                                                                <Style TargetType="Button">
+                                                                                    <Setter Property="Template">
+                                                                                        <Setter.Value>
+                                                                                            <ControlTemplate TargetType="Button">
+                                                                                                <Border Padding="5,0,5,0">
+                                                                                                    <TextBlock TextDecorations="Underline"><ContentPresenter /></TextBlock>
+                                                                                                </Border>
+                                                                                            </ControlTemplate>
+                                                                                        </Setter.Value>
+                                                                                    </Setter>
+                                                                                    <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+                                                                                    <Style.Triggers>
+                                                                                        <Trigger Property="IsMouseOver" Value="true">
+                                                                                            <Setter Property="Foreground">
+                                                                                                <Setter.Value>
+                                                                                                    <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                                                                </Setter.Value>
+                                                                                            </Setter>
+                                                                                        </Trigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Button.Style>
+                                                                        </Button>
+                                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                                    Visibility="{Binding TrangThai, Converter={StaticResource BoolToHiddenConverter}}">
+                                                                            <Button Content="Xem online"
+                                                                                VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                                                FontFamily="{DynamicResource RobotoMedium}"
+                                                                                FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}">
+                                                                                <Button.Style>
+                                                                                    <Style TargetType="Button">
+                                                                                        <Setter Property="Template">
+                                                                                            <Setter.Value>
+                                                                                                <ControlTemplate TargetType="Button">
+                                                                                                    <Border Padding="5,0,5,0">
+                                                                                                        <TextBlock TextDecorations="Underline"><ContentPresenter /></TextBlock>
+                                                                                                    </Border>
+                                                                                                </ControlTemplate>
+                                                                                            </Setter.Value>
+                                                                                        </Setter>
+                                                                                        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+                                                                                        <Style.Triggers>
+                                                                                            <Trigger Property="IsMouseOver" Value="true">
+                                                                                                <Setter Property="Foreground">
+                                                                                                    <Setter.Value>
+                                                                                                        <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                                                                    </Setter.Value>
+                                                                                                </Setter>
+                                                                                            </Trigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Button.Style>
+                                                                            </Button>
+                                                                            <Button Content="Tải về"
+                                                                                VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                                                FontFamily="{DynamicResource RobotoMedium}"
+                                                                                FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}">
+                                                                                <Button.Style>
+                                                                                    <Style TargetType="Button">
+                                                                                        <Setter Property="Template">
+                                                                                            <Setter.Value>
+                                                                                                <ControlTemplate TargetType="Button">
+                                                                                                    <Border Padding="5,0,5,0">
+                                                                                                        <TextBlock TextDecorations="Underline"><ContentPresenter /></TextBlock>
+                                                                                                    </Border>
+                                                                                                </ControlTemplate>
+                                                                                            </Setter.Value>
+                                                                                        </Setter>
+                                                                                        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+                                                                                        <Style.Triggers>
+                                                                                            <Trigger Property="IsMouseOver" Value="true">
+                                                                                                <Setter Property="Foreground">
+                                                                                                    <Setter.Value>
+                                                                                                        <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                                                                    </Setter.Value>
+                                                                                                </Setter>
+                                                                                            </Trigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Button.Style>
+                                                                            </Button>
+                                                                        </StackPanel>
+                                                                    </Grid>
                                                                 </DataTemplate>
                                                             </GridViewColumn.CellTemplate>
                                                         </GridViewColumn>
@@ -835,8 +986,8 @@
                                                Foreground="{DynamicResource TextColor}"
                                                FontFamily="{DynamicResource RobotoLight}"
                                                Padding="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.010}"
-                                               LineHeight="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.013}"
-                                               FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.013}"
+                                               LineHeight="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.014}"
+                                               FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.012}"
                                                Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor sem, porttitor ut egestas at, auctor vel lectus. Sed mattis volutpat arcu eget gravida. Phasellus mattis vitae mi in tincidunt. Morbi felis lorem, tristique eget dolor eget, tempus efficitur est. Nam vestibulum malesuada neque, vel faucibus sapien porta sed. Proin vestibulum volutpat eleifend. Pellentesque tortor massa, gravida sed commodo id, euismod eu mauris. Nam condimentum dolor dui, nec semper turpis dapibus sed. Praesent nec convallis neque, eu porta orci. Mauris semper ex erat, nec finibus leo luctus vel.&#xA;&#xA;Aliquam vel lacus tristique, blandit metus et, porttitor justo. Maecenas porta quam a sem lacinia euismod. Ut mollis tempus mauris vitae maximus. Nam rutrum consequat pharetra. Nunc blandit, nulla sit amet luctus dignissim, metus libero maximus libero, sed finibus sem magna ac nibh. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean vel hendrerit orci. Nunc scelerisque commodo lorem, nec bibendum mi tempor vel. In ullamcorper ultrices aliquet. Donec ac sapien sed est feugiat feugiat. Suspendisse non tellus vulputate, pulvinar urna in, placerat dolor. Aenean aliquet ut magna id malesuada.&#xA;&#xA;Suspendisse at tincidunt orci, quis scelerisque erat. In cursus erat turpis, sit amet fermentum tellus fermentum eget. Cras non hendrerit ex. Morbi facilisis erat neque, id laoreet sem viverra molestie. Ut accumsan sagittis mauris ac scelerisque. Sed sagittis nisl nec turpis tempus vehicula. Ut fringilla nibh ac libero pretium, eget ullamcorper dui feugiat.&#xA;&#xA;Cras non hendrerit ex. Morbi facilisis erat neque, id laoreet sem viverra molestie. Ut accumsan sagittis mauris ac scelerisque. Sed sagittis nisl nec turpis tempus vehicula. Ut fringilla nibh ac libero pretium, eget ullamcorper dui feugiat."/>
                                         </Border>
                                         <Border Grid.Row="2" Grid.Column="0" >
@@ -983,5 +1134,5 @@
             </Grid>
         </DockPanel>
     </Grid>
-    
+
 </Window>
