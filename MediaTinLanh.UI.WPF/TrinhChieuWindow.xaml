@@ -426,32 +426,74 @@
                     </StackPanel.Resources>
                     <TabControl x:Name="tabControl" TabStripPlacement="Top" Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.9}">
                         <TabControl.Resources>
-                            <Style TargetType="TabControl">
+                            <!--<Style TargetType="TabControl">
                                 <Setter Property="Background">
                                     <Setter.Value>
                                         <SolidColorBrush Color="{DynamicResource ExtGrayDarkestColor}"></SolidColorBrush>
                                     </Setter.Value>
                                 </Setter>
+                                <Setter Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="BorderThickness" Value="1"></Setter>
+                            </Style>-->
+                            <Style TargetType="{x:Type TabControl}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabControl">
+                                            <Grid UseLayoutRounding="True">
+                                                <Grid.RowDefinitions>
+                                                    <!--3 rows for the TabPanel, overlap, and the selected content-->
+                                                    <RowDefinition Height="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.047}" />
+                                                    <RowDefinition Height="8" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <!--TabPanel needs to be on top of the selected content border-->
+                                                <TabPanel IsItemsHost="True"
+                                                        Grid.Row="0"
+                                                        Grid.RowSpan="2"
+                                                        Panel.ZIndex="1" />
+                                                <Border Grid.Row="1"
+                                                        Grid.RowSpan="2"
+                                                        Panel.ZIndex="0"
+                                                        BorderThickness="1.5">
+                                                    <Border.Background>
+                                                        <SolidColorBrush Color="{StaticResource ExtGrayDarkestColor}"></SolidColorBrush>
+                                                    </Border.Background>
+                                                    <Border.BorderBrush>
+                                                        <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                    </Border.BorderBrush>
+                                                    <ContentPresenter Margin="2" ContentSource="SelectedContent" />
+                                                </Border>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
                             <!--<Style TargetType="TabPanel">
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <SolidColorBrush Color="{DynamicResource ExtGrayColor}"></SolidColorBrush>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>-->
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{DynamicResource ExtGrayColor}"></SolidColorBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>-->
                             <Style TargetType="TabItem">
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="Padding" Value="0" />
                                 <Setter Property="FontFamily" Value="{StaticResource RobotoMedium}"/>
-                                <Setter Property="FontSize" Value="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.02}"/>
+                                <Setter Property="FontSize" Value="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.016}"/>
                                 <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
                                 <Setter Property="TextBlock.TextAlignment" Value="Center"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TabItem">
                                             <Grid Name="Panel">
-                                                <Border BorderBrush="Gray" BorderThickness="0.5">
+                                                <Border x:Name="tabBorder" BorderThickness="1.5" Height="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.047}">
+                                                    <Border.BorderBrush>
+                                                        <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                    </Border.BorderBrush>
                                                     <ContentPresenter x:Name="ContentSite"
                                                               VerticalAlignment="Center"
                                                               HorizontalAlignment="Center"
@@ -469,6 +511,17 @@
                                                         </Setter.Value>
                                                     </Setter>
                                                     <Setter Property="TabItem.Foreground">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter TargetName="tabBorder"
+                                                            Property="Height"
+                                                            Value="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.05}" />
+                                                    <Setter TargetName="tabBorder"
+                                                            Property="BorderThickness"
+                                                            Value="1.5 1.5 1.5 0" />
+                                                    <Setter TargetName="tabBorder" Property="BorderBrush">
                                                         <Setter.Value>
                                                             <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
                                                         </Setter.Value>
