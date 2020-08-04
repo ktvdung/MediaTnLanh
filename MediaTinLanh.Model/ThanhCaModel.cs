@@ -14,5 +14,6 @@ namespace MediaTinLanh.Model
         public int? SoCau { get; set; }
         public int? Loai { get; set; }
         public string DiepKhuc { get; set; }
+        public bool? TrangThai { get; set; }
     }
 }

@@ -226,5 +226,6 @@ namespace MediaTinLanh.Data
         public int? SoCau { get; set; }
         public int? Loai { get; set; }
         public string DiepKhuc { get; set; }
+        public int? TrangThai { get; set; }
     }
 }

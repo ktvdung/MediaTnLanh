@@ -65,7 +65,7 @@
     <Compile Include="LoaiThanhCaModel.cs" />
     <Compile Include="CauHoiModel.cs" />
     <Compile Include="CauDoModel.cs" />
-    <Compile Include="TemplatesModel.cs" />
+    <Compile Include="TemplateModel.cs" />
     <Compile Include="LoiBaiHatModel.cs" />
     <Compile Include="ThanhCaModel.cs" />
     <Compile Include="MediaModel.cs" />

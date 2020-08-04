@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MediaTinLanh.Model
 {
-    public class TemplatesModel
+    public class TemplateModel
     {
         public int? Id { get; set; }
         public int? MediaId { get; set; }

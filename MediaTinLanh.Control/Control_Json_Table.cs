@@ -20,7 +20,7 @@ namespace MediaTinLanh.Control
             }
             catch (Exception ex)
             {
-                
+                throw ex;
             }
             return dt;
         }

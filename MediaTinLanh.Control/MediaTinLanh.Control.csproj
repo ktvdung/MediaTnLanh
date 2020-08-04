@@ -119,6 +119,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\LoaiThanhCasController.cs" />
+    <Compile Include="Controllers\LoiBaiHatsController.cs" />
+    <Compile Include="Controllers\BanDichCausController.cs" />
+    <Compile Include="Controllers\BanDichSachsController.cs" />
+    <Compile Include="Controllers\BanDichPhienBansController.cs" />
+    <Compile Include="Controllers\TemplatesController.cs" />
+    <Compile Include="Controllers\MediaTypesController.cs" />
+    <Compile Include="Controllers\MediasController.cs" />
+    <Compile Include="Controllers\MediaThanhCasController.cs" />
+    <Compile Include="Controllers\SachsController.cs" />
+    <Compile Include="Controllers\CauKinhThanhsController.cs" />
+    <Compile Include="Controllers\CauHoisController.cs" />
+    <Compile Include="Controllers\BoDesController.cs" />
+    <Compile Include="Controllers\ChuDesController.cs" />
+    <Compile Include="Controllers\CauDosController.cs" />
+    <Compile Include="Controllers\DapAnsController.cs" />
+    <Compile Include="Controllers\PhienBansController.cs" />
+    <Compile Include="Controllers\GopYPhanMemsController.cs" />
+    <Compile Include="Controllers\ThanhCasController.cs" />
     <Compile Include="Controllers\NgonNgusController.cs" />
     <Compile Include="Control_Connect.cs" />
     <Compile Include="Control_Json_Table.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MediaTinLanh.Control
 {
-    public class Control_Util
+    public static class Control_Util
     {
         public static string RemoveSpecialCharacters(string Input)
         {
@@ -21,6 +21,13 @@ namespace MediaTinLanh.Control
         public static string FixFormat(string Content)
         {
             return Content;
+        }
+        public static bool AsBool(this object item, bool defaultBool = default(bool))
+        {
+            if (item == null)
+                return defaultBool;
+
+            return new List<string>() { "yes", "y", "true" }.Contains(item.ToString().ToLower());
         }
     }
 }
