@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class BanDichPhienBansController : BaseController
     {
-        public static BanDichPhienBansController Context = new BanDichPhienBansController();
-
         public IEnumerable<BanDichPhienBanModel> All()
         {
             var BanDichPhienBans = dbMediaTinLanh.BanDichPhienBans.All();

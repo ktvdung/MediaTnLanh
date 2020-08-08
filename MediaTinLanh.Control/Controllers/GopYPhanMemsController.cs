@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class GopYPhanMemsController : BaseController
     {
-        public static GopYPhanMemsController Context = new GopYPhanMemsController();
-
         public IEnumerable<GopYPhanMemModel> All()
         {
             var GopYPhanMems = dbMediaTinLanh.GopYPhanMems.All();

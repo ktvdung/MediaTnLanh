@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class MediaThanhCasController : BaseController
     {
-        public static MediaThanhCasController Context = new MediaThanhCasController();
-
         public IEnumerable<MediaThanhCaModel> All()
         {
             var MediaThanhCas = dbMediaTinLanh.MediaThanhCas.All();

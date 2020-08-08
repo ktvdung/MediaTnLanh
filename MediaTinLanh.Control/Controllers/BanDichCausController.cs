@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class BanDichCausController : BaseController
     {
-        public static BanDichCausController Context = new BanDichCausController();
-
         public IEnumerable<BanDichCauModel> All()
         {
             var BanDichCaus = dbMediaTinLanh.BanDichCaus.All();

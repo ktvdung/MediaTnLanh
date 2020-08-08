@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class ChuDesController : BaseController
     {
-        public static ChuDesController Context = new ChuDesController();
-
         public IEnumerable<ChuDeModel> All()
         {
             var ChuDes = dbMediaTinLanh.ChuDes.All();

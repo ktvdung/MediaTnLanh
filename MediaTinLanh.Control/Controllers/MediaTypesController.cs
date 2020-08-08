@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class MediaTypesController : BaseController
     {
-        public static MediaTypesController Context = new MediaTypesController();
-
         public IEnumerable<MediaTypeModel> All()
         {
             var MediaTypes = dbMediaTinLanh.MediaTypes.All();

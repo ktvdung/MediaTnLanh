@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class BoDesController : BaseController
     {
-        public static BoDesController Context = new BoDesController();
-
         public IEnumerable<BoDeModel> All()
         {
             var BoDes = dbMediaTinLanh.BoDes.All();

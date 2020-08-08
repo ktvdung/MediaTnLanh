@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class CauKinhThanhsController : BaseController
     {
-        public static CauKinhThanhsController Context = new CauKinhThanhsController();
-
         public IEnumerable<CauKinhThanhModel> All()
         {
             var CauKinhThanhs = dbMediaTinLanh.CauKinhThanhs.All();

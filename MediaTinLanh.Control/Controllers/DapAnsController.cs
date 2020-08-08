@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class DapAnsController : BaseController
     {
-        public static DapAnsController Context = new DapAnsController();
-
         public IEnumerable<DapAnModel> All()
         {
             var DapAns = dbMediaTinLanh.DapAns.All();

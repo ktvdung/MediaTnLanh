@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class TemplatesController : BaseController
     {
-        public static TemplatesController Context = new TemplatesController();
-
         public IEnumerable<TemplateModel> All()
         {
             var Templates = dbMediaTinLanh.Templates.All();

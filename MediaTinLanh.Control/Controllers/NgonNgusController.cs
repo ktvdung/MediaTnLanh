@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class NgonNgusController : BaseController
     {
-        public static NgonNgusController Context = new NgonNgusController();
-
         public IEnumerable<NgonNguModel> All()
         {
             var ngonNgus = dbMediaTinLanh.NgonNgus.All();

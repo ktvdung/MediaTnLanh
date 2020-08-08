@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class MediasController : BaseController
     {
-        public static MediasController Context = new MediasController();
-
         public IEnumerable<MediaModel> All()
         {
             var Medias = dbMediaTinLanh.Medias.All();

@@ -307,7 +307,7 @@ namespace MediaTinLanh.Data
 
         SQLiteConnection CreateConnection()
         {
-            var connection = factory.CreateConnection() as SQLiteConnection;            
+            var connection = factory.CreateConnection() as SQLiteConnection;
 
             try
             {

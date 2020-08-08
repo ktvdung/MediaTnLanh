@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class CauHoisController : BaseController
     {
-        public static CauHoisController Context = new CauHoisController();
-
         public IEnumerable<CauHoiModel> All()
         {
             var CauHois = dbMediaTinLanh.CauHois.All();

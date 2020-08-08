@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class SachsController : BaseController
     {
-        public static SachsController Context = new SachsController();
-
         public IEnumerable<SachModel> All()
         {
             var Sachs = dbMediaTinLanh.Sachs.All();

@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class LoiBaiHatsController : BaseController
     {
-        public static LoiBaiHatsController Context = new LoiBaiHatsController();
-
         public IEnumerable<LoiBaiHatModel> All()
         {
             var LoiBaiHats = dbMediaTinLanh.LoiBaiHats.All();

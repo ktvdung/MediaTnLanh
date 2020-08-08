@@ -12,8 +12,6 @@ namespace MediaTinLanh.Control
 {
     public class CauDosController : BaseController
     {
-        public static CauDosController Context = new CauDosController();
-
         public IEnumerable<CauDoModel> All()
         {
             var CauDos = dbMediaTinLanh.CauDos.All();
