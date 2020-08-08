@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MediaTinLanh.Model;
+using MediaTinLanh.Control;
 
 namespace MediaTinLanh.UI.WPF
 {
@@ -20,52 +22,12 @@ namespace MediaTinLanh.UI.WPF
     /// </summary>
     public partial class TrinhChieuWindow : Window
     {
-        public class LoaiThanhCaModel
-        {
-            public int? Id { get; set; }
-            public string Ten { get; set; }
-        }
-        public class ThanhCaModel
-        {
-            public int? Id { get; set; }
-            public int? STT { get; set; }
-            public string Ten { get; set; }
-            public bool?  TrangThai { get; set; } // false - Chưa tải về, true - Đã tải về
-            public LoaiThanhCaModel Loai { get; set; }
-        }
-
         public TrinhChieuWindow()
         {
             InitializeComponent();
-            var danhSachLoaiThanhCa = new List<LoaiThanhCaModel>();
-            var danhSachThanhCa = new List<ThanhCaModel>();
-
-            danhSachLoaiThanhCa.Add(new LoaiThanhCaModel() { Id = 1, Ten = "Thánh Ca"});
-            danhSachLoaiThanhCa.Add(new LoaiThanhCaModel() { Id = 2, Ten = "Tôn Vinh Chúa Hằng Hữu"});
-            danhSachLoaiThanhCa.Add(new LoaiThanhCaModel() { Id = 3, Ten = "Biệt Thánh Ca"});
-            danhSachLoaiThanhCa.Add(new LoaiThanhCaModel() { Id = 4, Ten = "Kinh Thánh Đối Đáp"});
-
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 1, STT = 1, Ten = "CUỐI XIN VUA THÁNH NGỰ LAI", TrangThai = false});
-            danhSachThanhCa[0].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 2, STT = 2, Ten = "NGUYỆN TỤNG MỸ CHÚA LINH NĂNG", TrangThai = false });
-            danhSachThanhCa[1].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 3, STT = 3, Ten = "NGỢI GIÊ-HÔ-VA THÁNH ĐẾ", TrangThai = true });
-            danhSachThanhCa[2].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 4, STT = 4, Ten = "HA-LÊ-LU-GIA! VINH DANH NGÀI", TrangThai = false });
-            danhSachThanhCa[3].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 5, STT = 5, Ten = "MUÔN DÂN TRÊN HOÀN CẦU NÊN CA XƯỚNG", TrangThai = true });
-            danhSachThanhCa[4].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 6, STT = 6, Ten = "THÀNH TÂM TÔN VUA THÁNH", TrangThai = true });
-            danhSachThanhCa[5].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 7, STT = 7, Ten = "CA CẢM TẠ", TrangThai = false });
-            danhSachThanhCa[6].Loai = danhSachLoaiThanhCa[0];
-            danhSachThanhCa.Add(new ThanhCaModel() { Id = 8, STT = 8, Ten = "NGỢI DANH GIÊ-XU RẤT OAI QUYỀN", TrangThai = false });
-            danhSachThanhCa[7].Loai = danhSachLoaiThanhCa[0];
-
+            var danhSachLoaiThanhCa = Factory.LoaiThanhCaService.All();
             listBoxLoaiThanhCa.ItemsSource = danhSachLoaiThanhCa;
-            listViewThanhCa.ItemsSource = danhSachThanhCa;
-
-
+            listBoxLoaiThanhCa.SelectedItem = danhSachLoaiThanhCa.ToList()[0];
 
             btnThanCa.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
@@ -127,7 +89,7 @@ namespace MediaTinLanh.UI.WPF
             SolidColorBrush backgroundButton = new SolidColorBrush(darkerColor);
 
             Button btn = sender as Button;
-            if(btn.Background != backgroundButton)
+            if (btn.Background != backgroundButton)
             {
                 buttonStyle_Click(btn);
             }
@@ -191,6 +153,36 @@ namespace MediaTinLanh.UI.WPF
         private void currentContent_Close()
         {
             mainThanhCa.Visibility = Visibility.Hidden;
+        }
+
+        private void btnTimKiem_Click(object sender, RoutedEventArgs e)
+        {
+            LoaiThanhCaModel selectedLoaiThanhCa = (LoaiThanhCaModel)listBoxLoaiThanhCa.SelectedItem;
+            var danhSachThanhCa = Factory.ThanhCaService.Query("Loai = 1 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'");
+
+            if (selectedLoaiThanhCa != null)
+            {
+                danhSachThanhCa = Factory.ThanhCaService.Query("Loai = @0 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'", paramaters: new object[] { selectedLoaiThanhCa.Id });
+            }
+
+            listViewThanhCa.ItemsSource = danhSachThanhCa;
+        }
+
+        private void ckbLoaiThanhCa_Checked(object sender, RoutedEventArgs e)
+        {
+            LoaiThanhCaModel selectedLoaiThanhCa = (LoaiThanhCaModel)listBoxLoaiThanhCa.SelectedItem;
+            var danhSachThanhCa = Factory.ThanhCaService.Query("Loai = @0", paramaters: new object[] { selectedLoaiThanhCa.Id });
+            foreach (var thanhCa in danhSachThanhCa)
+            {
+                thanhCa.LoaiThanhCa = selectedLoaiThanhCa;
+            }
+
+            listViewThanhCa.ItemsSource = danhSachThanhCa;
+        }
+
+        private void ckbLoaiThanhCa_Unchecked(object sender, RoutedEventArgs e)
+        {
+            listViewThanhCa.ItemsSource = Enumerable.Empty<ThanhCaModel>();
         }
     }
 }

@@ -33,6 +33,7 @@ namespace MediaTinLanh.Control
         {
             CreateMap<NgonNgu, NgonNguModel>();
             CreateMap<ThanhCa, ThanhCaModel>().ForMember(dest => dest.TrangThai, opt => opt.MapFrom(src => src.TrangThai.HasValue && src.TrangThai.Value == 1 ? true : false));
+            
             CreateMap<LoiBaiHat, LoiBaiHatModel>();
             CreateMap<CauKinhThanh, CauKinhThanhModel>();
             CreateMap<BanDichCau, BanDichCauModel>();
@@ -55,7 +56,8 @@ namespace MediaTinLanh.Control
 
 
             CreateMap<NgonNguModel, NgonNgu>();
-            CreateMap<ThanhCaModel, ThanhCa>();
+            CreateMap<ThanhCaModel, ThanhCa>().ForMember(dest => dest.TrangThai, opt => opt.MapFrom(src => src.TrangThai.HasValue && src.TrangThai.Value == true ? 1 : 0));
+
             CreateMap<LoiBaiHatModel, LoiBaiHat>();
             CreateMap<CauKinhThanhModel, CauKinhThanh>();
             CreateMap<BanDichCauModel, BanDichCau>();

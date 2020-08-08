@@ -137,6 +137,7 @@
     <Compile Include="Controllers\DapAnsController.cs" />
     <Compile Include="Controllers\PhienBansController.cs" />
     <Compile Include="Controllers\GopYPhanMemsController.cs" />
+    <Compile Include="Controllers\Factory.cs" />
     <Compile Include="Controllers\ThanhCasController.cs" />
     <Compile Include="Controllers\NgonNgusController.cs" />
     <Compile Include="Control_Connect.cs" />

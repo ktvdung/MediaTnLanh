@@ -589,7 +589,7 @@
                                                     </TextBox.Style>
                                                 </TextBox>
                                                 <Button x:Name="btnTimKiem" 
-                                                Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}">
+                                                Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*10}" Click="btnTimKiem_Click">
                                                     <Button.Style>
                                                         <Style TargetType="Button">
                                                             <Setter Property="Background">
@@ -680,8 +680,8 @@
                                                             HorizontalAlignment="Center" VerticalAlignment="Bottom"
                                                             MaxWidth="{Binding ElementName=panelTimKiemBH, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/3}">
                                                             <CheckBox x:Name="ckbLoaiThanhCa" Style="{DynamicResource CheckBoxStyle}"
-                                                              IsChecked="{Binding IsChecked}"
-                                                              BorderBrush="White" BorderThickness="1">
+                                                              IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                                              BorderBrush="White" BorderThickness="1" Checked="ckbLoaiThanhCa_Checked" Unchecked="ckbLoaiThanhCa_Unchecked">
                                                             </CheckBox>
                                                             <TextBlock Text="{Binding Path=Ten}" Foreground="White"
                                                                HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -851,7 +851,7 @@
                                                             <GridViewColumn.CellTemplate>
                                                                 <DataTemplate>
                                                                     <Border BorderBrush="{DynamicResource SeperateLineColor}" BorderThickness="0,0,2,0" Margin="0,0,0,-5">
-                                                                        <TextBlock Text="{Binding Loai.Ten}" Margin="0,2,0,2" HorizontalAlignment="Center"
+                                                                        <TextBlock Text="{Binding LoaiThanhCa.Ten}" Margin="0,2,0,2" HorizontalAlignment="Center"
                                                                        Foreground="{DynamicResource TextColor}"
                                                                        FontFamily="{DynamicResource RobotoMedium}"
                                                                        FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.022}"/>
