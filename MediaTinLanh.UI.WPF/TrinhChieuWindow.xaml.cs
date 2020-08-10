@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MediaTinLanh.Model;
 using MediaTinLanh.Control;
+using System.Diagnostics;
 
 namespace MediaTinLanh.UI.WPF
 {
@@ -175,6 +176,8 @@ namespace MediaTinLanh.UI.WPF
             foreach (var thanhCa in danhSachThanhCa)
             {
                 thanhCa.LoaiThanhCa = selectedLoaiThanhCa;
+                thanhCa.LoiBaiHats = Factory.LoiBaiHatService.GetDSLoiBaiHatByThanhCa(thanhCa.Id).ToList();
+                thanhCa.Media = Factory.MediaService.GetByThanhCa(thanhCa.Id).FirstOrDefault();
             }
 
             listViewThanhCa.ItemsSource = danhSachThanhCa;
@@ -183,6 +186,30 @@ namespace MediaTinLanh.UI.WPF
         private void ckbLoaiThanhCa_Unchecked(object sender, RoutedEventArgs e)
         {
             listViewThanhCa.ItemsSource = Enumerable.Empty<ThanhCaModel>();
+        }
+
+        private void btnTaiVe_Click(object sender, RoutedEventArgs e)
+        {
+            Button btnTaiVe = sender as Button;
+            Hyperlink hyperLink = btnTaiVe.Content as Hyperlink;
+
+            Process.Start(hyperLink.NavigateUri.ToString());
+        }
+
+        private void listViewThanhCa_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var seletedThanhCa = (ThanhCaModel)listViewThanhCa.SelectedItem;
+            tblNoiDungBaiHat.TextAlignment = TextAlignment.Center;
+            tblNoiDungBaiHat.Text = string.Empty;
+
+            foreach (var cau in seletedThanhCa.LoiBaiHats)
+            {
+                tblNoiDungBaiHat.Text += cau.STT + ". " + cau.NoiDung + Environment.NewLine;
+                if(!string.IsNullOrEmpty(seletedThanhCa.DiepKhuc))
+                    tblNoiDungBaiHat.Text += "ĐK: " + seletedThanhCa.DiepKhuc + Environment.NewLine;
+                else
+                    tblNoiDungBaiHat.Text += Environment.NewLine;
+            }
         }
     }
 }

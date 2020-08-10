@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChoETL;
 using MediaTinLanh.Data;
 using MediaTinLanh.Model;
 using System;
@@ -28,6 +29,26 @@ namespace MediaTinLanh.Control
         {
             var Media = dbMediaTinLanh.Medias.Single(Id);
             return Mapper.Map<Media, MediaModel>(Media);
+        }
+
+        public IEnumerable<MediaModel> GetByThanhCa(int? thanhCaId)
+        {
+            var medias = dbMediaTinLanh.Query("Select md.Id, md.Ten, md.MoTa, md.Link from Medias md join MediaThanhCas mdt on md.Id = mdt.MediaId where mdt.ThanhCaId = @0", parms: new object[]{ thanhCaId });
+
+            List<MediaModel> listMedia = new List<MediaModel>();
+            foreach (var item in medias)
+            {
+                var temp = new MediaModel() { 
+                    Id = (int)item.Id,
+                    Ten = item.Ten,
+                    MoTa = item.MoTa,
+                    Link = item.Link
+                };
+
+                listMedia.Add(temp);
+            }
+
+            return listMedia;
         }
 
         public int? Insert(MediaModel MediaModel)

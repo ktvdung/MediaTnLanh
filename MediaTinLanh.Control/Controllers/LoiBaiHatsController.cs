@@ -14,20 +14,26 @@ namespace MediaTinLanh.Control
     {
         public IEnumerable<LoiBaiHatModel> All()
         {
-            var LoiBaiHats = dbMediaTinLanh.LoiBaiHats.All();
-            return Mapper.Map<IEnumerable<LoiBaiHat>, IEnumerable<LoiBaiHatModel>>(LoiBaiHats);
+            var loiBaiHats = dbMediaTinLanh.LoiBaiHats.All();
+            return Mapper.Map<IEnumerable<LoiBaiHat>, IEnumerable<LoiBaiHatModel>>(loiBaiHats);
         }
 
         public IEnumerable<LoiBaiHatModel> Query(string filter, params object[] paramaters)
         {
-            var LoiBaiHats = dbMediaTinLanh.LoiBaiHats.All(where: filter, parms: paramaters);
-            return Mapper.Map<IEnumerable<LoiBaiHat>, IEnumerable<LoiBaiHatModel>>(LoiBaiHats);
+            var loiBaiHats = dbMediaTinLanh.LoiBaiHats.All(where: filter, parms: paramaters);
+            return Mapper.Map<IEnumerable<LoiBaiHat>, IEnumerable<LoiBaiHatModel>>(loiBaiHats);
         }
 
         public LoiBaiHatModel Single(int? Id)
         {
-            var LoiBaiHat = dbMediaTinLanh.LoiBaiHats.Single(Id);
-            return Mapper.Map<LoiBaiHat, LoiBaiHatModel>(LoiBaiHat);
+            var loiBaiHat = dbMediaTinLanh.LoiBaiHats.Single(Id);
+            return Mapper.Map<LoiBaiHat, LoiBaiHatModel>(loiBaiHat);
+        }
+
+        public IEnumerable<LoiBaiHatModel> GetDSLoiBaiHatByThanhCa(int? thanhCaId)
+        {
+            var loiBaiHats = dbMediaTinLanh.LoiBaiHats.All("ThanhCaId = @0", parms: new object[] { thanhCaId });
+            return Mapper.Map<IEnumerable<LoiBaiHat>, IEnumerable<LoiBaiHatModel>>(loiBaiHats);
         }
 
         public int? Insert(LoiBaiHatModel LoiBaiHatModel)

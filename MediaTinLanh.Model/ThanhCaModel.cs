@@ -17,5 +17,8 @@ namespace MediaTinLanh.Model
         public bool? TrangThai { get; set; }
 
         public LoaiThanhCaModel LoaiThanhCa { get; set; }
+
+        public List<LoiBaiHatModel> LoiBaiHats { get; set; }
+        public MediaModel Media { get; set; }
     }
 }
