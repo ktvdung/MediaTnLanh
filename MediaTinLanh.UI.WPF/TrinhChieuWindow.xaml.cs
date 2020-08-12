@@ -165,6 +165,13 @@ namespace MediaTinLanh.UI.WPF
             {
                 danhSachThanhCa = Factory.ThanhCaService.Query("Loai = @0 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'", paramaters: new object[] { selectedLoaiThanhCa.Id });
             }
+            
+            foreach (var thanhCa in danhSachThanhCa)
+            {
+                thanhCa.LoaiThanhCa = selectedLoaiThanhCa;
+                thanhCa.LoiBaiHats = Factory.LoiBaiHatService.GetDSLoiBaiHatByThanhCa(thanhCa.Id).ToList();
+                thanhCa.Media = Factory.MediaService.GetByThanhCa(thanhCa.Id).FirstOrDefault();
+            }
 
             listViewThanhCa.ItemsSource = danhSachThanhCa;
         }
@@ -207,8 +214,7 @@ namespace MediaTinLanh.UI.WPF
                 tblNoiDungBaiHat.Text += cau.STT + ". " + cau.NoiDung + Environment.NewLine;
                 if(!string.IsNullOrEmpty(seletedThanhCa.DiepKhuc))
                     tblNoiDungBaiHat.Text += "ĐK: " + seletedThanhCa.DiepKhuc + Environment.NewLine;
-                else
-                    tblNoiDungBaiHat.Text += Environment.NewLine;
+                tblNoiDungBaiHat.Text += Environment.NewLine;
             }
         }
     }
