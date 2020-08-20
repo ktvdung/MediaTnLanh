@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using MediaTinLanh.Model;
 using MediaTinLanh.Control;
 using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace MediaTinLanh.UI.WPF
 {
