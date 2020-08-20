@@ -140,7 +140,9 @@
     <Compile Include="Controllers\Factory.cs" />
     <Compile Include="Controllers\ThanhCasController.cs" />
     <Compile Include="Controllers\NgonNgusController.cs" />
+    <Compile Include="Control_CheckFiles.cs" />
     <Compile Include="Control_Connect.cs" />
+    <Compile Include="Control_Files.cs" />
     <Compile Include="Control_Json_Table.cs" />
     <Compile Include="Control_Presentation.cs" />
     <Compile Include="Control_Security.cs" />

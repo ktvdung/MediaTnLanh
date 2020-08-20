@@ -150,6 +150,8 @@ namespace MediaTinLanh.Data
         public string Link { get; set; }
         public int? ChuDeId { get; set; }
         public int? Loai { get; set; }
+        public int? LuotXem { get; set; }
+        public int? LuotTai { get; set; }
     }
 
     public partial class MediaThanhCa: Entity<MediaThanhCa>
