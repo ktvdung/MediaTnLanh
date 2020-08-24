@@ -31,6 +31,7 @@ namespace MediaTinLanh.UI.WPF
             listBoxLoaiThanhCa.SelectedItem = danhSachLoaiThanhCa.ToList()[0];
 
             btnThanCa.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -200,7 +201,11 @@ namespace MediaTinLanh.UI.WPF
             Button btnTaiVe = sender as Button;
             Hyperlink hyperLink = btnTaiVe.Content as Hyperlink;
 
-            Process.Start(hyperLink.NavigateUri.ToString());
+            var inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + hyperLink.NavigateUri.ToString().Remove(0, hyperLink.NavigateUri.ToString().IndexOf("/") + 1);
+            var filePathOnRemote = hyperLink.NavigateUri.ToString();
+
+            Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+            MessageBox.Show("File have been save to: " + inputfilepath, "Download complete!");
         }
 
         private void listViewThanhCa_SelectionChanged(object sender, SelectionChangedEventArgs e)

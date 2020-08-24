@@ -13,7 +13,7 @@ namespace MediaTinLanh.Control
     {
         #region Upload file
 
-        public void upload_files(string localFile, string remotepath)
+        public static void upload_files(string localFile, string remotepath)
         {
             using (var client = new WebClient())
             {
@@ -31,7 +31,7 @@ namespace MediaTinLanh.Control
 
         #region Download files
 
-        public void Download_files(string inputfilepath, string FilePathOnRemote)
+        public static void Download_files(string inputfilepath, string FilePathOnRemote)
         {
             Control_Xml xml = new Control_Xml(); ;
             string ftpusername = "";
