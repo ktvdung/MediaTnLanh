@@ -458,7 +458,7 @@
                                                 <Border Grid.Row="1"
                                                         Grid.RowSpan="2"
                                                         Panel.ZIndex="0"
-                                                        BorderThickness="1.5">
+                                                        BorderThickness="2">
                                                     <Border.Background>
                                                         <SolidColorBrush Color="{StaticResource ExtGrayDarkestColor}"></SolidColorBrush>
                                                     </Border.Background>
@@ -490,9 +490,14 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="TabItem">
                                             <Grid Name="Panel">
-                                                <Border x:Name="tabBorder" BorderThickness="1.5" Height="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.047}">
+                                                <Border x:Name="tabBorderTop" BorderThickness="0 2 0 0" Height="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.05}">
                                                     <Border.BorderBrush>
-                                                        <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                        <SolidColorBrush Color="{StaticResource ExtGrayColor}"></SolidColorBrush>
+                                                    </Border.BorderBrush>
+                                                </Border>
+                                                <Border x:Name="tabBorder" BorderThickness="2 2 2 0" Height="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.047}">
+                                                    <Border.BorderBrush>
+                                                        <SolidColorBrush Color="{StaticResource ExtGrayColor}"></SolidColorBrush>
                                                     </Border.BorderBrush>
                                                     <ContentPresenter x:Name="ContentSite"
                                                               VerticalAlignment="Center"
@@ -501,7 +506,12 @@
                                                               Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*20}"
                                                               Margin="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}"/>
                                                 </Border>
-
+                                                <Border x:Name="tabBorderBot" BorderThickness="0 0 0 2" Height="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.047}">
+                                                    <Border.BorderBrush>
+                                                        <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                    </Border.BorderBrush>
+                                                </Border>
+                                                
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected" Value="True">
@@ -520,8 +530,32 @@
                                                             Value="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.05}" />
                                                     <Setter TargetName="tabBorder"
                                                             Property="BorderThickness"
-                                                            Value="1.5 1.5 1.5 0" />
+                                                            Value="2 2 2 0" />
                                                     <Setter TargetName="tabBorder" Property="BorderBrush">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+
+                                                    <Setter TargetName="tabBorderTop"
+                                                            Property="Height"
+                                                            Value="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.05}" />
+                                                    <Setter TargetName="tabBorderTop"
+                                                            Property="BorderThickness"
+                                                            Value="2 2 2 0" />
+                                                    <Setter TargetName="tabBorderTop" Property="BorderBrush">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+
+                                                    <Setter TargetName="tabBorderBot"
+                                                            Property="Height"
+                                                            Value="{Binding ElementName=tabControl, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.05}" />
+                                                    <Setter TargetName="tabBorderBot"
+                                                            Property="BorderThickness"
+                                                            Value="2 2 2 0" />
+                                                    <Setter TargetName="tabBorderBot" Property="BorderBrush">
                                                         <Setter.Value>
                                                             <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
                                                         </Setter.Value>
