@@ -422,13 +422,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\Media.sql" />
-    <Content Include="Database\MediaTinLanh_SQL.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database\MediaTinLanh_SQL_log.ldf">
-      <DependentUpon>MediaTinLanh_SQL.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Skin\Images\trinh-chieu\Layer 21.svg" />
     <Resource Include="Skin\Images\trinh-chieu\LogoLeft.png" />
   </ItemGroup>
