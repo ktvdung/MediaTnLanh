@@ -47,26 +47,17 @@ namespace MediaTinLanh.Control
         }
 
         //Kiểm tra tồn tại
-        //public static string GetMD5(string filename)
-        //{
-        //    if (File.Exists("list.txt"))
-        //    {
-        //        string[] files = File.ReadAllLines("list.txt");
-        //        foreach (string fileName in files)
-        //            if (File.Exists(fileName))
-        //            {
-        //                Console.WriteLine(fileName);
-        //            }
-        //            else
-        //            {
-        //                throw new FileNotFoundException(fileName);
-        //            }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Cannot find som' files");
-        //    }
+        public static bool CheckExit(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
-        //}
+        }
     }
 }
