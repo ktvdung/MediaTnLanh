@@ -17,6 +17,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,7 +30,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -122,6 +122,7 @@
     <Compile Include="TrinhChieuWindow.xaml.cs">
       <DependentUpon>TrinhChieuWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\ThanhCaViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -162,7 +163,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Database\Media.db" />
+    <None Include="Database\Media.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Database\Media.encrypted.db" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -393,7 +396,9 @@
     <Resource Include="Skin\Images\trinh-chieu\user.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="config.xml" />
+    <Content Include="config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MediaTinLanh.Control\MediaTinLanh.Control.csproj">
@@ -422,13 +427,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\Media.sql" />
-    <Content Include="Database\MediaTinLanh_SQL.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database\MediaTinLanh_SQL_log.ldf">
-      <DependentUpon>MediaTinLanh_SQL.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Skin\Images\trinh-chieu\Layer 21.svg" />
     <Resource Include="Skin\Images\trinh-chieu\LogoLeft.png" />
   </ItemGroup>

@@ -33,7 +33,7 @@ namespace MediaTinLanh.Control
 
         public IEnumerable<MediaModel> GetByThanhCa(int? thanhCaId)
         {
-            var medias = dbMediaTinLanh.Query("Select md.Id, md.Ten, md.MoTa, md.Link from Medias md join MediaThanhCas mdt on md.Id = mdt.MediaId where mdt.ThanhCaId = @0", parms: new object[]{ thanhCaId });
+            var medias = dbMediaTinLanh.Query("Select md.Id, md.Ten, md.MoTa, md.Link, md.TrangThai from Medias md join MediaThanhCas mdt on md.Id = mdt.MediaId where mdt.ThanhCaId = @0", parms: new object[]{ thanhCaId });
 
             List<MediaModel> listMedia = new List<MediaModel>();
             foreach (var item in medias)
@@ -42,7 +42,8 @@ namespace MediaTinLanh.Control
                     Id = (int)item.Id,
                     Ten = item.Ten,
                     MoTa = item.MoTa,
-                    Link = item.Link
+                    Link = item.Link,
+                    TrangThai = item.TrangThai == 1 ? true : false
                 };
 
                 listMedia.Add(temp);
@@ -63,7 +64,8 @@ namespace MediaTinLanh.Control
             if (MediaExists != null)
             {
                 MediaModel.Id = MediaExists.Id;
-                dbMediaTinLanh.Medias.Update(Mapper.Map<MediaModel, Media>(MediaModel));
+                var newMedia = Mapper.Map<MediaModel, Media>(MediaModel);
+                dbMediaTinLanh.Medias.Update(newMedia);
 
                 return 1;
             }

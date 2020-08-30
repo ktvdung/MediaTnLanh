@@ -141,7 +141,9 @@ namespace MediaTinLanh.Data
 
     public partial class Media: Entity<Media>
     {
-        public Media() { }
+        public Media() {
+            TrangThai = 0;
+        }
         public Media(bool defaults) : base(defaults) { }
 
         public int? Id { get; set; }
@@ -152,6 +154,7 @@ namespace MediaTinLanh.Data
         public int? Loai { get; set; }
         public int? LuotXem { get; set; }
         public int? LuotTai { get; set; }
+        public int? TrangThai { get; set; }
     }
 
     public partial class MediaThanhCa: Entity<MediaThanhCa>
@@ -229,6 +232,5 @@ namespace MediaTinLanh.Data
         public int? SoCau { get; set; }
         public int? Loai { get; set; }
         public string DiepKhuc { get; set; }
-        public int? TrangThai { get; set; }
     }
 }

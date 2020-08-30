@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using MediaTinLanh.Model;
 using MediaTinLanh.Control;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
+using MediaTinLanh.UI.WPF.ViewModel;
 
 namespace MediaTinLanh.UI.WPF
 {
@@ -23,6 +25,8 @@ namespace MediaTinLanh.UI.WPF
     /// </summary>
     public partial class TrinhChieuWindow : Window
     {
+        ThanhCaModel SelectedThanhCa { get; set; }
+
         public TrinhChieuWindow()
         {
             InitializeComponent();
@@ -159,36 +163,23 @@ namespace MediaTinLanh.UI.WPF
 
         private void btnTimKiem_Click(object sender, RoutedEventArgs e)
         {
+            var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+
             LoaiThanhCaModel selectedLoaiThanhCa = (LoaiThanhCaModel)listBoxLoaiThanhCa.SelectedItem;
-            var danhSachThanhCa = Factory.ThanhCaService.Query("Loai = 1 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'");
+            dbThanhCa.Items = new ObservableCollection<ThanhCaModel>(Factory.ThanhCaService.Query("Loai = 1 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'").ToList());
 
             if (selectedLoaiThanhCa != null)
             {
-                danhSachThanhCa = Factory.ThanhCaService.Query("Loai = @0 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'", paramaters: new object[] { selectedLoaiThanhCa.Id });
+                dbThanhCa.Items = new ObservableCollection<ThanhCaModel>(Factory.ThanhCaService.Query("Loai = @0 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'", paramaters: new object[] { selectedLoaiThanhCa.Id }).ToList());
             }
-            
-            foreach (var thanhCa in danhSachThanhCa)
-            {
-                thanhCa.LoaiThanhCa = selectedLoaiThanhCa;
-                thanhCa.LoiBaiHats = Factory.LoiBaiHatService.GetDSLoiBaiHatByThanhCa(thanhCa.Id).ToList();
-                thanhCa.Media = Factory.MediaService.GetByThanhCa(thanhCa.Id).FirstOrDefault();
-            }
-
-            listViewThanhCa.ItemsSource = danhSachThanhCa;
         }
 
         private void ckbLoaiThanhCa_Checked(object sender, RoutedEventArgs e)
         {
             LoaiThanhCaModel selectedLoaiThanhCa = (LoaiThanhCaModel)listBoxLoaiThanhCa.SelectedItem;
-            var danhSachThanhCa = Factory.ThanhCaService.Query("Loai = @0", paramaters: new object[] { selectedLoaiThanhCa.Id });
-            foreach (var thanhCa in danhSachThanhCa)
-            {
-                thanhCa.LoaiThanhCa = selectedLoaiThanhCa;
-                thanhCa.LoiBaiHats = Factory.LoiBaiHatService.GetDSLoiBaiHatByThanhCa(thanhCa.Id).ToList();
-                thanhCa.Media = Factory.MediaService.GetByThanhCa(thanhCa.Id).FirstOrDefault();
-            }
 
-            listViewThanhCa.ItemsSource = danhSachThanhCa;
+            var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+            dbThanhCa.Items = new ObservableCollection<ThanhCaModel>(Factory.ThanhCaService.Query("Loai = @0", paramaters: new object[] { selectedLoaiThanhCa.Id }).ToList());
         }
 
         private void ckbLoaiThanhCa_Unchecked(object sender, RoutedEventArgs e)
@@ -205,22 +196,39 @@ namespace MediaTinLanh.UI.WPF
             var filePathOnRemote = hyperLink.NavigateUri.ToString();
 
             Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+
+            var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+            var selectedThanhCa = (ThanhCaModel)dbThanhCa.FindItem((int)btnTaiVe.Tag);
+            selectedThanhCa.Medias[0].TrangThai = true;
+            selectedThanhCa.Medias[0].Link = inputfilepath;
+
+            Factory.MediaService.Update(selectedThanhCa.Medias[0].Id, selectedThanhCa.Medias[0]);
+
             MessageBox.Show("File have been save to: " + inputfilepath, "Download complete!");
+        }
+
+        private void btnXem_Click(object sender, RoutedEventArgs e)
+        {
+            Button btnXem = sender as Button;
+            Hyperlink hyperLink = btnXem.Content as Hyperlink;
+
         }
 
         private void listViewThanhCa_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var seletedThanhCa = (ThanhCaModel)listViewThanhCa.SelectedItem;
+            SelectedThanhCa = (ThanhCaModel)listViewThanhCa.SelectedItem;
             tblNoiDungBaiHat.TextAlignment = TextAlignment.Center;
             tblNoiDungBaiHat.Text = string.Empty;
 
-            foreach (var cau in seletedThanhCa.LoiBaiHats)
+            foreach (var cau in SelectedThanhCa.LoiBaiHats)
             {
                 tblNoiDungBaiHat.Text += cau.STT + ". " + cau.NoiDung + Environment.NewLine;
-                if(!string.IsNullOrEmpty(seletedThanhCa.DiepKhuc))
-                    tblNoiDungBaiHat.Text += "ĐK: " + seletedThanhCa.DiepKhuc + Environment.NewLine;
+                if(!string.IsNullOrEmpty(SelectedThanhCa.DiepKhuc))
+                    tblNoiDungBaiHat.Text += "ĐK: " + SelectedThanhCa.DiepKhuc + Environment.NewLine;
                 tblNoiDungBaiHat.Text += Environment.NewLine;
             }
         }
+
+        
     }
 }

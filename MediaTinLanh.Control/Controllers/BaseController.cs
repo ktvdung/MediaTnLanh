@@ -32,15 +32,17 @@ namespace MediaTinLanh.Control
         public MappingProfile()
         {
             CreateMap<NgonNgu, NgonNguModel>();
-            CreateMap<ThanhCa, ThanhCaModel>().ForMember(dest => dest.TrangThai, opt => opt.MapFrom(src => src.TrangThai.HasValue && src.TrangThai.Value == 1 ? true : false));
-            
+            CreateMap<ThanhCa, ThanhCaModel>().ForMember(dest => dest.LoaiThanhCa, conf => conf.MapFrom(src => src.LoaiThanhCa))
+                                              .ForMember(dest => dest.LoiBaiHats, opt => opt.MapFrom(src => src.DanhSachLoiBaiHat))
+                                              .ForMember(dest => dest.Medias, opt => opt.MapFrom(src => src.DanhSachMedia));
+
             CreateMap<LoiBaiHat, LoiBaiHatModel>();
             CreateMap<CauKinhThanh, CauKinhThanhModel>();
             CreateMap<BanDichCau, BanDichCauModel>();
             CreateMap<BanDichPhienBan, BanDichPhienBanModel>();
             CreateMap<BanDichSach, BanDichSachModel>();
             CreateMap<Template, TemplateModel>();
-            CreateMap<Media, MediaModel>();
+            CreateMap<Media, MediaModel>().ForMember(dest => dest.TrangThai, opt => opt.MapFrom(src => src.TrangThai.HasValue && src.TrangThai.Value == 1 ? true : false));
             CreateMap<MediaThanhCa, MediaThanhCaModel>();
             CreateMap<MediaType, MediaTypeModel>();
             CreateMap<ChuDe, ChuDeModel>();
@@ -54,14 +56,14 @@ namespace MediaTinLanh.Control
             CreateMap<LoaiThanhCa, LoaiThanhCaModel>();
 
             CreateMap<NgonNguModel, NgonNgu>();
-            CreateMap<ThanhCaModel, ThanhCa>().ForMember(dest => dest.TrangThai, opt => opt.MapFrom(src => src.TrangThai.HasValue && src.TrangThai.Value == true ? 1 : 0));
+            CreateMap<ThanhCaModel, ThanhCa>();
             CreateMap<LoiBaiHatModel, LoiBaiHat>();
             CreateMap<CauKinhThanhModel, CauKinhThanh>();
             CreateMap<BanDichCauModel, BanDichCau>();
             CreateMap<BanDichPhienBanModel, BanDichPhienBan>();
             CreateMap<BanDichSachModel, BanDichSach>();
             CreateMap<TemplateModel, Template>();
-            CreateMap<MediaModel, Media>();
+            CreateMap<MediaModel, Media>().ForMember(dest => dest.TrangThai, opt => opt.MapFrom(src => src.TrangThai.HasValue && src.TrangThai.Value == true ? 1 : 0));
             CreateMap<MediaThanhCaModel, MediaThanhCa>();
             CreateMap<MediaTypeModel, MediaType>();
             CreateMap<ChuDeModel, ChuDe>();

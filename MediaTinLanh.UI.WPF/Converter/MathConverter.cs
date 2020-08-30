@@ -347,7 +347,7 @@ namespace MediaTinLanh.UI.WPF
         object parameter, CultureInfo culture)
         {
             var booool = (bool)value;
-            if (booool == false)
+            if (booool != true)
                 return Visibility.Hidden;
             else
                 return Visibility.Visible;
@@ -371,7 +371,7 @@ namespace MediaTinLanh.UI.WPF
         object parameter, CultureInfo culture)
         {
             var booool = (bool)value;
-            if (booool == false)
+            if (booool != true)
                 return Visibility.Visible;
             else
                 return Visibility.Hidden;

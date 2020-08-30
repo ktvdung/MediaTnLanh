@@ -89,6 +89,9 @@ CREATE TABLE Medias (
     Link    NVARCHAR(MAX),
     ChuDeId INTEGER,
     Loai    INTEGER,
+	LuotXem    INTEGER,
+	LuotTai    INTEGER,
+	TrangThai INTEGER,
     FOREIGN KEY (
         Loai
     )
@@ -103,8 +106,8 @@ CREATE TABLE Medias (
 );
 
 SET IDENTITY_INSERT Medias ON
-INSERT INTO Medias (Id, Ten, MoTa, Link, ChuDeId, Loai) VALUES (1, 'Cui_Xin_Vua_Thanh_Ngu_Lai', N'TC 001 - Cúi Xin Vua Thánh Ngự Lai', 'https://drive.google.com/file/d/0Bw68TPx_EJFFZzk5VHdVSHBxUE0/view', 1, 1);
-INSERT INTO Medias (Id, Ten, MoTa, Link, ChuDeId, Loai) VALUES (2, 'Nguyen_Tung_My_Chua_Linh_Nang', N'TC 002 - Nguyện Tụng Mỹ Chúa Linh Năng', 'https://drive.google.com/file/d/0Bw68TPx_EJFFM0ZBT0VLZzUydVE/view', 1, 1);
+INSERT INTO Medias (Id, Ten, MoTa, Link, ChuDeId, Loai, LuotXem, LuotTai, TrangThai) VALUES (1, 'Cui_Xin_Vua_Thanh_Ngu_Lai', N'TC 001 - Cúi Xin Vua Thánh Ngự Lai', 'TC_PP/001-Cui_Xin_Vua_Thanh_Ngu_Lai.PPTX', 1, 1, 0, 0, 0);
+INSERT INTO Medias (Id, Ten, MoTa, Link, ChuDeId, Loai, LuotXem, LuotTai, TrangThai) VALUES (2, 'Nguyen_Tung_My_Chua_Linh_Nang', N'TC 002 - Nguyện Tụng Mỹ Chúa Linh Năng', 'TC_PP/002-Nguyen_Tung_My_Chua_Linh_Nang.PPTX', 1, 1, 0, 0, 0);
 SET IDENTITY_INSERT Medias OFF
 
 -- Table: ThanhCas
@@ -115,7 +118,6 @@ CREATE TABLE ThanhCas (
     SoCau     INTEGER,
     Loai      INTEGER,
     DiepKhuc  NVARCHAR(MAX),
-    TrangThai INTEGER,
     PRIMARY KEY (
         Id
     ),
@@ -126,22 +128,22 @@ CREATE TABLE ThanhCas (
 );
 
 SET IDENTITY_INSERT ThanhCas ON
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (1, 1, N'Cúi Xin Vua Thánh Ngự Lai', 4, 1, NULL, 0);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (2, 2, N'Nguyện Tụng Mỹ Chúa Linh Năng', 5, 1, NULL, 0);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (3, 3, N'Ngợi Giê-hô-va Thánh Đế', 4, 1, '', 0);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (4, 4, N'Ha-lê-lu-gia! Vinh Danh Ngài', 6, 1, N'Ha-lê-lu-gia! Vinh danh Ngài! 
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (1, 1, N'Cúi Xin Vua Thánh Ngự Lai', 4, 1, NULL);
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (2, 2, N'Nguyện Tụng Mỹ Chúa Linh Năng', 5, 1, NULL);
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (3, 3, N'Ngợi Giê-hô-va Thánh Đế', 4, 1, '');
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (4, 4, N'Ha-lê-lu-gia! Vinh Danh Ngài', 6, 1, N'Ha-lê-lu-gia! Vinh danh Ngài! 
 
 A-men chúng tôi tôn thờ đây; 
 
 Ha-lê-lu-gia! Vinh danh Ngài!
 
-Nguyện được yêu Chúa thêm lên hoài.', 0);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (5, 5, N'Muôn Dân Trên Hoàn Cầu Nên Ca Xướng', 4, 1, NULL, 0);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (6, 6, N'Thành Tâm Tôn Vua Thánh', 6, 1, '', 0);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (7, 7, N'Ca Cảm Tạ', 3, 1, '', 0);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (8, 8, N'Ngợi Danh Jêsus Rất Oai Quyền', 5, 1, NULL, 0);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (9, 9, N'Ước Thuật Chuyện Tuyệt Đối', 4, 1, NULL, NULL);
-INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc, TrangThai) VALUES (10, 10, N'Nguyện Tụng Ngợi Chiên Con Thánh', 4, 1, NULL, 0);
+Nguyện được yêu Chúa thêm lên hoài.');
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (5, 5, N'Muôn Dân Trên Hoàn Cầu Nên Ca Xướng', 4, 1, NULL);
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (6, 6, N'Thành Tâm Tôn Vua Thánh', 6, 1, '');
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (7, 7, N'Ca Cảm Tạ', 3, 1, '');
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (8, 8, N'Ngợi Danh Jêsus Rất Oai Quyền', 5, 1, NULL);
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (9, 9, N'Ước Thuật Chuyện Tuyệt Đối', 4, 1, NULL);
+INSERT INTO ThanhCas (Id, STT, Ten, SoCau, Loai, DiepKhuc) VALUES (10, 10, N'Nguyện Tụng Ngợi Chiên Con Thánh', 4, 1, NULL);
 SET IDENTITY_INSERT ThanhCas OFF
 
 -- Table: MediaThanhCas

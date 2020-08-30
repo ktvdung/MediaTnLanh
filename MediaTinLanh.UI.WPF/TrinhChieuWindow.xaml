@@ -4,10 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaTinLanh.UI.WPF"
+        xmlns:u="clr-namespace:MediaTinLanh.UI.WPF.ViewModel"
         mc:Ignorable="d"
         Title="TrinhChieuWindow" 
         x:Name="windowTrinhChieu" WindowState="Maximized" WindowStyle="None" Style="{DynamicResource WindowStyle}" MouseDown="Window_MouseDown">
     <Window.Resources>
+        <u:ThanhCaViewModel x:Key="dbForThanhCa"/>
+        
         <local:MathConverter x:Key="mathConverter"/>
         <local:MarginConverter x:Key="marginConverter"/>
         <local:TrangThaiConverter x:Key="TrangThaiConverter"/>
@@ -730,7 +733,8 @@
                                         </Border>
                                         <Border Grid.Row="2">
                                             <ListView x:Name="listViewThanhCa" Background="Transparent" BorderThickness="0"
-                                              ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="listViewThanhCa_SelectionChanged">
+                                                      ItemsSource="{Binding Source={StaticResource dbForThanhCa}, Path=Items, Mode=TwoWay}"
+                                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="listViewThanhCa_SelectionChanged">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
@@ -894,7 +898,7 @@
                                                             </GridViewColumn.CellTemplate>
                                                         </GridViewColumn>
                                                         <GridViewColumn Header="Trạng thái"
-                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/4*1}">
+                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter},                      ConverterParameter=@VALUE/4*1}">
                                                             <GridViewColumn.HeaderContainerStyle>
                                                                 <Style TargetType="GridViewColumnHeader">
                                                                     <Setter Property="BorderBrush" Value="Transparent"></Setter>
@@ -941,17 +945,33 @@
                                                             </GridViewColumn.HeaderContainerStyle>
                                                             <GridViewColumn.CellTemplate>
                                                                 <DataTemplate>
-                                                                    <!--<TextBlock Text="{Binding TrangThai, Converter={StaticResource TrangThaiConverter}}" 
-                                                                       Foreground="{DynamicResource TextColor}"
-                                                                       FontFamily="{DynamicResource RobotoMedium}"
-                                                                       FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}">
-                                                                    </TextBlock>-->
                                                                     <Grid>
-                                                                        <Button Content="Xem"
-                                                                                Visibility="{Binding TrangThai, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                        <Button x:Name="btnXem" Visibility="{
+                                                                                        Binding Medias[0].TrangThai, Converter={StaticResource BoolToVisibilityConverter}}"
                                                                                 VerticalAlignment="Center" HorizontalAlignment="Center"
                                                                                 FontFamily="{DynamicResource RobotoMedium}"
-                                                                                FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}">
+                                                                                FontSize="{
+                                                                                        Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}" Click="btnXem_Click">
+                                                                            <Hyperlink NavigateUri="{Binding Medias[0].Link}">
+                                                                                <Hyperlink.Style>
+                                                                                    <Style TargetType="Hyperlink">
+                                                                                        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+                                                                                        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+                                                                                        <Style.Triggers>
+                                                                                            <Trigger Property="IsMouseOver" Value="true">
+                                                                                                <Setter Property="Foreground">
+                                                                                                    <Setter.Value>
+                                                                                                        <SolidColorBrush 
+                                                                                                            Color="{StaticResource ExtBrownColor}">
+                                                                                                        </SolidColorBrush>
+                                                                                                    </Setter.Value>
+                                                                                                </Setter>
+                                                                                            </Trigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Hyperlink.Style>
+                                                                                Xem
+                                                                            </Hyperlink>
                                                                             <Button.Style>
                                                                                 <Style TargetType="Button">
                                                                                     <Setter Property="Template">
@@ -976,11 +996,12 @@
                                                                                 </Style>
                                                                             </Button.Style>
                                                                         </Button>
-                                                                        <Button x:Name="btnTaiVe" Visibility="{Binding TrangThai, Converter={StaticResource BoolToHiddenConverter}}"
+                                                                        <Button x:Name="btnTaiVe" Tag="{Binding Id}"
+                                                                                Visibility="{Binding Medias[0].TrangThai, Converter={StaticResource BoolToHiddenConverter}}"
                                                                                 VerticalAlignment="Center" HorizontalAlignment="Center"
                                                                                 FontFamily="{DynamicResource RobotoMedium}"
                                                                                 FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}" Click="btnTaiVe_Click">
-                                                                            <Hyperlink NavigateUri="{Binding Media.Link}">
+                                                                            <Hyperlink NavigateUri="{Binding Medias[0].Link}">
                                                                                 <Hyperlink.Style>
                                                                                     <Style TargetType="Hyperlink">
                                                                                         <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
@@ -989,7 +1010,9 @@
                                                                                             <Trigger Property="IsMouseOver" Value="true">
                                                                                                 <Setter Property="Foreground">
                                                                                                     <Setter.Value>
-                                                                                                        <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
+                                                                                                        <SolidColorBrush 
+                                                                                                            Color="{StaticResource ExtBrownColor}">
+                                                                                                        </SolidColorBrush>
                                                                                                     </Setter.Value>
                                                                                                 </Setter>
                                                                                             </Trigger>
