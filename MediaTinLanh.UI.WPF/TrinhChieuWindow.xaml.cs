@@ -204,7 +204,30 @@ namespace MediaTinLanh.UI.WPF
 
             Factory.MediaService.Update(selectedThanhCa.Medias[0].Id, selectedThanhCa.Medias[0]);
 
-            MessageBox.Show("File have been save to: " + inputfilepath, "Download complete!");
+            var inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + hyperLink.NavigateUri.ToString().Substring(hyperLink.NavigateUri.ToString().LastIndexOf("."), hyperLink.NavigateUri.ToString().Length - hyperLink.NavigateUri.ToString().LastIndexOf(".")) + "\\" + hyperLink.NavigateUri.ToString().Remove(0, hyperLink.NavigateUri.ToString().IndexOf("/") + 1);
+            
+            //Nếu file tồn tại thì cho phép mở, ngược lại phải tải xuống.
+            if (Control_Files.CheckExit(inputfilepath))
+            {
+                Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
+                Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
+                Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
+                pptApp.Visible = otrue;
+                pptApp.Activate();
+                Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
+                Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
+                System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
+                MessageBox.Show(pptApp.ActiveWindow.Caption);
+            }
+            else 
+            {
+                var filePathOnRemote = hyperLink.NavigateUri.ToString();
+                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+                btnTaiVe.Name = "Xem";
+                //MessageBox.Show("File have been save to: " + inputfilepath, "Download complete!");
+            }
+                
+            
         }
 
         private void btnXem_Click(object sender, RoutedEventArgs e)
