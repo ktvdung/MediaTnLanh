@@ -184,7 +184,8 @@ namespace MediaTinLanh.UI.WPF
 
         private void ckbLoaiThanhCa_Unchecked(object sender, RoutedEventArgs e)
         {
-            listViewThanhCa.ItemsSource = Enumerable.Empty<ThanhCaModel>();
+            var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+            dbThanhCa.Items = new ObservableCollection<ThanhCaModel>();
         }
 
         private void btnTaiVe_Click(object sender, RoutedEventArgs e)
@@ -192,23 +193,33 @@ namespace MediaTinLanh.UI.WPF
             Button btnTaiVe = sender as Button;
             Hyperlink hyperLink = btnTaiVe.Content as Hyperlink;
 
-            var inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + hyperLink.NavigateUri.ToString().Remove(0, hyperLink.NavigateUri.ToString().IndexOf("/") + 1);
-            var filePathOnRemote = hyperLink.NavigateUri.ToString();
-
-            Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
-
-            var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
-            var selectedThanhCa = (ThanhCaModel)dbThanhCa.FindItem((int)btnTaiVe.Tag);
-            selectedThanhCa.Medias[0].TrangThai = true;
-            selectedThanhCa.Medias[0].Link = inputfilepath;
-
-            Factory.MediaService.Update(selectedThanhCa.Medias[0].Id, selectedThanhCa.Medias[0]);
-
             var inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + hyperLink.NavigateUri.ToString().Substring(hyperLink.NavigateUri.ToString().LastIndexOf("."), hyperLink.NavigateUri.ToString().Length - hyperLink.NavigateUri.ToString().LastIndexOf(".")) + "\\" + hyperLink.NavigateUri.ToString().Remove(0, hyperLink.NavigateUri.ToString().IndexOf("/") + 1);
             
-            //Nếu file tồn tại thì cho phép mở, ngược lại phải tải xuống.
-            if (Control_Files.CheckExit(inputfilepath))
+            //Nếu file không tồn tại thì cho phép tải xuống.
+            if (!Control_Files.CheckExit(inputfilepath))
             {
+                var filePathOnRemote = hyperLink.NavigateUri.ToString();
+                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+
+                var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+                var selectedThanhCa = (ThanhCaModel)dbThanhCa.FindItem((int)btnTaiVe.Tag);
+                selectedThanhCa.Medias[0].TrangThai = true;
+                selectedThanhCa.Medias[0].Link = inputfilepath;
+
+                Factory.MediaService.Update(selectedThanhCa.Medias[0].Id, selectedThanhCa.Medias[0]);
+            }           
+        }
+
+        private void btnXem_Click(object sender, RoutedEventArgs e)
+        {
+            Button btnXem = sender as Button;
+            Hyperlink hyperLink = btnXem.Content as Hyperlink;
+
+            //Nếu file tồn tại thì cho phép xem.
+            if (Control_Files.CheckExit(hyperLink.NavigateUri.LocalPath))
+            {
+                var inputfilepath = hyperLink.NavigateUri.LocalPath;
+
                 Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
                 Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
                 Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
@@ -219,22 +230,6 @@ namespace MediaTinLanh.UI.WPF
                 System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
                 MessageBox.Show(pptApp.ActiveWindow.Caption);
             }
-            else 
-            {
-                var filePathOnRemote = hyperLink.NavigateUri.ToString();
-                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
-                btnTaiVe.Name = "Xem";
-                //MessageBox.Show("File have been save to: " + inputfilepath, "Download complete!");
-            }
-                
-            
-        }
-
-        private void btnXem_Click(object sender, RoutedEventArgs e)
-        {
-            Button btnXem = sender as Button;
-            Hyperlink hyperLink = btnXem.Content as Hyperlink;
-
         }
 
         private void listViewThanhCa_SelectionChanged(object sender, SelectionChangedEventArgs e)

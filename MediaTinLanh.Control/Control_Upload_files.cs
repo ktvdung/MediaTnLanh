@@ -46,6 +46,9 @@ namespace MediaTinLanh.Control
                 request.Credentials = new NetworkCredential(ftpusername, ftpPassword);
                 byte[] fileData = request.DownloadData(ftpfullpath);
 
+                FileInfo fileInfo = new FileInfo(inputfilepath);
+                fileInfo.Directory.Create();
+
                 using (FileStream file = File.Create(inputfilepath))
                 {
                     file.Write(fileData, 0, fileData.Length);
