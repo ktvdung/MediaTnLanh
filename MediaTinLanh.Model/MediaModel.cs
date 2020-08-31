@@ -28,6 +28,7 @@ namespace MediaTinLanh.Model
         public string _ten;
         public string _mota;
         public string _link;
+        public string _locallink;
         public int? _chudeid;
         public int? _loai;
         public int? _luotxem;
@@ -81,6 +82,23 @@ namespace MediaTinLanh.Model
                 }
                 _link = value;
                 OnPropertyChanged("Link");
+            }
+        }
+        public string LocalLink
+        {
+            get
+            {
+                return _locallink;
+            }
+
+            set
+            {
+                if (value == _locallink)
+                {
+                    return;
+                }
+                _locallink = value;
+                OnPropertyChanged("LocalLink");
             }
         }
         public int? ChuDeId {

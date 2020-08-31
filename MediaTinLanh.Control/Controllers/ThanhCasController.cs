@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChoETL;
 using MediaTinLanh.Data;
 using MediaTinLanh.Model;
 using System;
@@ -20,7 +21,29 @@ namespace MediaTinLanh.Control
 
         public IEnumerable<ThanhCaModel> Query(string filter, params object[] paramaters)
         {
-            var thanhCas = dbMediaTinLanh.ThanhCas.All(where: filter, parms: paramaters);
+            var thanhCas = dbMediaTinLanh.ThanhCas.All(where: filter, parms: paramaters).ToList();
+            for(int i = 0; i < thanhCas.Count(); i++)
+            {
+                var thanhCa = thanhCas[i];
+                if(thanhCa.DanhSachMedia.Count() != 0)
+                {
+                    for (int j = 0; j < thanhCa.DanhSachMedia.Count(); j++)
+                    {
+                        var media = thanhCa.DanhSachMedia[j];
+                        var mediaLink = media.LocalLink;
+                        if (!mediaLink.IsNullOrEmpty())
+                        {
+                            var inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + mediaLink.Substring(mediaLink.LastIndexOf("."), mediaLink.Length - mediaLink.LastIndexOf(".")) + "\\" + mediaLink.Remove(0, mediaLink.IndexOf("/") + 1);
+
+                            if (!Control_Files.CheckExit(inputfilepath))
+                            {
+                                media.TrangThai = 0;
+                            }
+                        }
+                    }
+                }
+                
+            }
             return Mapper.Map<IEnumerable<ThanhCa>, IEnumerable<ThanhCaModel>>(thanhCas);
         }
 

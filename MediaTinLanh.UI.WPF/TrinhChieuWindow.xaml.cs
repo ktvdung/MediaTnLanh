@@ -204,7 +204,7 @@ namespace MediaTinLanh.UI.WPF
                 var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
                 var selectedThanhCa = (ThanhCaModel)dbThanhCa.FindItem((int)btnTaiVe.Tag);
                 selectedThanhCa.Medias[0].TrangThai = true;
-                selectedThanhCa.Medias[0].Link = inputfilepath;
+                selectedThanhCa.Medias[0].LocalLink = inputfilepath;
 
                 Factory.MediaService.Update(selectedThanhCa.Medias[0].Id, selectedThanhCa.Medias[0]);
             }           
