@@ -1090,7 +1090,7 @@
                                         <Border Grid.Row="2" Grid.Column="0" >
                                             <Button x:Name="btnTaiPPTX169" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiPPTX169_Click">
                                                 <TextBlock x:Name="tbxTaiPPTX169"
                                                    Foreground="{DynamicResource TextColor}"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
@@ -1101,7 +1101,7 @@
                                         <Border Grid.Row="2" Grid.Column="1" >
                                             <Button x:Name="btnTaiPPTX43" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiPPTX43_Click">
                                                 <TextBlock x:Name="tbxTaiPPTX43"
                                                    Foreground="{DynamicResource TextColor}"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
@@ -1112,7 +1112,7 @@
                                         <Border Grid.Row="2" Grid.Column="2" >
                                             <Button x:Name="btnTaiTXT" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiTXT_Click">
                                                 <TextBlock x:Name="tbxTaiTXT"
                                                    Foreground="{DynamicResource TextColor}"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
@@ -1123,7 +1123,7 @@
                                         <Border Grid.Row="2" Grid.Column="3" >
                                             <Button x:Name="btnTaiPDF" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiPDF_Click">
                                                 <TextBlock x:Name="tbxTaiPDF"
                                                    Foreground="{DynamicResource TextColor}"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
@@ -1134,7 +1134,7 @@
                                         <Border Grid.Row="2" Grid.Column="4" >
                                             <Button x:Name="btnBaoLoi" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnBaoLoi_Click">
                                                 <TextBlock x:Name="tbxBaoLoi"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
                                                    FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnThanCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"

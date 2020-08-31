@@ -247,6 +247,29 @@ namespace MediaTinLanh.UI.WPF
             }
         }
 
-        
+        private void btnTaiPPTX169_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnTaiPPTX43_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnTaiTXT_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnTaiPDF_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnBaoLoi_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
