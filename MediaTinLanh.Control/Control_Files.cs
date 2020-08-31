@@ -49,15 +49,7 @@ namespace MediaTinLanh.Control
         //Kiểm tra tồn tại
         public static bool CheckExit(string filename)
         {
-            if (File.Exists(filename))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return File.Exists(filename);
         }
     }
 }
