@@ -228,7 +228,7 @@ namespace MediaTinLanh.UI.WPF
                 Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
                 Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
                 System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
-                MessageBox.Show(pptApp.ActiveWindow.Caption);
+                //MessageBox.Show(pptApp.ActiveWindow.Caption);
             }
         }
 

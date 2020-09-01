@@ -30,14 +30,13 @@ namespace MediaTinLanh.Control
                     for (int j = 0; j < thanhCa.DanhSachMedia.Count(); j++)
                     {
                         var media = thanhCa.DanhSachMedia[j];
-                        var mediaLink = media.LocalLink;
-                        if (!mediaLink.IsNullOrEmpty())
+                        var mediaLocalLink = media.LocalLink;
+                        if (!mediaLocalLink.IsNullOrEmpty())
                         {
-                            var inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + mediaLink.Substring(mediaLink.LastIndexOf("."), mediaLink.Length - mediaLink.LastIndexOf(".")) + "\\" + mediaLink.Remove(0, mediaLink.IndexOf("/") + 1);
-
-                            if (!Control_Files.CheckExit(inputfilepath))
+                            if (!Control_Files.CheckExit(mediaLocalLink))
                             {
                                 media.TrangThai = 0;
+                                dbMediaTinLanh.Medias.Update(media);
                             }
                         }
                     }

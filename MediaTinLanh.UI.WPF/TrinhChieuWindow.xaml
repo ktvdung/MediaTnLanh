@@ -952,7 +952,7 @@
                                                                                 FontFamily="{DynamicResource RobotoMedium}"
                                                                                 FontSize="{
                                                                                         Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}" Click="btnXem_Click">
-                                                                            <Hyperlink NavigateUri="{Binding Medias[0].Link}">
+                                                                            <Hyperlink NavigateUri="{Binding Medias[0].LocalLink}">
                                                                                 <Hyperlink.Style>
                                                                                     <Style TargetType="Hyperlink">
                                                                                         <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
