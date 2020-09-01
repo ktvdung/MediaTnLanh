@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MediaTinLanh.Control;
 
 namespace MediaTinLanh.TestTools
 {
@@ -15,6 +16,11 @@ namespace MediaTinLanh.TestTools
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Control_Presentation.Change169To43(txt1.Text, txt2.Text);
         }
     }
 }

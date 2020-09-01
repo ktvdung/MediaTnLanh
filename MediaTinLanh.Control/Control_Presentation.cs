@@ -217,5 +217,32 @@ namespace MediaTinLanh.Control
         }
 
         #endregion
+
+        #region Chuyển 16:9 sang 4:3
+        public static void Change169To43(string filepathInput, string filepathOutput)
+        {
+            //Opens an existing Presentation.
+            IPresentation pptxDoc = Presentation.Open(filepathInput);
+            ////Create new Presentation.
+            IPresentation pptxNew = Presentation.Create();
+            int slidecount = pptxDoc.Slides.Count;
+            //Retrieves the slide instance.
+            for (int i=0;i< slidecount; i++)
+            {
+                // Add a new LayoutSlide to the PowerPoint file 
+                ILayoutSlide layoutSlide = pptxDoc.Masters[i].LayoutSlides.Add(SlideLayoutType.Custom, "Theme1.thmx");
+                ISlide slide = pptxDoc.Slides[i];
+                //Creates a cloned copy of slide.
+                ISlide slideClone = slide.Clone();               
+                //Adds the slide to the Presentation.
+                pptxNew.Slides.Add(slideClone);
+            }
+            pptxDoc.Close();
+            //Saves the Presentation to the file system.
+            pptxNew.Save(filepathOutput);
+            //Closes the Presentation
+            pptxNew.Close();
+        }
+        #endregion
     }
 }
