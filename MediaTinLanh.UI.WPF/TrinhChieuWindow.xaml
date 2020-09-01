@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:MediaTinLanh.UI.WPF"
         xmlns:u="clr-namespace:MediaTinLanh.UI.WPF.ViewModel"
         mc:Ignorable="d"
-        Title="TrinhChieuWindow" 
+        Title="TrinhChieuWindow"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         x:Name="windowTrinhChieu" WindowState="Maximized" WindowStyle="None" Style="{DynamicResource WindowStyle}" MouseDown="Window_MouseDown">
     <Window.Resources>
         <u:ThanhCaViewModel x:Key="dbForThanhCa"/>
@@ -278,6 +279,30 @@
             <RowDefinition Height="150*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <!--<Grid Grid.Column="1" Grid.Row="1" Panel.ZIndex="1">
+            <fa:ImageAwesome RenderTransformOrigin="0.5, 0.5" Icon="Spinner" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="40">
+                <fa:ImageAwesome.RenderTransform>
+                    <RotateTransform/>
+                </fa:ImageAwesome.RenderTransform>
+                <fa:ImageAwesome.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="Foreground.Color"
+                                            From="White"
+                                            To="White"      
+                                            Duration="0:0:9.0"
+                                            AutoReverse="True"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)"
+                                             To="360"
+                                             Duration="0:0:1"
+                                             RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </fa:ImageAwesome.Triggers>
+            </fa:ImageAwesome>
+        </Grid>-->
         <DockPanel Grid.Column="1" Grid.Row="1">
             <Grid x:Name="gridTrinhChieu" Width="{Binding ActualWidth}" Height="{Binding ActualHeight}">
                 <Grid.ColumnDefinitions>

@@ -17,6 +17,7 @@ using MediaTinLanh.Control;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using MediaTinLanh.UI.WPF.ViewModel;
+using MediaTinLanh.UI.WPF.Useful;
 
 namespace MediaTinLanh.UI.WPF
 {
@@ -198,15 +199,18 @@ namespace MediaTinLanh.UI.WPF
             //Nếu file không tồn tại thì cho phép tải xuống.
             if (!Control_Files.CheckExit(inputfilepath))
             {
-                var filePathOnRemote = hyperLink.NavigateUri.ToString();
-                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+                using (new WaitCursor())
+                {
+                    var filePathOnRemote = hyperLink.NavigateUri.ToString();
+                    Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
 
-                var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
-                var selectedThanhCa = (ThanhCaModel)dbThanhCa.FindItem((int)btnTaiVe.Tag);
-                selectedThanhCa.Medias[0].TrangThai = true;
-                selectedThanhCa.Medias[0].LocalLink = inputfilepath;
+                    var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+                    var selectedThanhCa = (ThanhCaModel)dbThanhCa.FindItem((int)btnTaiVe.Tag);
+                    selectedThanhCa.Medias[0].TrangThai = true;
+                    selectedThanhCa.Medias[0].LocalLink = inputfilepath;
 
-                Factory.MediaService.Update(selectedThanhCa.Medias[0].Id, selectedThanhCa.Medias[0]);
+                    Factory.MediaService.Update(selectedThanhCa.Medias[0].Id, selectedThanhCa.Medias[0]);
+                }
             }           
         }
 
@@ -220,14 +224,26 @@ namespace MediaTinLanh.UI.WPF
             {
                 var inputfilepath = hyperLink.NavigateUri.LocalPath;
 
-                Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
-                Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
-                Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
-                pptApp.Visible = otrue;
-                pptApp.Activate();
-                Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
-                Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
-                System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
+                using (new WaitCursor())
+                {
+                    Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
+                    Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
+                    Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
+                    pptApp.Visible = otrue;
+                    pptApp.Activate();
+                    Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
+                    Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
+                    System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
+                }
+
+                //Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
+                //Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
+                //Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
+                //pptApp.Visible = otrue;
+                //pptApp.Activate();
+                //Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
+                //Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
+                //System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
                 //MessageBox.Show(pptApp.ActiveWindow.Caption);
             }
         }
