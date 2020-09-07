@@ -20,7 +20,7 @@ namespace MediaTinLanh.TestTools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Control_Presentation.Change169To43(txt1.Text, txt2.Text);
+            //Control_Presentation.Change169To43(txt1.Text, txt2.Text);
         }
     }
 }

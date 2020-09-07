@@ -216,61 +216,90 @@ namespace MediaTinLanh.UI.WPF
 
         private void btnXem_Click(object sender, RoutedEventArgs e)
         {
-            Button btnXem = sender as Button;
-            Hyperlink hyperLink = btnXem.Content as Hyperlink;
-
-            //Nếu file tồn tại thì cho phép xem.
-            if (Control_Files.CheckExit(hyperLink.NavigateUri.LocalPath))
+            try
             {
-                var inputfilepath = hyperLink.NavigateUri.LocalPath;
+                Button btnXem = sender as Button;
+                Hyperlink hyperLink = btnXem.Content as Hyperlink;
 
-                using (new WaitCursor())
+                //Nếu file tồn tại thì cho phép xem.
+                if (Control_Files.CheckExit(hyperLink.NavigateUri.LocalPath))
                 {
-                    Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
-                    Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
-                    Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
-                    pptApp.Visible = otrue;
-                    pptApp.Activate();
-                    Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
-                    Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
-                    System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
-                }
+                    var inputfilepath = hyperLink.NavigateUri.LocalPath;
 
-                //Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
-                //Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
-                //Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
-                //pptApp.Visible = otrue;
-                //pptApp.Activate();
-                //Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
-                //Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
-                //System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
-                //MessageBox.Show(pptApp.ActiveWindow.Caption);
+                    using (new WaitCursor())
+                    {
+                        Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
+                        Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
+                        Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
+                        pptApp.Visible = otrue;
+                        pptApp.Activate();
+                        Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
+                        Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
+                        System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
+                    }
+                }
+            }
+            catch (Exception)
+            {
             }
         }
 
         private void listViewThanhCa_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedThanhCa = (ThanhCaModel)listViewThanhCa.SelectedItem;
-            tblNoiDungBaiHat.TextAlignment = TextAlignment.Center;
-            tblNoiDungBaiHat.Text = string.Empty;
-
-            foreach (var cau in SelectedThanhCa.LoiBaiHats)
+            try
             {
-                tblNoiDungBaiHat.Text += cau.STT + ". " + cau.NoiDung + Environment.NewLine;
-                if(!string.IsNullOrEmpty(SelectedThanhCa.DiepKhuc))
-                    tblNoiDungBaiHat.Text += "ĐK: " + SelectedThanhCa.DiepKhuc + Environment.NewLine;
-                tblNoiDungBaiHat.Text += Environment.NewLine;
+                SelectedThanhCa = (ThanhCaModel)listViewThanhCa.SelectedItem;
+                tblNoiDungBaiHat.TextAlignment = TextAlignment.Center;
+                tblNoiDungBaiHat.Text = string.Empty;
+
+                foreach (var cau in SelectedThanhCa.LoiBaiHats)
+                {
+                    tblNoiDungBaiHat.Text += cau.STT + ". " + cau.NoiDung + Environment.NewLine;
+                    if (!string.IsNullOrEmpty(SelectedThanhCa.DiepKhuc))
+                        tblNoiDungBaiHat.Text += "ĐK: " + SelectedThanhCa.DiepKhuc + Environment.NewLine;
+                    tblNoiDungBaiHat.Text += Environment.NewLine;
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
 
         private void btnTaiPPTX169_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                Button btnTaiPPTX169 = sender as Button;
+                Hyperlink hyperLink = btnTaiPPTX169.Content as Hyperlink;
 
+                //Nếu file tồn tại thì cho phép xem.
+                if (Control_Files.CheckExit(hyperLink.NavigateUri.LocalPath))
+                {
+                    var inputfilepath = hyperLink.NavigateUri.LocalPath;
+
+                    using (new WaitCursor())
+                    {
+                        Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
+                        Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
+                        Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
+                        pptApp.Visible = otrue;
+                        pptApp.Activate();
+                        Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
+                        Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
+                        System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
+                    }
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         private void btnTaiPPTX43_Click(object sender, RoutedEventArgs e)
         {
-
+            //Khong lam j het
         }
 
         private void btnTaiTXT_Click(object sender, RoutedEventArgs e)

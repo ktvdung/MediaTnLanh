@@ -38,17 +38,24 @@ namespace MediaTinLanh.UI.WPF
 
         private void TimerTick(object sender, EventArgs e)
         {
-            DispatcherTimer timer = (DispatcherTimer)sender;
-            if(timer.Interval == TimeSpan.Zero)
+            try
             {
-                timer.Stop();
-                TrinhChieuWindow trinhChieu = new TrinhChieuWindow();
-                trinhChieu.Owner = this;
-                this.Hide(); // not required if using the child events below
-                trinhChieu.ShowDialog();
-            }
+                DispatcherTimer timer = (DispatcherTimer)sender;
+                if (timer.Interval == TimeSpan.Zero)
+                {
+                    timer.Stop();
+                    TrinhChieuWindow trinhChieu = new TrinhChieuWindow();
+                    trinhChieu.Owner = this;
+                    this.Hide(); // not required if using the child events below
+                    trinhChieu.ShowDialog();
+                }
 
-            timer.Interval = timer.Interval.Add(TimeSpan.FromSeconds(-1));
+                timer.Interval = timer.Interval.Add(TimeSpan.FromSeconds(-1));
+            }
+            catch
+            {
+
+            }
 
         }
     }
