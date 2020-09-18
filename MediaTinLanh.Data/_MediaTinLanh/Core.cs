@@ -312,6 +312,9 @@ namespace MediaTinLanh.Data
             try
             {
                 connection.ConnectionString = connectionString;
+
+                // Dùng khi publish app
+                //connection.ConnectionString = @"Data Source=E:\Christian Dev\MediaTnLanh\MediaTinLanh.UI.WPF\bin\Debug\Database\Media.db";
                 connection.Open();
             }
             catch (Exception ex)

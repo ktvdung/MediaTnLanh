@@ -31,6 +31,7 @@ namespace MediaTinLanh.Model
         public string _locallink;
         public int? _chudeid;
         public int? _loai;
+        public int? _thanhcaid;
         public int? _luotxem;
         public int? _luottai;
         public bool? _trangthai = false;
@@ -131,6 +132,24 @@ namespace MediaTinLanh.Model
                 }
                 _loai = value;
                 OnPropertyChanged("Loai");
+            }
+        }
+
+        public int? ThanhCaId
+        {
+            get
+            {
+                return _thanhcaid;
+            }
+
+            set
+            {
+                if (value == _thanhcaid)
+                {
+                    return;
+                }
+                _thanhcaid = value;
+                OnPropertyChanged("ThanhCaId");
             }
         }
         public int? LuotXem {

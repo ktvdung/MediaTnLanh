@@ -4,16 +4,24 @@
              xmlns:local="clr-namespace:MediaTinLanh.UI.WPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <FontFamily x:Key="RobotoBlack">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoBlackItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoBold">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoBoldItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoLight">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoLightItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoMedium">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoRegular">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoThin">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
-        <FontFamily x:Key="RobotoThinItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="RobotoBlack">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoBlackItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoBold">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoBoldItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoLight">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoLightItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoMedium">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoRegular">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoThin">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoThinItalic">pack://application:,,,/Skin/Fonts/Roboto/#Roboto</FontFamily>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

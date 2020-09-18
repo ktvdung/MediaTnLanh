@@ -23,6 +23,25 @@ namespace MediaTinLanh.UI.WPF.ViewModel
             }
         }
 
+        private ThanhCaModel _selectedIitem;
+        public ThanhCaModel SelectedItem
+        {
+            get
+            {
+                return _selectedIitem;
+            }
+
+            set
+            {
+                if (value == _selectedIitem)
+                {
+                    return;
+                }
+                _selectedIitem = value;
+                OnPropertyChanged("SelectedItem");
+            }
+        }
+
         private ObservableCollection<ThanhCaModel> _items;
         public ObservableCollection<ThanhCaModel> Items
         {

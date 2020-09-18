@@ -35,8 +35,8 @@ namespace MediaTinLanh.Control
                         {
                             if (!Control_Files.CheckExit(mediaLocalLink))
                             {
-                                media.TrangThai = 0;
-                                dbMediaTinLanh.Medias.Update(media);
+                                thanhCa.TrangThai = 0;
+                                dbMediaTinLanh.ThanhCas.Update(thanhCa);
                             }
                         }
                     }
