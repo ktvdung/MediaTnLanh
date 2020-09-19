@@ -18,6 +18,8 @@ using System.Diagnostics;
 using System.Collections.ObjectModel;
 using MediaTinLanh.UI.WPF.ViewModel;
 using MediaTinLanh.UI.WPF.Useful;
+using System.IO;
+using MaterialDesignThemes.Wpf;
 
 namespace MediaTinLanh.UI.WPF
 {
@@ -26,22 +28,22 @@ namespace MediaTinLanh.UI.WPF
     /// </summary>
     public partial class TrinhChieuWindow : Window
     {
-        ThanhCaModel SelectedThanhCa { get; set; }
-
         public TrinhChieuWindow()
         {
             InitializeComponent();
+
             var danhSachLoaiThanhCa = Factory.LoaiThanhCaService.All();
             listBoxLoaiThanhCa.ItemsSource = danhSachLoaiThanhCa;
             listBoxLoaiThanhCa.SelectedItem = danhSachLoaiThanhCa.ToList()[0];
 
             btnThanCa.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            
+
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            Application.Current.Shutdown();
         }
 
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
@@ -192,26 +194,225 @@ namespace MediaTinLanh.UI.WPF
         private void btnTaiVe_Click(object sender, RoutedEventArgs e)
         {
             Button btnTaiVe = sender as Button;
-            Hyperlink hyperLink = btnTaiVe.Content as Hyperlink;
 
-            var inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + hyperLink.NavigateUri.ToString().Substring(hyperLink.NavigateUri.ToString().LastIndexOf("."), hyperLink.NavigateUri.ToString().Length - hyperLink.NavigateUri.ToString().LastIndexOf(".")) + "\\" + hyperLink.NavigateUri.ToString().Remove(0, hyperLink.NavigateUri.ToString().IndexOf("/") + 1);
-            
-            //Nếu file không tồn tại thì cho phép tải xuống.
-            if (!Control_Files.CheckExit(inputfilepath))
+            var inputfilepath = "";
+            var filePathOnRemote = "";
+
+            var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+            var selectedThanhCa = dbThanhCa.SelectedItem;
+
+            if (selectedThanhCa != null)
             {
-                using (new WaitCursor())
+                var media = new MediaModel();
+                switch (btnTaiVe.Name)
                 {
-                    var filePathOnRemote = hyperLink.NavigateUri.ToString();
-                    Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+                    case "btnTaiVe":
 
-                    var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
-                    var selectedThanhCa = (ThanhCaModel)dbThanhCa.FindItem((int)btnTaiVe.Tag);
-                    selectedThanhCa.Medias[0].TrangThai = true;
-                    selectedThanhCa.Medias[0].LocalLink = inputfilepath;
+                        //Hiện circle waiting
+                        grdWaiting.Visibility = Visibility.Visible;
+                        Task.Factory.StartNew(() =>
+                        {
+                            //YourAction();
 
-                    Factory.MediaService.Update(selectedThanhCa.Medias[0].Id, selectedThanhCa.Medias[0]);
+                            foreach (var md in selectedThanhCa.Medias)
+                            {
+                                inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + md.Link.Substring(md.Link.LastIndexOf("."), md.Link.Length - md.Link.LastIndexOf(".")) + "\\" + md.Link.Remove(0, md.Link.IndexOf("/") + 1);
+                                filePathOnRemote = md.Link;
+
+                                //Nếu file không tồn tại thì cho phép tải xuống.
+                                if (!Control_Files.CheckExit(inputfilepath))
+                                {
+                                    Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+
+                                    if (md != null)
+                                    {
+                                        md.TrangThai = true;
+                                        md.LocalLink = inputfilepath;
+                                    }
+                                    Factory.MediaService.Update(md.Id, md);
+                                }
+
+                            }
+
+                            var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
+                            myMessageQueue.Enqueue("Đã tải xong!");
+                            mySnackbar.MessageQueue = myMessageQueue;
+
+                        }).ContinueWith(Task =>
+                        {
+                            //Ẩn circle waiting
+                            grdWaiting.Visibility = Visibility.Hidden;
+                        }, System.Threading.CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+
+                        break;
+                    case "btnTaiPPTX169":
+                        media = selectedThanhCa.Medias.Single(x => x.Loai == 4);
+
+                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + media.Link.Substring(media.Link.LastIndexOf("."), media.Link.Length - media.Link.LastIndexOf(".")) + "\\" + media.Link.Remove(0, media.Link.IndexOf("/") + 1);
+                        filePathOnRemote = media.Link;
+
+                        //Hiện circle waiting
+                        grdWaiting.Visibility = Visibility.Visible;
+                        Task.Factory.StartNew(() =>
+                        {
+                            //YourAction();
+
+                            //Nếu file không tồn tại thì cho phép tải xuống.
+                            if (!Control_Files.CheckExit(inputfilepath))
+                            {
+                                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+
+                                if (media != null)
+                                {
+                                    media.TrangThai = true;
+                                    media.LocalLink = inputfilepath;
+                                }
+                                Factory.MediaService.Update(media.Id, media);
+                            }
+
+                            readFilePPTXAsync(media.LocalLink, "169");
+
+                        }).ContinueWith(Task =>
+                        {
+                            //Ẩn circle waiting
+                            grdWaiting.Visibility = Visibility.Hidden;
+                        }, System.Threading.CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+
+                        break;
+                    case "btnTaiPPTX43":
+                        media = selectedThanhCa.Medias.Single(x => x.Loai == 4);
+
+                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + media.Link.Substring(media.Link.LastIndexOf("."), media.Link.Length - media.Link.LastIndexOf(".")) + "\\" + media.Link.Remove(0, media.Link.IndexOf("/") + 1);
+                        filePathOnRemote = media.Link;
+
+                        //Hiện circle waiting
+                        grdWaiting.Visibility = Visibility.Visible;
+                        Task.Factory.StartNew(() =>
+                        {
+                            //YourAction();
+
+                            //Nếu file không tồn tại thì cho phép tải xuống.
+                            if (!Control_Files.CheckExit(inputfilepath))
+                            {
+                                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+
+                                if (media != null)
+                                {
+                                    media.TrangThai = true;
+                                    media.LocalLink = inputfilepath;
+                                }
+                                Factory.MediaService.Update(media.Id, media);
+                            }
+
+                            readFilePPTXAsync(media.LocalLink);
+
+                        }).ContinueWith(Task =>
+                        {
+                            //Ẩn circle waiting
+                            grdWaiting.Visibility = Visibility.Hidden;
+                        }, System.Threading.CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+                        
+                        break;
+                    case "btnTaiTXT":
+                        media = selectedThanhCa.Medias.Single(x => x.Loai == 1);
+
+                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + media.Link.Substring(media.Link.LastIndexOf("."), media.Link.Length - media.Link.LastIndexOf(".")) + "\\" + media.Link.Remove(0, media.Link.IndexOf("/") + 1);
+                        //filePathOnRemote = media.Link;
+
+                        //Hiện circle waiting
+                        grdWaiting.Visibility = Visibility.Visible;
+                        Task.Factory.StartNew(() =>
+                        {
+                            //YourAction();
+                            if (!Control_Files.CheckExit(inputfilepath))
+                            {
+                                FileInfo fileInfo = new FileInfo(inputfilepath);
+                                fileInfo.Directory.Create();
+
+                                // Create a new file     
+                                using (FileStream fs = File.Create(inputfilepath))
+                                {
+                                    var content = "";
+                                    foreach (var loibaihat in selectedThanhCa.LoiBaiHats)
+                                    {
+                                        content += loibaihat.STT + ". " + loibaihat.NoiDung + Environment.NewLine;
+                                        if (!string.IsNullOrEmpty(selectedThanhCa.DiepKhuc))
+                                            content += "ĐK: " + selectedThanhCa.DiepKhuc + Environment.NewLine;
+                                        content += Environment.NewLine;
+                                    }
+                                    // Add some text to file
+                                    Byte[] contentByte = new UTF8Encoding(true).GetBytes(content);
+                                    fs.Write(contentByte, 0, contentByte.Length);
+                                }
+
+                                media = selectedThanhCa.Medias.Single(x => x.Loai == 1);
+                                if (media != null)
+                                {
+                                    media.TrangThai = true;
+                                    media.LocalLink = inputfilepath;
+                                }
+                                Factory.MediaService.Update(media.Id, media);
+                            }
+
+                            var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
+                            myMessageQueue.Enqueue("Đã tải xong file TXT!");
+                            mySnackbar.MessageQueue = myMessageQueue;
+
+                            Process.Start(inputfilepath);
+
+                        }).ContinueWith(Task =>
+                        {
+                            //Ẩn circle waiting
+                            grdWaiting.Visibility = Visibility.Hidden;
+                        }, System.Threading.CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+
+                        break;
+                    case "btnTaiPDF":
+                        media = selectedThanhCa.Medias.Single(x => x.Loai == 5);
+
+                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + media.Link.Substring(media.Link.LastIndexOf("."), media.Link.Length - media.Link.LastIndexOf(".")) + "\\" + media.Link.Remove(0, media.Link.IndexOf("/") + 1);
+                        filePathOnRemote = media.Link;
+
+                        //Hiện circle waiting
+                        grdWaiting.Visibility = Visibility.Visible;
+                        Task.Factory.StartNew(() =>
+                        {
+                            //YourAction();
+
+                            //Nếu file không tồn tại thì cho phép tải xuống.
+                            if (!Control_Files.CheckExit(inputfilepath))
+                            {
+                                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+
+                                if (media != null)
+                                {
+                                    media.TrangThai = true;
+                                    media.LocalLink = inputfilepath;
+                                }
+                                Factory.MediaService.Update(media.Id, media);
+
+                                var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
+                                myMessageQueue.Enqueue("Đã tải xong file PDF!");
+                                mySnackbar.MessageQueue = myMessageQueue;
+                            }
+
+                        }).ContinueWith(Task =>
+                        {
+                            //Ẩn circle waiting
+                            grdWaiting.Visibility = Visibility.Hidden;
+                        }, System.Threading.CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+
+                        break;
                 }
-            }           
+            }
+            else
+            {
+                var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
+                myMessageQueue.Enqueue("Vui lòng chọn bài hát trước khi tải!");
+                mySnackbar.MessageQueue = myMessageQueue;
+            }
+
+
         }
 
         private void btnXem_Click(object sender, RoutedEventArgs e)
@@ -219,28 +420,41 @@ namespace MediaTinLanh.UI.WPF
             try
             {
                 Button btnXem = sender as Button;
-                Hyperlink hyperLink = btnXem.Content as Hyperlink;
 
-                //Nếu file tồn tại thì cho phép xem.
-                if (Control_Files.CheckExit(hyperLink.NavigateUri.LocalPath))
-                {
-                    var inputfilepath = hyperLink.NavigateUri.LocalPath;
+                var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+                var selectedThanhCa = dbThanhCa.SelectedItem;
+                var media = selectedThanhCa.Medias.Single(x => x.Loai == 4);
 
-                    using (new WaitCursor())
-                    {
-                        Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
-                        Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
-                        Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
-                        pptApp.Visible = otrue;
-                        pptApp.Activate();
-                        Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
-                        Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
-                        System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
-                    }
-                }
+                readFilePPTXAsync(media.LocalLink);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        private void readFilePPTXAsync(string filePath = null, string slideSize = "OnScreen")
+        {
+            //Nếu file tồn tại thì cho phép xem.
+            if (Control_Files.CheckExit(filePath))
+            {
+                var inputfilepath = filePath;
+
+                Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
+                Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
+                Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
+                pptApp.Visible = otrue;
+                pptApp.Activate();
+                Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
+                Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
+                if (slideSize == "OnScreen")
+                {
+                    p.PageSetup.SlideSize = Microsoft.Office.Interop.PowerPoint.PpSlideSizeType.ppSlideSizeOnScreen;
+                }
+                else
+                {
+                    p.PageSetup.SlideSize = Microsoft.Office.Interop.PowerPoint.PpSlideSizeType.ppSlideSizeOnScreen16x9;
+                }
             }
         }
 
@@ -248,15 +462,17 @@ namespace MediaTinLanh.UI.WPF
         {
             try
             {
-                SelectedThanhCa = (ThanhCaModel)listViewThanhCa.SelectedItem;
+                var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
+                var selectedThanhCa = dbThanhCa.SelectedItem;
+
                 tblNoiDungBaiHat.TextAlignment = TextAlignment.Center;
                 tblNoiDungBaiHat.Text = string.Empty;
 
-                foreach (var cau in SelectedThanhCa.LoiBaiHats)
+                foreach (var cau in selectedThanhCa.LoiBaiHats)
                 {
                     tblNoiDungBaiHat.Text += cau.STT + ". " + cau.NoiDung + Environment.NewLine;
-                    if (!string.IsNullOrEmpty(SelectedThanhCa.DiepKhuc))
-                        tblNoiDungBaiHat.Text += "ĐK: " + SelectedThanhCa.DiepKhuc + Environment.NewLine;
+                    if (!string.IsNullOrEmpty(selectedThanhCa.DiepKhuc))
+                        tblNoiDungBaiHat.Text += "ĐK: " + selectedThanhCa.DiepKhuc + Environment.NewLine;
                     tblNoiDungBaiHat.Text += Environment.NewLine;
                 }
             }
@@ -264,52 +480,6 @@ namespace MediaTinLanh.UI.WPF
             {
 
             }
-        }
-
-        private void btnTaiPPTX169_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Button btnTaiPPTX169 = sender as Button;
-                Hyperlink hyperLink = btnTaiPPTX169.Content as Hyperlink;
-
-                //Nếu file tồn tại thì cho phép xem.
-                if (Control_Files.CheckExit(hyperLink.NavigateUri.LocalPath))
-                {
-                    var inputfilepath = hyperLink.NavigateUri.LocalPath;
-
-                    using (new WaitCursor())
-                    {
-                        Microsoft.Office.Interop.PowerPoint.Application pptApp = new Microsoft.Office.Interop.PowerPoint.Application();
-                        Microsoft.Office.Core.MsoTriState ofalse = Microsoft.Office.Core.MsoTriState.msoFalse;
-                        Microsoft.Office.Core.MsoTriState otrue = Microsoft.Office.Core.MsoTriState.msoTrue;
-                        pptApp.Visible = otrue;
-                        pptApp.Activate();
-                        Microsoft.Office.Interop.PowerPoint.Presentations ps = pptApp.Presentations;
-                        Microsoft.Office.Interop.PowerPoint.Presentation p = ps.Open(inputfilepath, ofalse, ofalse, otrue);
-                        System.Diagnostics.Debug.Print(p.Windows.Count.ToString());
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
-        private void btnTaiPPTX43_Click(object sender, RoutedEventArgs e)
-        {
-            //Khong lam j het
-        }
-
-        private void btnTaiTXT_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnTaiPDF_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void btnBaoLoi_Click(object sender, RoutedEventArgs e)

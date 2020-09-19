@@ -1,4 +1,5 @@
 ﻿<Window x:Class="MediaTinLanh.UI.WPF.TrinhChieuWindow"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +13,7 @@
         x:Name="windowTrinhChieu" WindowState="Maximized" WindowStyle="None" Style="{DynamicResource WindowStyle}" MouseDown="Window_MouseDown">
     <Window.Resources>
         <u:ThanhCaViewModel x:Key="dbForThanhCa"/>
-        
+
         <local:MathConverter x:Key="mathConverter"/>
         <local:MarginConverter x:Key="marginConverter"/>
         <local:TrangThaiConverter x:Key="TrangThaiConverter"/>
@@ -237,7 +238,7 @@
             </Setter>
         </Style>
         <!-- Resource -->
-        <Button x:Key="Restore">
+        <Button x:Key="Restore" Style="{StaticResource WindowButton}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button.Template>
                 <ControlTemplate>
                     <Border Name="borderMaxRes" Style="{DynamicResource BorderButton}" HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -246,7 +247,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Key="Maximize">
+        <Button x:Key="Maximize" Style="{StaticResource WindowButton}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button.Template>
                 <ControlTemplate>
                     <Border Name="borderMaxRes" Style="{DynamicResource BorderButton}" HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -280,8 +281,8 @@
             <RowDefinition Height="150*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <!--<Grid Grid.Column="1" Grid.Row="1" Panel.ZIndex="1">
-            <fa:ImageAwesome RenderTransformOrigin="0.5, 0.5" Icon="Spinner" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="40">
+        <Grid x:Name="grdWaiting" Grid.Column="1" Grid.Row="1" Panel.ZIndex="1" Background="Gray" Opacity="0.6" Visibility="Hidden">
+            <fa:ImageAwesome x:Name="faCircleWaiting" RenderTransformOrigin="0.5, 0.5" Icon="Spinner" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="40" >
                 <fa:ImageAwesome.RenderTransform>
                     <RotateTransform/>
                 </fa:ImageAwesome.RenderTransform>
@@ -303,7 +304,10 @@
                     </EventTrigger>
                 </fa:ImageAwesome.Triggers>
             </fa:ImageAwesome>
-        </Grid>-->
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1" Panel.ZIndex="1">
+            <materialDesign:Snackbar x:Name="mySnackbar" MessageQueue="{materialDesign:MessageQueue}"/>
+        </Grid>
         <DockPanel Grid.Column="1" Grid.Row="1">
             <Grid x:Name="gridTrinhChieu" Width="{Binding ActualWidth}" Height="{Binding ActualHeight}">
                 <Grid.ColumnDefinitions>
@@ -421,11 +425,18 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <Button x:Name="btnMaximizeRestore" Style="{StaticResource WindowButton}" VerticalAlignment="Center"
+                    <Button x:Name="btnMaximizeRestore" Style="{StaticResource WindowButton}" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}"
                     Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}"
                     Click="btnMaximizeRestore_Click">
-                        <DynamicResource ResourceKey="Restore"/>
+                        <StaticResource ResourceKey="Restore"/>
+                        <!--<Button.Template>
+                            <ControlTemplate>
+                                <Border Name="borderMaxRes" Style="{DynamicResource BorderButton}" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <Image Source="Skin\Images\main\restore.png" Width="{Binding ElementName=btnMaximize, Path=ActualWidth}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>-->
                     </Button>
                     <Button x:Name="btnClose" Style="{StaticResource WindowButton}" VerticalAlignment="Center"
                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}"
@@ -759,6 +770,7 @@
                                         </Border>
                                         <Border Grid.Row="2">
                                             <ListView x:Name="listViewThanhCa" Background="Transparent" BorderThickness="0"
+                                                      SelectedItem="{Binding Source={StaticResource dbForThanhCa}, Path=SelectedItem, Mode=TwoWay}"
                                                       ItemsSource="{Binding Source={StaticResource dbForThanhCa}, Path=Items, Mode=TwoWay}"
                                                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="listViewThanhCa_SelectionChanged">
                                                 <ListView.ItemContainerStyle>
@@ -972,13 +984,13 @@
                                                             <GridViewColumn.CellTemplate>
                                                                 <DataTemplate>
                                                                     <Grid>
-                                                                        <Button x:Name="btnXem" Visibility="{
-                                                                                        Binding Medias[0].TrangThai, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                        <Button x:Name="btnXem" Tag="{Binding Id}" 
+                                                                                Visibility="{Binding TrangThai, Converter={StaticResource BoolToVisibilityConverter}}"
                                                                                 VerticalAlignment="Center" HorizontalAlignment="Center"
                                                                                 FontFamily="{DynamicResource RobotoMedium}"
                                                                                 FontSize="{
                                                                                         Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}" Click="btnXem_Click">
-                                                                            <Hyperlink NavigateUri="{Binding Medias[0].LocalLink}">
+                                                                            <Hyperlink>
                                                                                 <Hyperlink.Style>
                                                                                     <Style TargetType="Hyperlink">
                                                                                         <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
@@ -1023,11 +1035,11 @@
                                                                             </Button.Style>
                                                                         </Button>
                                                                         <Button x:Name="btnTaiVe" Tag="{Binding Id}"
-                                                                                Visibility="{Binding Medias[0].TrangThai, Converter={StaticResource BoolToHiddenConverter}}"
+                                                                                Visibility="{Binding TrangThai, Converter={StaticResource BoolToHiddenConverter}}"
                                                                                 VerticalAlignment="Center" HorizontalAlignment="Center"
                                                                                 FontFamily="{DynamicResource RobotoMedium}"
                                                                                 FontSize="{Binding ElementName=listViewThanhCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.024}" Click="btnTaiVe_Click">
-                                                                            <Hyperlink NavigateUri="{Binding Medias[0].Link}">
+                                                                            <Hyperlink>
                                                                                 <Hyperlink.Style>
                                                                                     <Style TargetType="Hyperlink">
                                                                                         <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
@@ -1115,7 +1127,7 @@
                                         <Border Grid.Row="2" Grid.Column="0" >
                                             <Button x:Name="btnTaiPPTX169" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiPPTX169_Click">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiVe_Click">
                                                 <TextBlock x:Name="tbxTaiPPTX169"
                                                    Foreground="{DynamicResource TextColor}"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
@@ -1126,7 +1138,7 @@
                                         <Border Grid.Row="2" Grid.Column="1" >
                                             <Button x:Name="btnTaiPPTX43" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiPPTX43_Click">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiVe_Click">
                                                 <TextBlock x:Name="tbxTaiPPTX43"
                                                    Foreground="{DynamicResource TextColor}"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
@@ -1137,7 +1149,7 @@
                                         <Border Grid.Row="2" Grid.Column="2" >
                                             <Button x:Name="btnTaiTXT" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiTXT_Click">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiVe_Click">
                                                 <TextBlock x:Name="tbxTaiTXT"
                                                    Foreground="{DynamicResource TextColor}"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
@@ -1148,7 +1160,7 @@
                                         <Border Grid.Row="2" Grid.Column="3" >
                                             <Button x:Name="btnTaiPDF" Style="{StaticResource MenuButton}"
                                                     Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
-                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiPDF_Click">
+                                                    Height="{Binding ElementName=gridTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*4}" Click="btnTaiVe_Click">
                                                 <TextBlock x:Name="tbxTaiPDF"
                                                    Foreground="{DynamicResource TextColor}"
                                                    FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 

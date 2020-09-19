@@ -25,6 +25,7 @@ namespace MediaTinLanh.Model
         private int? _socau;
         private int? _loai;
         private string _diepkhuc;
+        private bool? _trangthai;
 
         public int? Id { get; set; }
         public int? STT {
@@ -105,6 +106,23 @@ namespace MediaTinLanh.Model
                 }
                 _diepkhuc = value;
                 OnPropertyChanged("DiepKhuc");
+            }
+        }
+        public bool? TrangThai
+        {
+            get
+            {
+                return _trangthai;
+            }
+
+            set
+            {
+                if (value == _trangthai)
+                {
+                    return;
+                }
+                _trangthai = value;
+                OnPropertyChanged("TrangThai");
             }
         }
 

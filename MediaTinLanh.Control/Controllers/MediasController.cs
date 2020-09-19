@@ -31,26 +31,26 @@ namespace MediaTinLanh.Control
             return Mapper.Map<Media, MediaModel>(Media);
         }
 
-        public IEnumerable<MediaModel> GetByThanhCa(int? thanhCaId)
-        {
-            var medias = dbMediaTinLanh.Query("Select md.Id, md.Ten, md.MoTa, md.Link, md.TrangThai from Medias md join MediaThanhCas mdt on md.Id = mdt.MediaId where mdt.ThanhCaId = @0", parms: new object[]{ thanhCaId });
+        //public IEnumerable<MediaModel> GetByThanhCa(int? thanhCaId)
+        //{
+        //    var medias = dbMediaTinLanh.Query("Select md.Id, md.Ten, md.MoTa, md.Link, md.TrangThai from Medias md join MediaThanhCas mdt on md.Id = mdt.MediaId where mdt.ThanhCaId = @0", parms: new object[]{ thanhCaId });
 
-            List<MediaModel> listMedia = new List<MediaModel>();
-            foreach (var item in medias)
-            {
-                var temp = new MediaModel() { 
-                    Id = (int)item.Id,
-                    Ten = item.Ten,
-                    MoTa = item.MoTa,
-                    Link = item.Link,
-                    TrangThai = item.TrangThai == 1 ? true : false
-                };
+        //    List<MediaModel> listMedia = new List<MediaModel>();
+        //    foreach (var item in medias)
+        //    {
+        //        var temp = new MediaModel() { 
+        //            Id = (int)item.Id,
+        //            Ten = item.Ten,
+        //            MoTa = item.MoTa,
+        //            Link = item.Link,
+        //            TrangThai = item.TrangThai == 1 ? true : false
+        //        };
 
-                listMedia.Add(temp);
-            }
+        //        listMedia.Add(temp);
+        //    }
 
-            return listMedia;
-        }
+        //    return listMedia;
+        //}
 
         public int? Insert(MediaModel MediaModel)
         {
