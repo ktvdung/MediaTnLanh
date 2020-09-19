@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaTinLanh.UI.WPF"
         xmlns:u="clr-namespace:MediaTinLanh.UI.WPF.ViewModel"
+        xmlns:TuTaoTrinhChieu="clr-namespace:MediaTinLanh.UI.WPF.TaoTrinhChieu"
         mc:Ignorable="d"
         Title="TrinhChieuWindow"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
@@ -1173,7 +1174,9 @@
                                 </DockPanel>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Tự tạo trình chiếu" />
+                        <TabItem Header="Tự tạo trình chiếu">
+                            <TuTaoTrinhChieu:TuTaoTrinhChieuUC />
+                        </TabItem>
                         <TabItem Header="Tải về bài hát" />
                     </TabControl>
                 </StackPanel>

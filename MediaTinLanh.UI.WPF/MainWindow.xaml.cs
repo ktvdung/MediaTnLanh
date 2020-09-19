@@ -52,7 +52,7 @@ namespace MediaTinLanh.UI.WPF
 
                 timer.Interval = timer.Interval.Add(TimeSpan.FromSeconds(-1));
             }
-            catch
+            catch (Exception ex)
             {
 
             }
