@@ -287,17 +287,21 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <fa:ImageAwesome Grid.Column="0" 
-                                         Icon="AngleLeft" 
-                                         VerticalAlignment="Center" 
-                                         HorizontalAlignment="Center"
-                                         Foreground="{StaticResource IconColor}"/>
-                        <!--<Image Grid.Column="1"
-                            Source="Skin/Images/main/Layer 27.png" />-->
+                            Icon="AngleLeft" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center"
+                            Foreground="{StaticResource IconColor}"/>
+                        <Image Grid.Column="1"
+                            Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
+                        <Image Grid.Column="2"
+                            Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
+                        <Image Grid.Column="3"
+                            Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
                         <fa:ImageAwesome Grid.Column="4" 
-                                         Icon="AngleRight" 
-                                         VerticalAlignment="Center" 
-                                         HorizontalAlignment="Center"
-                                         Foreground="{StaticResource IconColor}"/>
+                            Icon="AngleRight" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center"
+                            Foreground="{StaticResource IconColor}"/>
                     </Grid>
                 </DockPanel>
                 <DockPanel Grid.Column="1">
@@ -315,17 +319,21 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <fa:ImageAwesome Grid.Column="0" 
-                                         Icon="AngleLeft" 
-                                         VerticalAlignment="Center" 
-                                         HorizontalAlignment="Center"
-                                         Foreground="{StaticResource IconColor}"/>
-                        <!--<Image Grid.Column="1"
-                            Source="Skin/Images/main/Layer 27.png" />-->
+                            Icon="AngleLeft" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center"
+                            Foreground="{StaticResource IconColor}"/>
+                        <Image Grid.Column="1"
+                            Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
+                        <Image Grid.Column="2"
+                            Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
+                        <Image Grid.Column="3"
+                            Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
                         <fa:ImageAwesome Grid.Column="4" 
-                                         Icon="AngleRight" 
-                                         VerticalAlignment="Center" 
-                                         HorizontalAlignment="Center"
-                                         Foreground="{StaticResource IconColor}"/>
+                            Icon="AngleRight" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center"
+                            Foreground="{StaticResource IconColor}"/>
                     </Grid>
                 </DockPanel>
                 
