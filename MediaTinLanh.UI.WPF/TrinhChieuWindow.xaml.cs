@@ -222,7 +222,7 @@ namespace MediaTinLanh.UI.WPF
                                 //Nếu file không tồn tại thì cho phép tải xuống.
                                 if (!Control_Files.CheckExit(inputfilepath))
                                 {
-                                    Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+                                    Control_FTP.Download_files(inputfilepath, filePathOnRemote);
 
                                     if (md != null)
                                     {
@@ -260,7 +260,7 @@ namespace MediaTinLanh.UI.WPF
                             //Nếu file không tồn tại thì cho phép tải xuống.
                             if (!Control_Files.CheckExit(inputfilepath))
                             {
-                                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+                                Control_FTP.Download_files(inputfilepath, filePathOnRemote);
 
                                 if (media != null)
                                 {
@@ -294,7 +294,7 @@ namespace MediaTinLanh.UI.WPF
                             //Nếu file không tồn tại thì cho phép tải xuống.
                             if (!Control_Files.CheckExit(inputfilepath))
                             {
-                                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+                                Control_FTP.Download_files(inputfilepath, filePathOnRemote);
 
                                 if (media != null)
                                 {
@@ -382,7 +382,7 @@ namespace MediaTinLanh.UI.WPF
                             //Nếu file không tồn tại thì cho phép tải xuống.
                             if (!Control_Files.CheckExit(inputfilepath))
                             {
-                                Control_Upload_files.Download_files(inputfilepath, filePathOnRemote);
+                                Control_FTP.Download_files(inputfilepath, filePathOnRemote);
 
                                 if (media != null)
                                 {

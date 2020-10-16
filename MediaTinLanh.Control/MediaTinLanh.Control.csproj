@@ -150,7 +150,7 @@
     <Compile Include="Control_Util.cs" />
     <Compile Include="Control_Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Control_Upload_files.cs" />
+    <Compile Include="Control_FTP.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
