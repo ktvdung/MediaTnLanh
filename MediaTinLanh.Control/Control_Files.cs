@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
+using System.Net;
 
 namespace MediaTinLanh.Control
 {
     public class Control_Files
     {
-
         //Lấy toàn bộ dữ liệu từ thư mục
         public static string[] files(string path)
         {

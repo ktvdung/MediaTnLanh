@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.Office.Core;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +11,87 @@ namespace MediaTinLanh.Control
 {
     public class Control_Security
     {
+        public static string FTP_Server = "";
+        public static string FTP_Username = "";
+        public static string FTP_Password = "";
+
+        public static String DatabaseName = "";
+        public const String INIT_VECTOR = "JHT@MDTL!12723WWXDE";
+        string passPhrase = "1.ppYmr5*9736GQ";
+        private const Int32 KEY_SIZE = 256;
+       
+        //Get username, password and serer
+        public static bool GET_FTP()
+        {
+            try
+            {
+                if (FTP_Server.Length == 0 && FTP_Server.Length == 0 && FTP_Password.Length == 0)
+                {
+                    Control_Security control_Security = new Control_Security();
+                    Control_Xml xml = new Control_Xml();
+                    string ftp_server = "";
+                    string ftp_username = "";
+                    string ftp_password = "";
+                    xml.GetFtpAccount("config.xml", ref ftp_server, ref ftp_username, ref ftp_password);
+                    if (ftp_server != String.Empty && ftp_username != String.Empty && ftp_password != String.Empty)
+                    {
+                        FTP_Server = control_Security.Decrypt(ftp_server);
+                        FTP_Username = control_Security.Decrypt(ftp_username);
+                        FTP_Password = control_Security.Decrypt(ftp_password);
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                    return true;
+
+                
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
+        public String Encrypt(String plainText)
+        {
+
+            Byte[] initVectorBytes = Encoding.UTF8.GetBytes(INIT_VECTOR);
+            Byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
+            Byte[] keyBytes = password.GetBytes(KEY_SIZE / 8);
+            RijndaelManaged symmetricKey = new RijndaelManaged();
+            symmetricKey.Mode = CipherMode.CBC;
+            ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
+            MemoryStream memoryStream = new MemoryStream();
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
+            cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
+            cryptoStream.FlushFinalBlock();
+            Byte[] cipherTextBytes = memoryStream.ToArray();
+            memoryStream.Close();
+            cryptoStream.Close();
+            return Convert.ToBase64String(cipherTextBytes);
+        }
+
+        public String Decrypt(String cipherText)
+        {
+            Byte[] initVectorBytes = Encoding.ASCII.GetBytes(INIT_VECTOR);
+            Byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
+            Byte[] keyBytes = password.GetBytes(KEY_SIZE / 8);
+            RijndaelManaged symmetricKey = new RijndaelManaged();
+            symmetricKey.Mode = CipherMode.CBC;
+            ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
+            MemoryStream memoryStream = new MemoryStream(cipherTextBytes);
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            Byte[] plainTextBytes = new Byte[cipherTextBytes.Length];
+            int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+            memoryStream.Close();
+            cryptoStream.Close();
+            return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+        }
+
         #region Bảng chữ cái
         private string[] Kytu ={
                                    "a","á","à","ả","ã","ạ",
