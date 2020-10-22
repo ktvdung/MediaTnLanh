@@ -202,6 +202,7 @@
       <DependentUpon>TrinhChieuWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Useful\Useful.cs" />
+    <Compile Include="TaoTrinhChieu\TaoTrinhChieuViewModel.cs" />
     <Compile Include="ViewModel\ThanhCaViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

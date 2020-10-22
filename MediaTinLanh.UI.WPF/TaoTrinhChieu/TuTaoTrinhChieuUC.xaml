@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MediaTinLanh.UI.WPF"
-             xmlns:model="clr-namespace:MediaTinLanh.UI.WPF.ViewModel"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -15,9 +14,6 @@
              Width="{Binding RelativeSource={RelativeSource Self},
                 Path=Parent.ActualWidth}"
              >
-    <UserControl.DataContext>
-        <model:ThanhCaViewModel />
-    </UserControl.DataContext>
 
     <UserControl.Resources>
         <local:MathConverter x:Key="mathConverter"/>
@@ -237,13 +233,14 @@
                         Lời bài hát:
                     </TextBlock>
                     <TextBox 
-                        Name="tbxLoiBaiHat"
+                        Text="{Binding NoiDungNhap, UpdateSourceTrigger=PropertyChanged}"
                         FontFamily="{StaticResource RobotoRegular}"
                         TextWrapping="WrapWithOverflow"
                         AcceptsReturn="True"
                         VerticalScrollBarVisibility="Auto"
                         Foreground="{StaticResource TextColor}"
-                        Padding="10">
+                        Padding="10"
+                        KeyUp="NoiDungNhap_KeyUp">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Setter Property="Background">
@@ -260,9 +257,10 @@
                         </TextBox.Style>
                     </TextBox>
                 </DockPanel>
-                
-                <Border Grid.Column="1" x:Name="currentEditingSlide" />
-                <Border Grid.Column="2" x:Name="slidesList" />
+
+                <DockPanel Grid.Column="2" x:Name="slidesList">
+                    <TextBlock Text="{Binding Path=NoiDungNhap, Mode=OneWay}" />
+                </DockPanel>
             </Grid>
         </DockPanel>
         <DockPanel Grid.Row="1">
@@ -271,7 +269,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
+
                 <DockPanel Grid.Column="0">
                     <TextBlock FontSize="16"
                                DockPanel.Dock="Top">
@@ -336,7 +334,7 @@
                             Foreground="{StaticResource IconColor}"/>
                     </Grid>
                 </DockPanel>
-                
+
             </Grid>
         </DockPanel>
         <DockPanel Grid.Row="2" Margin="0,5">
