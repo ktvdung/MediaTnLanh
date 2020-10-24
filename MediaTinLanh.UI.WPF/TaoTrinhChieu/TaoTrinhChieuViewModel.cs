@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace MediaTinLanh.UI.WPF
 {
@@ -12,7 +14,12 @@ namespace MediaTinLanh.UI.WPF
     public class TaoTrinhChieuViewModel : INotifyPropertyChanged
     {
         private string _noiDungNhap;
-        private List<SlideData> slides { get; set; }
+        private List<SlideData> _slides;
+
+        public TaoTrinhChieuViewModel()
+        {
+            _slides = new List<SlideData>();
+        }
 
         public string NoiDungNhap
         {
@@ -26,17 +33,37 @@ namespace MediaTinLanh.UI.WPF
 
         public List<SlideData> Slides
         {
-            get { return slides; }
+            get { return _slides; }
             set
             {
-                slides = value;
+                _slides = value;
                 OnPropertyChanged(nameof(Slides));
             }
         }
 
         public void NoiDungToSlide()
         {
-            string[] stringSlits = _noiDungNhap.Split(new[] { "\n\n" }, System.StringSplitOptions.None);
+            if (!String.IsNullOrEmpty(_noiDungNhap))
+            {
+                string[] stringSlits = _noiDungNhap.Split(new[] { Environment.NewLine + Environment.NewLine }, System.StringSplitOptions.None);
+
+                if (stringSlits.Count() == 0)
+                {
+                    stringSlits = new string[] { _noiDungNhap };
+                }
+
+                for (int i = 0; i < stringSlits.Length; i++)
+                {
+                    var viTri = _noiDungNhap.IndexOf(stringSlits[i]);
+
+                    var slidedata = new SlideData
+                    {
+                        NoiDung = stringSlits[i],
+                        ViTri = viTri
+                    };
+                    _slides.Add(slidedata);
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

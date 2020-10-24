@@ -239,8 +239,7 @@
                         AcceptsReturn="True"
                         VerticalScrollBarVisibility="Auto"
                         Foreground="{StaticResource TextColor}"
-                        Padding="10"
-                        KeyUp="NoiDungNhap_KeyUp">
+                        Padding="10">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Setter Property="Background">
@@ -364,6 +363,7 @@
                                 Style="{StaticResource MenuButton}"
                                 Width="{Binding ActualWidth, ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
                                 Height="{Binding ActualHeight, ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
+                                Click="btnTaiPPTX_Click"
                                 >
                                 <TextBlock x:Name="tbxTaiPPTX"
                                     Foreground="{DynamicResource TextColor}"
