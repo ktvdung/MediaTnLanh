@@ -1,4 +1,9 @@
-﻿namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
+﻿using MediaTinLanh.Control;
+using System;
+using System.IO;
+using System.Linq;
+
+namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
 {
     /// <summary>
     /// Interaction logic for TuTaoTrinhChieuUC.xaml
@@ -12,14 +17,17 @@
             this.DataContext = viewModel;
         }
 
-        private void NoiDungNhap_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            viewModel.NoiDungToSlide();
 
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                var lastword = viewModel.NoiDungNhap.Substring(viewModel.NoiDungNhap.Length - 1);
-                var loiBaiHatArray = viewModel.NoiDungNhap.Split(new[] { "\n\n" }, System.StringSplitOptions.None);
-            }
+            FileStream img = new FileStream(
+                Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "Layer 29.png"), 
+                FileMode.Open);
+
+            Control_Presentation.CreateFiles(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + "Sample.pptx", 
+                viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, img);
         }
     }
 }

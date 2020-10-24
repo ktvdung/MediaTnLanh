@@ -62,6 +62,52 @@ namespace MediaTinLanh.Control
             powerpointDoc.Close();
         }
 
+        public static void CreateFiles(string location, string[] Content, string[] format, Stream img)
+        {
+            string font = format[0];
+            string size = format[1];
+            string style = format[2];
+            //Kiểm tra nội dung nhập vào
+            //Content = Control_Util.RemoveSpecialCharacters(Content);
+            //Tách đoạn cho nội dung
+            string[] sentences = Content;
+            //Tạo file
+            IPresentation powerpointDoc = Presentation.Create();
+            if (img != Stream.Null)
+            {
+                ILayoutSlide layoutSlide = powerpointDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+                //Thiết lập background
+                ISlideSize slidesize = layoutSlide.SlideSize;
+
+                //Thêm Background
+                //layoutSlide.Background.Fill.SolidFill.Color = ColorObject.FromArgb(78, 89, 90);
+                layoutSlide.Shapes.AddPicture(img, 0, 0, slidesize.Width, slidesize.Height);
+
+                ////Tạo slide đầu tiên
+                CreateSlide1(powerpointDoc, sentences[0], layoutSlide);
+                for (int i = 1; i < sentences.Length; i++)
+                {
+                    //Chèn dữ liệu vào slide
+                    CreateSlide2(i - 1, powerpointDoc, sentences[i], font, size, style, layoutSlide);
+                }
+            }
+            else
+            {
+                ILayoutSlide layoutSlide = powerpointDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+                CreateSlide1(powerpointDoc, sentences[0], layoutSlide);
+                for (int i = 1; i < sentences.Length; i++)
+                {
+                    //Tạo slide khác
+                    CreateSlide2(i - 1, powerpointDoc, sentences[i], font, size, style, layoutSlide);
+                }
+            }
+            //Lưu tệp tin lại
+            powerpointDoc.Save(location);
+
+            //Đóng quá trình tạo
+            powerpointDoc.Close();
+        }
+
         #endregion
 
         #region  Slide đầu tiên
