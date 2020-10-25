@@ -277,16 +277,17 @@
                     <!-- list hình 16:9 -->
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <fa:ImageAwesome Grid.Column="0" 
+                        <fa:FontAwesome Grid.Column="0" 
                             Icon="AngleLeft" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"
+                            FontSize="150"
                             Foreground="{StaticResource IconColor}"/>
                         <Image Grid.Column="1"
                             Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
@@ -294,10 +295,11 @@
                             Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
                         <Image Grid.Column="3"
                             Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
-                        <fa:ImageAwesome Grid.Column="4" 
+                        <fa:FontAwesome Grid.Column="4" 
                             Icon="AngleRight" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"
+                            FontSize="150"
                             Foreground="{StaticResource IconColor}"/>
                     </Grid>
                 </DockPanel>
@@ -305,20 +307,20 @@
                     <TextBlock FontSize="16" DockPanel.Dock="Top">
                         Lựa chọn mẫu Powerpoint định dạng 4:3
                     </TextBlock>
-                    <!-- list hình -->
-                    <!-- FIXME: Hiện tại chưa có hình -->
+                    
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <fa:ImageAwesome Grid.Column="0" 
+                        <fa:FontAwesome Grid.Column="0" 
                             Icon="AngleLeft" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"
+                            FontSize="150"
                             Foreground="{StaticResource IconColor}"/>
                         <Image Grid.Column="1"
                             Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
@@ -326,10 +328,11 @@
                             Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
                         <Image Grid.Column="3"
                             Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
-                        <fa:ImageAwesome Grid.Column="4" 
+                        <fa:FontAwesome Grid.Column="4" 
                             Icon="AngleRight" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"
+                            FontSize="150"
                             Foreground="{StaticResource IconColor}"/>
                     </Grid>
                 </DockPanel>
