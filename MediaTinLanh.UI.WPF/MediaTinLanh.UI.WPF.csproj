@@ -445,9 +445,7 @@
     <Resource Include="Skin\Images\trinh-chieu\Layer 26.png" />
     <Resource Include="Skin\Images\trinh-chieu\Layer 27.png" />
     <Resource Include="Skin\Images\trinh-chieu\Layer 28.png" />
-    <Resource Include="Skin\Images\trinh-chieu\Layer 29.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Skin\Images\trinh-chieu\Layer 29.png" />
     <Resource Include="Skin\Images\trinh-chieu\Layer 3.png" />
     <Resource Include="Skin\Images\trinh-chieu\Layer 30.png" />
     <Resource Include="Skin\Images\trinh-chieu\Layer 31 copy.png" />
