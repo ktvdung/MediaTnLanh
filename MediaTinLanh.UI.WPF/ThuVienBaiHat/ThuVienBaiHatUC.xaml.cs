@@ -23,7 +23,7 @@ using System.Windows.Shapes;
 namespace MediaTinLanh.UI.WPF.ThuVienBaiHat
 {
     /// <summary>
-    /// Interaction logic for ThuVienBaiHat.xaml
+    /// Interaction logic for ThuVienBaiHatUC.xaml
     /// </summary>
     public partial class ThuVienBaiHatUC : UserControl
     {
@@ -34,7 +34,6 @@ namespace MediaTinLanh.UI.WPF.ThuVienBaiHat
             var danhSachLoaiThanhCa = Factory.LoaiThanhCaService.All();
             listBoxLoaiThanhCa.ItemsSource = danhSachLoaiThanhCa;
             listBoxLoaiThanhCa.SelectedItem = danhSachLoaiThanhCa.ToList()[0];
-
         }
 
         private void btnTimKiem_Click(object sender, RoutedEventArgs e)
