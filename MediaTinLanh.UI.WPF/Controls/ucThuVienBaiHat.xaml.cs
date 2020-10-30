@@ -20,14 +20,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MediaTinLanh.UI.WPF.ThuVienBaiHat
+namespace MediaTinLanh.UI.WPF.Controls
 {
     /// <summary>
-    /// Interaction logic for ThuVienBaiHatUC.xaml
+    /// Interaction logic for ucThuVienBaiHat.xaml
     /// </summary>
-    public partial class ThuVienBaiHatUC : UserControl
+    public partial class ucThuVienBaiHat : UserControl
     {
-        public ThuVienBaiHatUC()
+        public ucThuVienBaiHat()
         {
             InitializeComponent();
 
