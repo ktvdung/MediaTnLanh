@@ -43,7 +43,9 @@ namespace MediaTinLanh.UI.WPF
 
         public void NoiDungToSlide()
         {
-            if (!String.IsNullOrEmpty(_noiDungNhap))
+            // clear old data
+            _slides = new List<SlideData>();
+            if (!String.IsNullOrWhiteSpace(_noiDungNhap))
             {
                 string[] stringSlits = _noiDungNhap.Split(new[] { Environment.NewLine + Environment.NewLine }, System.StringSplitOptions.None);
 

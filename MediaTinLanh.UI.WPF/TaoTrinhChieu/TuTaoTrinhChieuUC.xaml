@@ -13,6 +13,7 @@
                 Path=Parent.ActualHeight}"
              Width="{Binding RelativeSource={RelativeSource Self},
                 Path=Parent.ActualWidth}"
+             Background="#282828"
              >
 
     <UserControl.Resources>
@@ -257,9 +258,24 @@
                     </TextBox>
                 </DockPanel>
 
-                <DockPanel Grid.Column="2" x:Name="slidesList">
-                    <TextBlock Text="{Binding Path=NoiDungNhap, Mode=OneWay}" />
+                <DockPanel Grid.Column="1"  x:Name="slidesList">
+                    <TextBlock 
+                        Text="{Binding Path=NoiDungNhap, Mode=OneWay}"
+                        HorizontalAlignment="Center"
+                        FontSize="15"/>
                 </DockPanel>
+
+                <ListView Name="slideList"
+                          Grid.Column="2"
+                          ItemsSource="{Binding Path=Slides}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="Hello man" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </DockPanel>
         <DockPanel Grid.Row="1">

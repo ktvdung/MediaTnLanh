@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
 {
@@ -21,13 +22,24 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
         {
             viewModel.NoiDungToSlide();
 
-            FileStream img = new FileStream(
-                Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "Layer 29.png"), 
-                FileMode.Open);
+            if (viewModel.Slides.Count > 0)
+            {
+                FileStream img = new FileStream(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Images\", "bg.jpg"),
+                    FileMode.Open);
 
-            Control_Presentation.CreateFiles(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + "Sample.pptx", 
-                viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, img);
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "MS Powerpoint file (*.pptx)|*.pptx|Text file (*.txt)|*.txt";
+                saveFileDialog.FileName = "Sample.pptx";
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Control_Presentation.CreateFiles(
+                    saveFileDialog.FileName,
+                    viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, img);
+                }
+            }
+
         }
     }
 }
