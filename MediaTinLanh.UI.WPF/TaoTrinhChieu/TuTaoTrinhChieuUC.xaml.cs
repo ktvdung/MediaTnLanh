@@ -1,7 +1,11 @@
 ﻿using MediaTinLanh.Control;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 
 namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
@@ -12,16 +16,20 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
     public partial class TuTaoTrinhChieuUC : System.Windows.Controls.UserControl
     {
         TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
+        ObservableCollection<string> SlidesData { get; set; }
+        string backgroundImg { get; set; }
+        
         public TuTaoTrinhChieuUC()
         {
+            SlidesData = new ObservableCollection<string>() { "" };
             InitializeComponent();
-            this.DataContext = viewModel;
+            DataContext = viewModel;
+            slideList.ItemsSource = SlidesData;
+            backgroundImg = "/MediaTinLanh.UI.WPF;component/../../Images/bg.jpg";
         }
 
         private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            viewModel.NoiDungToSlide();
-
             if (viewModel.Slides.Count > 0)
             {
                 FileStream img = new FileStream(
@@ -40,6 +48,13 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
                 }
             }
 
+        }
+
+        private void TxtboxNoiDung_KeyUp(object sender, System.Windows.RoutedEventArgs e)
+        {
+            viewModel.NoiDungToSlide();
+            SlidesData = new ObservableCollection<string>(viewModel.Slides.Select(slide => slide.NoiDung));
+            slideList.ItemsSource = SlidesData;
         }
     }
 }
