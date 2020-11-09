@@ -400,6 +400,7 @@
                         <Border Grid.Column="1">
                             <Button
                             x:Name="btnUploadBaiHai"
+                            Click="SaveTempFile"
                             Style="{StaticResource MenuButton}"
                             Width="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*16}"
                             Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"

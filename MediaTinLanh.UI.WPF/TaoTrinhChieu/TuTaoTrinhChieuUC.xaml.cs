@@ -25,7 +25,7 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             if (viewModel.Slides.Count > 0)
             {
                 FileStream img = new FileStream(
-                    Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Images\", "bg.jpg"),
+                    Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg"),
                     FileMode.Open);
 
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -40,6 +40,16 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
                 }
             }
 
+        }
+
+        private void SaveTempFile(object sender, System.Windows.RoutedEventArgs e)
+        {
+            FileStream img = new FileStream(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg"),
+                    FileMode.Open);
+            Control_Presentation.CreateFiles(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp.pptx",
+            viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, img);
         }
     }
 }
