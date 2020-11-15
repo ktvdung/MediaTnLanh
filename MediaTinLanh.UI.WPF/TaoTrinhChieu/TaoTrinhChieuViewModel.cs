@@ -41,33 +41,6 @@ namespace MediaTinLanh.UI.WPF
             }
         }
 
-        public void NoiDungToSlide()
-        {
-            // clear old data
-            _slides = new List<SlideData>();
-            if (!String.IsNullOrWhiteSpace(_noiDungNhap))
-            {
-                string[] stringSlits = _noiDungNhap.Split(new[] { Environment.NewLine + Environment.NewLine }, System.StringSplitOptions.None);
-
-                if (stringSlits.Count() == 0)
-                {
-                    stringSlits = new string[] { _noiDungNhap };
-                }
-
-                for (int i = 0; i < stringSlits.Length; i++)
-                {
-                    var viTri = _noiDungNhap.IndexOf(stringSlits[i]);
-
-                    var slidedata = new SlideData
-                    {
-                        NoiDung = stringSlits[i],
-                        ViTri = viTri
-                    };
-                    _slides.Add(slidedata);
-                }
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {

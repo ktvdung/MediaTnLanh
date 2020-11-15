@@ -1,8 +1,10 @@
 ﻿using MediaTinLanh.Control;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
 {
@@ -12,16 +14,25 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
     public partial class TuTaoTrinhChieuUC : System.Windows.Controls.UserControl
     {
         TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
+        private List<ImageSource> slideImageSources = new List<ImageSource>();
+        private List<ImageSource> thumbnailImageSource = new List<ImageSource>();
+        private string templateFilePath = string.Empty;
+        private string tempFilePath = string.Empty;
+        Control_Presentation _controller;
+
         public TuTaoTrinhChieuUC()
         {
             InitializeComponent();
             this.DataContext = viewModel;
+            _controller = new Control_Presentation();
+            templateFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\template.pptx";
+            tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp\\temp.pptx";
+            OpenTempFile();
+            OkMan.Source = thumbnailImageSource[0];
         }
 
         private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            viewModel.NoiDungToSlide();
-
             if (viewModel.Slides.Count > 0)
             {
                 FileStream img = new FileStream(
@@ -48,8 +59,20 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
                     Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg"),
                     FileMode.Open);
             Control_Presentation.CreateFiles(
-            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp.pptx",
+            tempFilePath,
             viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, img);
+        }
+
+        private void OpenTempFile()
+        {
+            slideImageSources.Clear();
+            thumbnailImageSource.Clear();
+
+            _controller.PptxFileToImages(
+                templateFilePath,
+                slideImageSources,
+                thumbnailImageSource
+                );
         }
     }
 }

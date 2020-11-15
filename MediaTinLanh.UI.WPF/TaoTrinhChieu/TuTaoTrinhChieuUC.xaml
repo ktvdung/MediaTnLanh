@@ -259,10 +259,8 @@
                 </DockPanel>
 
                 <DockPanel Grid.Column="1"  x:Name="slidesList">
-                    <TextBlock 
-                        Text="{Binding Path=NoiDungNhap, Mode=OneWay}"
-                        HorizontalAlignment="Center"
-                        FontSize="15"/>
+                    <Image Width="300px" Name="OkMan">
+                    </Image>
                 </DockPanel>
 
                 <ListView Name="slideList"
@@ -271,7 +269,11 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Label Content="Hello man" />
+                                <Image Width="300px">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding}" />
+                                    </Image.Source>        
+                                </Image>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
