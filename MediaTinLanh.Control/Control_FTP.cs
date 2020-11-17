@@ -68,6 +68,40 @@ namespace MediaTinLanh.Control
                 throw;
             }
         }
+        public static string[] GetFileList()
+        {
+            string[] downloadFiles;
+            StringBuilder result = new StringBuilder();
+            FtpWebRequest reqFTP;
+            try
+            {
+                reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri("ftp://" + Control_Security.FTP_Server + "/TC_PP/"));
+                reqFTP.UseBinary = true;
+                reqFTP.Credentials = new NetworkCredential(Control_Security.FTP_Username, Control_Security.FTP_Password);
+                reqFTP.Method = WebRequestMethods.Ftp.ListDirectory;
+                WebResponse response = reqFTP.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                //MessageBox.Show(reader.ReadToEnd());
+                string line = reader.ReadLine();
+                while (line != null)
+                {
+                    result.Append(line);
+                    result.Append("\n");
+                    line = reader.ReadLine();
+                }
+                result.Remove(result.ToString().LastIndexOf('\n'), 1);
+                reader.Close();
+                response.Close();
+                //MessageBox.Show(response.StatusDescription);
+                return result.ToString().Split('\n');
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+                downloadFiles = null;
+                return downloadFiles;
+            }
+        }
         #region Upload file
 
         public static void upload_files(string localFile, string remotepath)

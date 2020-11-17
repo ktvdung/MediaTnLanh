@@ -16,7 +16,7 @@ namespace MediaTinLanh.TestTools
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmEncryptAndDencrypt());
+            Application.Run(new ppTOtxt());
         }
     }
 }

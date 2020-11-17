@@ -258,10 +258,18 @@
                         </TextBox.Style>
                     </TextBox>
                 </DockPanel>
+<<<<<<< HEAD
+                <DockPanel>
+                    <Image></Image>
+                </DockPanel>
+                <DockPanel Grid.Column="2" x:Name="slidesList">
+                    <TextBlock Text="{Binding Path=NoiDungNhap, Mode=OneWay}" />
+=======
 
                 <DockPanel Grid.Column="1"  x:Name="slidesList">
                     <Image Width="300px" Name="OkMan">
                     </Image>
+>>>>>>> 7ac0f6adb9fe9ea80ad3d388dcfadcb13c8b0429
                 </DockPanel>
 
                 <ListView Name="slideList"
