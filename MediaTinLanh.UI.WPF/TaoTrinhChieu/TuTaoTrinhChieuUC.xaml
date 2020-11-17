@@ -235,6 +235,7 @@
                     </TextBlock>
                     <TextBox 
                         Text="{Binding NoiDungNhap, UpdateSourceTrigger=PropertyChanged}"
+
                         FontFamily="{StaticResource RobotoRegular}"
                         TextWrapping="WrapWithOverflow"
                         AcceptsReturn="True"
@@ -381,10 +382,10 @@
 
                         <Border Grid.Column="0" >
                             <Button x:Name="btnTaiPPTX" 
+                                Click="btnTaiPPTX_Click"
                                 Style="{StaticResource MenuButton}"
                                 Width="{Binding ActualWidth, ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
                                 Height="{Binding ActualHeight, ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
-                                Click="btnTaiPPTX_Click"
                                 >
                                 <TextBlock x:Name="tbxTaiPPTX"
                                     Foreground="{DynamicResource TextColor}"
@@ -402,12 +403,11 @@
                         <Border Grid.Column="1">
                             <Button
                             x:Name="btnUploadBaiHai"
-                            Click="SaveTempFile"
                             Style="{StaticResource MenuButton}"
                             Width="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*16}"
                             Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
                              >
-                                <TextBlock x:Name="tbxUpload"
+                                <TextBlock
                                     Foreground="{StaticResource TextColor}"
                                     FontSize="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
                                     FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnThanCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
