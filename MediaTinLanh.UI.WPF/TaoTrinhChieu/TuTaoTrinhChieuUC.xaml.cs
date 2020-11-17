@@ -30,7 +30,7 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             InitializeComponent();
             this.DataContext = viewModel;
             _controller = new Control_Presentation();
-            templateFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\template.pptx";
+            templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Files\template.pptx");
             tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp\\temp.pptx";
             backgroundImagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg");
             backgroundImage = new FileStream(backgroundImagePath, FileMode.Open);
@@ -39,7 +39,7 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             
             timer = new DispatcherTimer()
             {
-                Interval = TimeSpan.FromMilliseconds(200)
+                Interval = TimeSpan.FromMilliseconds(500)
             };
             timer.Tick += Timer_Tick;
             timer.Start();
@@ -108,19 +108,19 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             }
         }
 
-        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            viewModel.NoiDungToSlide();
-            SaveTempFile();
-            OpenTempFile(tempFilePath);
-        }
-
         private void Update()
         {
             viewModel.NoiDungToSlide();
             SaveTempFile();
             OpenTempFile(tempFilePath);
             OkMan.Source = this.slideImageSources[0];
+        }
+
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            viewModel.NoiDungToSlide();
+            SaveTempFile();
+            OpenTempFile(tempFilePath);
         }
     }
 }
