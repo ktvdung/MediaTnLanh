@@ -1,7 +1,12 @@
 ﻿using MediaTinLanh.Control;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
 {
@@ -11,23 +16,111 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
     public partial class TuTaoTrinhChieuUC : System.Windows.Controls.UserControl
     {
         TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
+        private List<ImageSource> slideImageSources = new List<ImageSource>();
+        private List<ImageSource> thumbnailImageSource = new List<ImageSource>();
+        private string backgroundImagePath = string.Empty;
+        private string templateFilePath = string.Empty;
+        private string tempFilePath = string.Empty;
+        private FileStream backgroundImage;
+        private readonly Control_Presentation _controller;
+        private DispatcherTimer timer = new DispatcherTimer();
+
         public TuTaoTrinhChieuUC()
         {
             InitializeComponent();
             this.DataContext = viewModel;
+            _controller = new Control_Presentation();
+            templateFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\template.pptx";
+            tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp\\temp.pptx";
+            backgroundImagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg");
+            backgroundImage = new FileStream(backgroundImagePath, FileMode.Open);
+            OpenTempFile(templateFilePath);
+            OkMan.Source = thumbnailImageSource[0];
+            
+            timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromMilliseconds(200)
+            };
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Update();
         }
 
         private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             viewModel.NoiDungToSlide();
+            if (viewModel.Slides.Count > 0)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "MS Powerpoint file (*.pptx)|*.pptx|Text file (*.txt)|*.txt";
+                saveFileDialog.FileName = "Sample.pptx";
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Control_Presentation.CreateFiles(
+                        saveFileDialog.FileName,
+                        viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), 
+                        new string[] { "Arial", "70", "Bold" }, 
+                        backgroundImage);
+                }
+            }
 
-            FileStream img = new FileStream(
-                Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "Layer 29.png"), 
-                FileMode.Open);
+        }
 
-            Control_Presentation.CreateFiles(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + "Sample.pptx", 
-                viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, img);
+        private void SaveTempFile()
+        {
+            if (viewModel.Slides.Count != 0)
+            {
+                Task.Run(() =>
+                {
+                    var tempFolder = tempFilePath.Substring(0, tempFilePath.LastIndexOf("\\"));
+                    var exists = Directory.Exists(tempFolder);
+                    if (!exists)
+                    {
+                        Directory.CreateDirectory(tempFolder);
+                    }
+
+                    if (viewModel.Slides.Count != 0)
+                    {
+                        Control_Presentation.CreateFiles(tempFilePath,
+                            viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, backgroundImage);
+                    }
+                }).ConfigureAwait(false).GetAwaiter();
+            }
+        }
+
+        private void OpenTempFile(string filePath)
+        {
+            slideImageSources.Clear();
+            thumbnailImageSource.Clear();
+
+            try
+            {
+                _controller.PptxFileToImages(filePath, slideImageSources, thumbnailImageSource);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            viewModel.NoiDungToSlide();
+            SaveTempFile();
+            OpenTempFile(tempFilePath);
+        }
+
+        private void Update()
+        {
+            viewModel.NoiDungToSlide();
+            SaveTempFile();
+            OpenTempFile(tempFilePath);
+            OkMan.Source = this.slideImageSources[0];
         }
     }
 }

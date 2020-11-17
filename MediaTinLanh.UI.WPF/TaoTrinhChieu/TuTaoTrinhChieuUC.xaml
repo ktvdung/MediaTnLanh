@@ -13,6 +13,7 @@
                 Path=Parent.ActualHeight}"
              Width="{Binding RelativeSource={RelativeSource Self},
                 Path=Parent.ActualWidth}"
+             Background="#282828"
              >
 
     <UserControl.Resources>
@@ -234,6 +235,7 @@
                     </TextBlock>
                     <TextBox 
                         Text="{Binding NoiDungNhap, UpdateSourceTrigger=PropertyChanged}"
+
                         FontFamily="{StaticResource RobotoRegular}"
                         TextWrapping="WrapWithOverflow"
                         AcceptsReturn="True"
@@ -257,9 +259,26 @@
                     </TextBox>
                 </DockPanel>
 
-                <DockPanel Grid.Column="2" x:Name="slidesList">
-                    <TextBlock Text="{Binding Path=NoiDungNhap, Mode=OneWay}" />
+                <DockPanel Grid.Column="1"  x:Name="slidesList">
+                    <Image Width="300px" Name="OkMan">
+                    </Image>
                 </DockPanel>
+
+                <ListView Name="slideList"
+                          Grid.Column="2"
+                          ItemsSource="{Binding Path=Slides}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Image Width="300px">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="{Binding}" />
+                                    </Image.Source>        
+                                </Image>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </DockPanel>
         <DockPanel Grid.Row="1">
@@ -363,10 +382,10 @@
 
                         <Border Grid.Column="0" >
                             <Button x:Name="btnTaiPPTX" 
+                                Click="btnTaiPPTX_Click"
                                 Style="{StaticResource MenuButton}"
                                 Width="{Binding ActualWidth, ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
                                 Height="{Binding ActualHeight, ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
-                                Click="btnTaiPPTX_Click"
                                 >
                                 <TextBlock x:Name="tbxTaiPPTX"
                                     Foreground="{DynamicResource TextColor}"
@@ -388,7 +407,7 @@
                             Width="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*16}"
                             Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
                              >
-                                <TextBlock x:Name="tbxUpload"
+                                <TextBlock
                                     Foreground="{StaticResource TextColor}"
                                     FontSize="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
                                     FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnThanCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
