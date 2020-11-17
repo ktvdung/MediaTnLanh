@@ -18,6 +18,8 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
         TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
         private List<ImageSource> slideImageSources = new List<ImageSource>();
         private List<ImageSource> thumbnailImageSource = new List<ImageSource>();
+        int currentSlideIndex = 0;
+
         private string backgroundImagePath = string.Empty;
         private string templateFilePath = string.Empty;
         private string tempFilePath = string.Empty;
@@ -35,7 +37,8 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             backgroundImagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg");
             backgroundImage = new FileStream(backgroundImagePath, FileMode.Open);
             OpenTempFile(templateFilePath);
-            OkMan.Source = thumbnailImageSource[0];
+            CurrentSlide.Source = slideImageSources[currentSlideIndex];
+            SlidesListView.ItemsSource = thumbnailImageSource;
             
             timer = new DispatcherTimer()
             {
@@ -113,14 +116,8 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             viewModel.NoiDungToSlide();
             SaveTempFile();
             OpenTempFile(tempFilePath);
-            OkMan.Source = this.slideImageSources[0];
-        }
-
-        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            viewModel.NoiDungToSlide();
-            SaveTempFile();
-            OpenTempFile(tempFilePath);
+            CurrentSlide.Source = slideImageSources[currentSlideIndex];
+            SlidesListView.ItemsSource = thumbnailImageSource;
         }
     }
 }
