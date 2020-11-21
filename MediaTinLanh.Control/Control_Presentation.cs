@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using Syncfusion.OfficeChartToImageConverter;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace MediaTinLanh.Control
 {
@@ -244,44 +245,36 @@ namespace MediaTinLanh.Control
 
         public void PptxFileToImages(
             string fileName, 
-            List<ImageSource> slideImageSources, 
-            List<ImageSource> thumbnailImageSource,
+            ObservableCollection<ImageSource> slideImageSources, 
             int customHeight = 0,
             int customWidth = 0)
         {
             //Opens a PowerPoint Presentation file
-            IPresentation pptxDoc = Presentation.Open(fileName);
-            List<Image> result = new List<Image>();
-
-            try
+            using (IPresentation pptxDoc = Presentation.Open(fileName))
             {
-                foreach (var slide in pptxDoc.Slides)
+                try
                 {
-                    using (Image image = slide.ConvertToImage(Syncfusion.Drawing.ImageType.Bitmap))
+                    foreach (var slide in pptxDoc.Slides)
                     {
-                        Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
-                        System.Drawing.Image newImage = image.GetThumbnailImage(170, 100, myCallback, System.IntPtr.Zero);
-
-                        using (Stream ms = new MemoryStream())
+                        using (Image image = slide.ConvertToImage(Syncfusion.Drawing.ImageType.Bitmap))
                         {
-                            newImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                            var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-                            thumbnailImageSource.Add(decoder.Frames[0]);
-                        }
+                            Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
 
-                        using (Stream ms = new MemoryStream())
-                        {
-                            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                            var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-                            slideImageSources.Add(decoder.Frames[0]);
+                            using (Stream ms = new MemoryStream())
+                            {
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                slideImageSources.Add(decoder.Frames[0]);
+                            }
                         }
                     }
                 }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
-            catch(Exception e)
-            {
-                throw e;
-            }
+
         }
 
         public bool ThumbnailCallback()

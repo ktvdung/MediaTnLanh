@@ -235,7 +235,7 @@
                     </TextBlock>
                     <TextBox 
                         Text="{Binding NoiDungNhap, UpdateSourceTrigger=PropertyChanged}"
-
+                        TextChanged="TextBox_TextChanged"
                         FontFamily="{StaticResource RobotoRegular}"
                         TextWrapping="WrapWithOverflow"
                         AcceptsReturn="True"
@@ -259,8 +259,7 @@
                     </TextBox>
                 </DockPanel>
                 <DockPanel Grid.Column="1"  x:Name="slidesList">
-                    <Image Width="300px" Name="CurrentSlide">
-                    </Image>
+                    <Image Name="CurrentSlide"></Image>
                 </DockPanel>
 
                 <ListView
