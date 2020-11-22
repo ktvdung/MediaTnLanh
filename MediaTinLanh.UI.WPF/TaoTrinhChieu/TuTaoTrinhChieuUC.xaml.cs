@@ -16,16 +16,14 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
     public partial class TuTaoTrinhChieuUC : System.Windows.Controls.UserControl
     {
         TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
-        ObservableCollection<string> SlidesData { get; set; }
         string backgroundImg { get; set; }
         
         public TuTaoTrinhChieuUC()
         {
-            SlidesData = new ObservableCollection<string>() { "" };
             InitializeComponent();
             DataContext = viewModel;
-            slideList.ItemsSource = SlidesData;
             backgroundImg = "/MediaTinLanh.UI.WPF;component/../../Images/bg.jpg";
+            slideList.ItemsSource = viewModel.Slides;
         }
 
         private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -53,8 +51,7 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
         private void TxtboxNoiDung_KeyUp(object sender, System.Windows.RoutedEventArgs e)
         {
             viewModel.NoiDungToSlide();
-            SlidesData = new ObservableCollection<string>(viewModel.Slides.Select(slide => slide.NoiDung));
-            slideList.ItemsSource = SlidesData;
+            slideList.Items.Refresh();
         }
     }
 }

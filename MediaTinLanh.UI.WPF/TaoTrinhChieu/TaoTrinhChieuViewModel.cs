@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Media;
 
 namespace MediaTinLanh.UI.WPF
 {
@@ -14,11 +15,12 @@ namespace MediaTinLanh.UI.WPF
     public class TaoTrinhChieuViewModel : INotifyPropertyChanged
     {
         private string _noiDungNhap;
-        private List<SlideData> _slides;
+        private ImageSource _backgroundImage;
+        private ObservableCollection<SlideData> _slides;
 
         public TaoTrinhChieuViewModel()
         {
-            _slides = new List<SlideData>();
+            _slides = new ObservableCollection<SlideData>();
         }
 
         public string NoiDungNhap
@@ -31,7 +33,7 @@ namespace MediaTinLanh.UI.WPF
             }
         }
 
-        public List<SlideData> Slides
+        public ObservableCollection<SlideData> Slides
         {
             get { return _slides; }
             set
@@ -41,9 +43,25 @@ namespace MediaTinLanh.UI.WPF
             }
         }
 
+        public ImageSource BackgroundImage
+        {
+            get { return _backgroundImage; }
+            set
+            {
+                _backgroundImage = value;
+                OnPropertyChanged(nameof(BackgroundImage));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public void NoiDungToSlide()
         {
-            _slides = new List<SlideData>();
+            _slides.Clear();
             if (!String.IsNullOrWhiteSpace(_noiDungNhap))
             {
                 string[] stringSlits = _noiDungNhap.Split(new[] { Environment.NewLine + Environment.NewLine }, System.StringSplitOptions.None);
@@ -52,23 +70,15 @@ namespace MediaTinLanh.UI.WPF
                 {
                     for (int i = 0; i < stringSlits.Length; i++)
                     {
-                        var viTri = _noiDungNhap.IndexOf(stringSlits[i]);
-
                         var slidedata = new SlideData
                         {
                             NoiDung = stringSlits[i],
-                            ViTri = viTri
-                        };
+                            ViTri = _noiDungNhap.IndexOf(stringSlits[i])
+                    };
                         _slides.Add(slidedata);
                     }
                 }
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

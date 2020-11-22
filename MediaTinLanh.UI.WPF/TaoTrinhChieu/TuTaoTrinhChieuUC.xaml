@@ -261,10 +261,15 @@
 
                 <DockPanel Grid.Column="1">
                     <Grid>
-                        <Image Source="/Skin/Images/trinh-chieu/bg.jpg" />
+                        <Grid.Background>
+                            <ImageBrush 
+                                Stretch="Uniform"
+                                ImageSource="/Skin/Images/trinh-chieu/bg.jpg"
+                            />
+                        </Grid.Background>
                         <TextBlock 
                             Grid.Row="1"
-                            Text="{Binding SlidesData[0], Mode=OneWay}"
+                            Text="{Binding Slides[0].NoiDung, Mode=OneWay}"
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Center"
                             FontSize="15" />
@@ -276,7 +281,13 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Label Content="{Binding}" />
+                                <StackPanel.Background>
+                                        <ImageBrush 
+                                    Stretch="Uniform"
+                                    ImageSource="/Skin/Images/trinh-chieu/bg.jpg"
+                                />
+                                </StackPanel.Background>
+                                <Label Content="{Binding NoiDung}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
