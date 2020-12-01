@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediaTinLanh.Control;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -16,11 +17,16 @@ namespace MediaTinLanh.UI.WPF
     {
         private string _noiDungNhap;
         private ImageSource _backgroundImage;
+        private ObservableCollection<ImageSource> _slideImageSources;
         private ObservableCollection<SlideData> _slides;
 
         public TaoTrinhChieuViewModel()
         {
             _slides = new ObservableCollection<SlideData>();
+            _slideImageSources = new ObservableCollection<ImageSource>();
+            // Create new file
+            // Change files
+            // Save file when done
         }
 
         public string NoiDungNhap
@@ -40,6 +46,16 @@ namespace MediaTinLanh.UI.WPF
             {
                 _slides = value;
                 OnPropertyChanged(nameof(Slides));
+            }
+        }
+
+        public ObservableCollection<ImageSource> SlideImageSources
+        {
+            get { return _slideImageSources; }
+            set
+            {
+                _slideImageSources = value;
+                OnPropertyChanged(nameof(SlideImageSources));
             }
         }
 
@@ -79,6 +95,10 @@ namespace MediaTinLanh.UI.WPF
                     }
                 }
             }
+        }
+
+        private void OpenFile(string location)
+        {
         }
     }
 }

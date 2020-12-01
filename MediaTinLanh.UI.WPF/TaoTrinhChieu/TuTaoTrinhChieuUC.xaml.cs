@@ -16,12 +16,17 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
     public partial class TuTaoTrinhChieuUC : System.Windows.Controls.UserControl
     {
         TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
+        private string backgroundImagePath = string.Empty;
+        private string templateFilePath = string.Empty;
+        
         string backgroundImg { get; set; }
         
         public TuTaoTrinhChieuUC()
         {
             InitializeComponent();
             DataContext = viewModel;
+            templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Files\template.pptx");
+
             backgroundImg = "/MediaTinLanh.UI.WPF;component/../../Images/bg.jpg";
             slideList.ItemsSource = viewModel.Slides;
         }
@@ -40,13 +45,28 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\";
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Control_Presentation.CreateFiles(
-                    saveFileDialog.FileName,
+                    Control_Presentation.CreateFile(
                     viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, img);
                 }
             }
 
         }
+
+        private void OpenTempFile(string filePath)
+        {
+            viewModel.imae.Clear();
+
+            try
+            {
+                _controller.PptxFileToImages(filePath, slideImageSources);
+                SlidesListView.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         private void TxtboxNoiDung_KeyUp(object sender, System.Windows.RoutedEventArgs e)
         {

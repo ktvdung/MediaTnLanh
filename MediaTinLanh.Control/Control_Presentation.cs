@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Syncfusion.Presentation;
 using System.Drawing.Imaging;
 using Syncfusion.OfficeChartToImageConverter;
+using System.Collections.ObjectModel;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MediaTinLanh.Control
 {
@@ -62,7 +65,7 @@ namespace MediaTinLanh.Control
             powerpointDoc.Close();
         }
 
-        public static void CreateFiles(string location, string[] Content, string[] format, Stream img)
+        public static IPresentation CreateFile(string[] Content, string[] format, Stream img)
         {
             string font = format[0];
             string size = format[1];
@@ -101,11 +104,14 @@ namespace MediaTinLanh.Control
                     CreateSlide2(i - 1, powerpointDoc, sentences[i], font, size, style, layoutSlide);
                 }
             }
-            //Lưu tệp tin lại
-            powerpointDoc.Save(location);
 
-            //Đóng quá trình tạo
-            powerpointDoc.Close();
+            return powerpointDoc;
+        }
+
+        public static void SavePowerpointFile(string location, IPresentation pptxDoc)
+        {
+            pptxDoc.Save(location);
+            pptxDoc.Close();
         }
 
         #endregion
@@ -237,6 +243,31 @@ namespace MediaTinLanh.Control
             Image img = (Image)bitmap;
 
             return img ;
+        }
+
+        public void PptxFileToImages(
+            IPresentation pptxDoc,
+            ObservableCollection<ImageSource> slideImageSources)
+        {
+            foreach (var slide in pptxDoc.Slides)
+            {
+                using (Image image = slide.ConvertToImage(Syncfusion.Drawing.ImageType.Bitmap))
+                {
+                    Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+
+                    using (Stream ms = new MemoryStream())
+                    {
+                        image.Save(ms, ImageFormat.Png);
+                        var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                        slideImageSources.Add(decoder.Frames[0]);
+                    }
+                }
+            }
+        }
+
+        public bool ThumbnailCallback()
+        {
+            return false;
         }
         #endregion
 
