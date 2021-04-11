@@ -220,11 +220,11 @@
         <DockPanel Grid.Row="0" Margin="0,0,5,0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.05*"/>
+                    <ColumnDefinition Width="0.45*"/>
                 </Grid.ColumnDefinitions>
-                <DockPanel Grid.Column="0">
+                <DockPanel Grid.Column="0" Margin="10">
                     <TextBlock 
                         FontFamily="{DynamicResource RobotoRegular}"
                         FontSize="16"
@@ -259,39 +259,17 @@
                     </TextBox>
                 </DockPanel>
 
-                <DockPanel Grid.Column="1">
-                    <Grid>
-                        <Grid.Background>
-                            <ImageBrush 
-                                Stretch="Uniform"
-                                ImageSource="/Skin/Images/trinh-chieu/bg.jpg"
-                            />
-                        </Grid.Background>
-                        <TextBlock 
-                            Grid.Row="1"
-                            Text="{Binding Slides[0].NoiDung, Mode=OneWay}"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center"
-                            FontSize="15" />
-                    </Grid>
-                </DockPanel>
+                <Grid Grid.Column="2" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Name="CurrentSlide" Grid.Column="0"></Image>
 
-                <ListView Name="slideList"
-                          Grid.Column="2">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <StackPanel.Background>
-                                        <ImageBrush 
-                                    Stretch="Uniform"
-                                    ImageSource="/Skin/Images/trinh-chieu/bg.jpg"
-                                />
-                                </StackPanel.Background>
-                                <Label Content="{Binding NoiDung}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    <StackPanel x:Name="SlideList"
+                            Grid.Column="1"></StackPanel>
+                </Grid>
+                
             </Grid>
         </DockPanel>
         <DockPanel Grid.Row="1">
@@ -418,7 +396,7 @@
                             x:Name="btnUploadBaiHai"
                             Style="{StaticResource MenuButton}"
                             Width="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*16}"
-                            Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
+                            Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}" Click="btnUploadBaiHai_Click"
                              >
                                 <TextBlock x:Name="tbxUpload"
                                     Foreground="{StaticResource TextColor}"

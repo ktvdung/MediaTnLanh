@@ -1,5 +1,4 @@
-﻿using MediaTinLanh.Control;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -10,23 +9,16 @@ namespace MediaTinLanh.UI.WPF
     public class SlideData
     {
         public string NoiDung { get; set; }
-        public int ViTri { get; set; }
     }
 
     public class TaoTrinhChieuViewModel : INotifyPropertyChanged
     {
         private string _noiDungNhap;
-        private ImageSource _backgroundImage;
-        private ObservableCollection<ImageSource> _slideImageSources;
-        private ObservableCollection<SlideData> _slides;
+        private ObservableCollection<string> _slides;
 
         public TaoTrinhChieuViewModel()
         {
-            _slides = new ObservableCollection<SlideData>();
-            _slideImageSources = new ObservableCollection<ImageSource>();
-            // Create new file
-            // Change files
-            // Save file when done
+            _slides = new ObservableCollection<string>();
         }
 
         public string NoiDungNhap
@@ -39,33 +31,13 @@ namespace MediaTinLanh.UI.WPF
             }
         }
 
-        public ObservableCollection<SlideData> Slides
+        public ObservableCollection<string> Slides
         {
             get { return _slides; }
             set
             {
                 _slides = value;
                 OnPropertyChanged(nameof(Slides));
-            }
-        }
-
-        public ObservableCollection<ImageSource> SlideImageSources
-        {
-            get { return _slideImageSources; }
-            set
-            {
-                _slideImageSources = value;
-                OnPropertyChanged(nameof(SlideImageSources));
-            }
-        }
-
-        public ImageSource BackgroundImage
-        {
-            get { return _backgroundImage; }
-            set
-            {
-                _backgroundImage = value;
-                OnPropertyChanged(nameof(BackgroundImage));
             }
         }
 
@@ -86,19 +58,10 @@ namespace MediaTinLanh.UI.WPF
                 {
                     for (int i = 0; i < stringSlits.Length; i++)
                     {
-                        var slidedata = new SlideData
-                        {
-                            NoiDung = stringSlits[i],
-                            ViTri = _noiDungNhap.IndexOf(stringSlits[i])
-                    };
-                        _slides.Add(slidedata);
+                        _slides.Add(stringSlits[i]);
                     }
                 }
             }
-        }
-
-        private void OpenFile(string location)
-        {
         }
     }
 }

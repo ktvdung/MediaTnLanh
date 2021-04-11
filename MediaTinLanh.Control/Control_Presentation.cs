@@ -41,7 +41,15 @@ namespace MediaTinLanh.Control
                 layoutSlide.Shapes.AddPicture(img, 0, 0, slidesize.Width, slidesize.Height);
 
                 ////Tạo slide đầu tiên
-                CreateSlide1(powerpointDoc, sentences[0], layoutSlide);
+                if (sentences.Count() > 0)
+                {
+                    CreateSlide1(powerpointDoc, sentences[0], layoutSlide);
+                }
+                else
+                {
+                    CreateSlide1(powerpointDoc, "", layoutSlide);
+                }
+
                 for (int i = 1; i < sentences.Length; i++)
                 {
                     //Chèn dữ liệu vào slide
@@ -65,7 +73,7 @@ namespace MediaTinLanh.Control
             powerpointDoc.Close();
         }
 
-        public static IPresentation CreateFile(string[] Content, string[] format, Stream img)
+        public static IPresentation CreateFile(string location, string[] Content, string[] format, Stream img)
         {
             string font = format[0];
             string size = format[1];
@@ -108,17 +116,11 @@ namespace MediaTinLanh.Control
             return powerpointDoc;
         }
 
-        public static void SavePowerpointFile(string location, IPresentation pptxDoc)
-        {
-            pptxDoc.Save(location);
-            pptxDoc.Close();
-        }
-
         #endregion
 
         #region  Slide đầu tiên
 
-        public static void CreateSlide1(IPresentation presentation, string content,ILayoutSlide LayputLayoutSlide)
+        public static void CreateSlide1(IPresentation presentation, string content, ILayoutSlide LayputLayoutSlide)
         {
             ISlide firstSlide = presentation.Slides.Add(LayputLayoutSlide);
             IShape textShape = firstSlide.AddTextBox(0, 0, firstSlide.SlideSize.Width, firstSlide.SlideSize.Height);
@@ -215,16 +217,24 @@ namespace MediaTinLanh.Control
 
         #region Slide sang JPG
 
-        public static Image SlideToImage (string fileName, int indexSlide, int customWidth,
+        public static Image SlideToImage (
+            string fileName, 
+            int indexSlide, 
+            int customWidth,
             int customHeight)
         {
+            if (!File.Exists(fileName))
+            {
+                throw new Exception($"Cannot find file name {fileName}");
+            }
+
             //Opens a PowerPoint Presentation file
             IPresentation pptxDoc = Presentation.Open(fileName);
 
             //Creates an instance of ChartToImageConverter
             Stream stream = pptxDoc.Slides[indexSlide].ConvertToImage(Syncfusion.Drawing.ImageFormat.Emf);
 
-            Bitmap bitmap = new Bitmap(customWidth, customHeight, PixelFormat.Format32bppPArgb);
+            Bitmap bitmap = new Bitmap(customWidth, customHeight, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
             Graphics graphics = Graphics.FromImage(bitmap);
 
             //Sets the resolution
@@ -245,29 +255,110 @@ namespace MediaTinLanh.Control
             return img ;
         }
 
-        public void PptxFileToImages(
-            IPresentation pptxDoc,
-            ObservableCollection<ImageSource> slideImageSources)
+        public static void ConvertContentToImages(
+            string folderPath,
+            string tempFileName,
+            string[] content,
+            List<ImageSource> slideImageSources,
+            List<ImageSource> thumbnailImageSources,
+            string[] format,
+            Stream img)
         {
-            foreach (var slide in pptxDoc.Slides)
+            string tempFileFullPath = Path.Combine(folderPath, tempFileName);
+            if (!Directory.Exists(folderPath))
             {
-                using (Image image = slide.ConvertToImage(Syncfusion.Drawing.ImageType.Bitmap))
-                {
-                    Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+                Directory.CreateDirectory(folderPath);
+            }
 
-                    using (Stream ms = new MemoryStream())
+            if (File.Exists(tempFileFullPath))
+            {
+                File.Delete(tempFileFullPath);
+            }
+
+            using (IPresentation pptxDoc = Presentation.Create())
+            {
+                string font = format[0];
+                string size = format[1];
+                string style = format[2];
+
+                if (img != Stream.Null)
+                {
+                    ILayoutSlide layoutSlide = pptxDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+                    //Thiết lập background
+                    ISlideSize slidesize = layoutSlide.SlideSize;
+
+                    //Thêm Background
+                    layoutSlide.Shapes.AddPicture(img, 0, 0, slidesize.Width, slidesize.Height);
+
+                    ////Tạo slide đầu tiên
+                    CreateSlide1(pptxDoc, content[0], layoutSlide);
+                    for (int i = 1; i < content.Length; i++)
                     {
-                        image.Save(ms, ImageFormat.Png);
-                        var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-                        slideImageSources.Add(decoder.Frames[0]);
+                        //Chèn dữ liệu vào slide
+                        CreateSlide2(i - 1, pptxDoc, content[i], font, size, style, layoutSlide);
                     }
                 }
+                else
+                {
+                    ILayoutSlide layoutSlide = pptxDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+                    CreateSlide1(pptxDoc, content[0], layoutSlide);
+                    for (int i = 1; i < content.Length; i++)
+                    {
+                        //Tạo slide khác
+                        CreateSlide2(i - 1, pptxDoc, content[i], font, size, style, layoutSlide);
+                    }
+                }
+
+                pptxDoc.Save(tempFileFullPath);
+                pptxDoc.Close();
             }
+
+            PptxFileToImages(tempFileFullPath, slideImageSources, thumbnailImageSources);
         }
 
-        public bool ThumbnailCallback()
+        public static bool ThumbnailCallback()
         {
             return false;
+        }
+
+        
+
+        public static void PptxFileToImages(string fileName,
+            List<ImageSource> slideImageSources,
+            List<ImageSource> thumbnailImageSource)
+        {
+            using (IPresentation pptxDoc = Presentation.Open(fileName))
+            {
+                try
+                {
+                    foreach (var slide in pptxDoc.Slides)
+                    {
+                        using (Image image = slide.ConvertToImage(Syncfusion.Drawing.ImageType.Bitmap))
+                        {
+                            Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+                            System.Drawing.Image newImage = image.GetThumbnailImage(170, 100, myCallback, System.IntPtr.Zero);
+
+                            using (Stream ms = new MemoryStream())
+                            {
+                                newImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                thumbnailImageSource.Add(decoder.Frames[0]);
+                            }
+
+                            using (Stream ms = new MemoryStream())
+                            {
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                slideImageSources.Add(decoder.Frames[0]);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
         }
         #endregion
 
