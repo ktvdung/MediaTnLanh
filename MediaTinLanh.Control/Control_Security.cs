@@ -17,7 +17,7 @@ namespace MediaTinLanh.Control
 
         public static String DatabaseName = "";
         public const String Key = "JHT@MDTL!12723WWXDE";
-        string passPhrase = "1.ppYmr5*9736GQ";
+        public const String passPhrase = "1.ppYmr5*9736GQ";
         private const Int32 KEY_SIZE = 256;
        
         //Get username, password and serer

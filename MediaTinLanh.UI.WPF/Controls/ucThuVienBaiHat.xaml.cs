@@ -30,6 +30,14 @@ namespace MediaTinLanh.UI.WPF.Controls
     /// </summary>
     public partial class ucThuVienBaiHat : MDTLBaseUserControl
     {
+        public ucThuVienBaiHat()
+        {
+            InitializeComponent();
+
+            var danhSachLoaiThanhCa = Mapper.Map<IEnumerable<LoaiThanhCa>, IEnumerable<LoaiThanhCaModel>>(dbContext.LoaiThanhCas.All());
+            listBoxLoaiThanhCa.ItemsSource = danhSachLoaiThanhCa;
+            listBoxLoaiThanhCa.SelectedItem = danhSachLoaiThanhCa.ToList()[0];
+        }
         public ucThuVienBaiHat(bool initial) : base(initial)
         {
             InitializeComponent();

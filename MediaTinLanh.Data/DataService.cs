@@ -16,7 +16,7 @@ namespace MediaTinLanh.Data
         //public static String m_ConnectString = "";
         private SqlCommand m_Command;
         private SqlDataAdapter m_DataAdapter;
-        private SqlDataReader m_DataReader;
+        //private SqlDataReader m_DataReader;
         #endregion
 
         #region -- Constructor --
@@ -67,14 +67,17 @@ namespace MediaTinLanh.Data
             {
                 OpenConnection(m_connection);
                 m_Command.Connection = m_Connection;
-                return m_Command.ExecuteReader();
+                var result = m_Command.ExecuteReader();
+                CloseConnection();
+                return result;
             }
             catch (Exception e)
             {
                 MessageBox.Show("Không thể thực thi câu lệnh SQL này!\nLỗi: " + e.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CloseConnection();
                 return null;
             }
-            CloseConnection();
+            
         }
         public bool LoadSystemCommand(SqlCommand m_Sql)
         {

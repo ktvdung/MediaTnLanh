@@ -567,7 +567,7 @@
                                                         <SolidColorBrush Color="{StaticResource ExtBrownColor}"></SolidColorBrush>
                                                     </Border.BorderBrush>
                                                 </Border>
-                                                
+
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected" Value="True">
@@ -634,7 +634,7 @@
                             <c:ucThuVienBaiHat />
                         </TabItem>
                         <TabItem Header="Tự tạo trình chiếu">
-                            <TuTaoTrinhChieu:TuTaoTrinhChieuUC />
+                            <TuTaoTrinhChieu:TuTaoTrinhChieuUC/>
                         </TabItem>
                         <!--<TabItem Header="Tải về bài hát" />-->
                     </TabControl>
@@ -684,11 +684,7 @@
                            FontFamily="{DynamicResource RobotoMedium}"
                            FontSize="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.015}"
                            Foreground="{DynamicResource TextColor}"></Label>
-                                <Image Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.015}">
-                                    <Image.Source>
-                                        <ImageSource>Skin\Images\trinh-chieu\gear.png</ImageSource>
-                                    </Image.Source>
-                                </Image>
+                                <Image Width="{Binding ElementName=gridTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.015}" Source="Skin\Images\trinh-chieu\gear.png"/>
                             </StackPanel>
                         </Border>
                     </Button>

@@ -17,6 +17,15 @@ namespace MediaTinLanh.UI.WPF
         {
             // protected constructor is required so that derived controls can have default parameterless constructor which is needed for xaml 
             // also protected constructor will ensure that new control creation always use constructor by passing parameters (e.g. in this example passing of string parameter is must in order to construct control)
+            if (!initialized)
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddProfile<MappingProfile>();
+                });
+
+                initialized = true;
+            }
         }
 
         public MDTLBaseUserControl(bool initial = false)

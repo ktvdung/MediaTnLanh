@@ -20,6 +20,7 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
         private ObservableCollection<ImageSource> slideImageSources = new ObservableCollection<ImageSource>();
         int currentSlideIndex = 0;
 
+        private string currentDirectoryPath = Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory()));
         private string backgroundImagePath = string.Empty;
         private string templateFilePath = string.Empty;
         private string tempFilePath = string.Empty;
@@ -32,9 +33,9 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             InitializeComponent();
             this.DataContext = viewModel;
             _controller = new Control_Presentation();
-            templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Files\template.pptx");
+            templateFilePath = currentDirectoryPath + Path.Combine(@"\Files\template.pptx");
             tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp\\temp.pptx";
-            backgroundImagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg");
+            backgroundImagePath = currentDirectoryPath + Path.Combine(@"\Skin\Images\trinh-chieu\", "bg.jpg");
             backgroundImage = new FileStream(backgroundImagePath, FileMode.Open);
             OpenTempFile(templateFilePath);
             CurrentSlide.Source = slideImageSources[currentSlideIndex];
