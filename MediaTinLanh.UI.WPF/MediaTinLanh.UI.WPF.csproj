@@ -56,6 +56,9 @@
     <StartupObject>MediaTinLanh.UI.WPF.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -169,6 +172,9 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6\System.Windows.Forms.dll</HintPath>
     </Reference>
@@ -193,6 +199,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\MDTLBaseUserControl.cs" />
     <Compile Include="Controls\ucThuVienBaiHat.xaml.cs">
       <DependentUpon>ucThuVienBaiHat.xaml</DependentUpon>
     </Compile>
@@ -256,13 +263,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Database\Media.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Database\Media.encrypted.db" />
     <Resource Include="Files\template.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Media.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -512,6 +518,10 @@
       <Project>{d5125a60-ecb0-4092-a09e-3c8b8011daa8}</Project>
       <Name>MediaTinLanh.Control</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MediaTinLanh.Data\MediaTinLanh.Data.csproj">
+      <Project>{e5909537-5e37-4ab2-adf8-cb9dcae17374}</Project>
+      <Name>MediaTinLanh.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MediaTinLanh.Model\MediaTinLanh.Model.csproj">
       <Project>{e96ed307-deea-4973-a122-03d8bb5f20ec}</Project>
       <Name>MediaTinLanh.Model</Name>
@@ -527,7 +537,6 @@
     <Resource Include="Skin\Images\main\minimize.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\Media.sql" />
     <Content Include="Skin\Images\trinh-chieu\Layer 21.svg" />
     <Resource Include="Skin\Images\trinh-chieu\LogoLeft.png" />
   </ItemGroup>

@@ -6,15 +6,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
-namespace MediaTinLanh.Control
+namespace MediaTinLanh.UI.WPF
 {
-    public class BaseController
+    public class MDTLBaseUserControl: UserControl
     {
         static bool initialized = false;
-        static BaseController()
+        protected MDTLBaseUserControl()
         {
+            // protected constructor is required so that derived controls can have default parameterless constructor which is needed for xaml 
+            // also protected constructor will ensure that new control creation always use constructor by passing parameters (e.g. in this example passing of string parameter is must in order to construct control)
+        }
 
+        public MDTLBaseUserControl(bool initial = false)
+        {
+            initialized = initial;
             if (!initialized)
             {
                 Mapper.Initialize(cfg =>
@@ -32,7 +39,10 @@ namespace MediaTinLanh.Control
         public MappingProfile()
         {
             CreateMap<NgonNgu, NgonNguModel>();
-            CreateMap<ThanhCa, ThanhCaModel>().ForMember(dest => dest.TrangThai, opt => opt.MapFrom(src => src.TrangThai.HasValue && src.TrangThai.Value == 1 ? true : false)).ForMember(dest => dest.LoaiThanhCa, conf => conf.MapFrom(src => src.LoaiThanhCa)).ForMember(dest => dest.LoiBaiHats, opt => opt.MapFrom(src => src.DanhSachLoiBaiHat)).ForMember(dest => dest.Medias, opt => opt.MapFrom(src => src.DanhSachMedia));
+            CreateMap<ThanhCa, ThanhCaModel>().ForMember(dest => dest.TrangThai, opt => opt.MapFrom(src => src.TrangThai.HasValue && src.TrangThai.Value == 1 ? true : false))
+                                              .ForMember(dest => dest.LoaiThanhCa, conf => conf.MapFrom(src => src.LoaiThanhCa))
+                                              .ForMember(dest => dest.LoiBaiHats, opt => opt.MapFrom(src => src.DanhSachLoiBaiHat))
+                                              .ForMember(dest => dest.Medias, opt => opt.MapFrom(src => src.DanhSachMedia));
 
             CreateMap<LoiBaiHat, LoiBaiHatModel>();
             CreateMap<CauKinhThanh, CauKinhThanhModel>();

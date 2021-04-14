@@ -1,5 +1,7 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using AutoMapper;
+using MaterialDesignThemes.Wpf;
 using MediaTinLanh.Control;
+using MediaTinLanh.Data;
 using MediaTinLanh.Model;
 using MediaTinLanh.UI.WPF.ViewModel;
 using System;
@@ -19,19 +21,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using dbContext = MediaTinLanh.Data.MediaTinLanhContext;
 
 namespace MediaTinLanh.UI.WPF.Controls
 {
     /// <summary>
     /// Interaction logic for ucThuVienBaiHat.xaml
     /// </summary>
-    public partial class ucThuVienBaiHat : UserControl
+    public partial class ucThuVienBaiHat : MDTLBaseUserControl
     {
-        public ucThuVienBaiHat()
+        public ucThuVienBaiHat(bool initial) : base(initial)
         {
             InitializeComponent();
 
-            var danhSachLoaiThanhCa = Factory.LoaiThanhCaService.All();
+            var danhSachLoaiThanhCa = Mapper.Map<IEnumerable<LoaiThanhCa>, IEnumerable<LoaiThanhCaModel>>(dbContext.LoaiThanhCas.All());
             listBoxLoaiThanhCa.ItemsSource = danhSachLoaiThanhCa;
             listBoxLoaiThanhCa.SelectedItem = danhSachLoaiThanhCa.ToList()[0];
         }
@@ -41,12 +44,13 @@ namespace MediaTinLanh.UI.WPF.Controls
             var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
 
             LoaiThanhCaModel selectedLoaiThanhCa = (LoaiThanhCaModel)listBoxLoaiThanhCa.SelectedItem;
-            dbThanhCa.Items = new ObservableCollection<ThanhCaModel>(Factory.ThanhCaService.Query("Loai = 1 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'").ToList());
-
+            var listThanhCaModel = Mapper.Map<IEnumerable<ThanhCa>, IEnumerable<ThanhCaModel>>(dbContext.ThanhCas.All(where: "Loai = 1 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'").ToList());
             if (selectedLoaiThanhCa != null)
             {
-                dbThanhCa.Items = new ObservableCollection<ThanhCaModel>(Factory.ThanhCaService.Query("Loai = @0 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'", paramaters: new object[] { selectedLoaiThanhCa.Id }).ToList());
+                listThanhCaModel = Mapper.Map<IEnumerable<ThanhCa>, IEnumerable<ThanhCaModel>>(dbContext.ThanhCas.All(where: "Loai = @0 AND Ten COLLATE UTF8CI LIKE '%" + txtTimBaiHat.Text + "%'", parms: new object[] { selectedLoaiThanhCa.Id }).ToList());
             }
+
+            dbThanhCa.Items = new ObservableCollection<ThanhCaModel>(listThanhCaModel);
         }
 
         private void ckbLoaiThanhCa_Checked(object sender, RoutedEventArgs e)
@@ -54,7 +58,8 @@ namespace MediaTinLanh.UI.WPF.Controls
             LoaiThanhCaModel selectedLoaiThanhCa = (LoaiThanhCaModel)listBoxLoaiThanhCa.SelectedItem;
 
             var dbThanhCa = (ThanhCaViewModel)this.Resources["dbForThanhCa"];
-            dbThanhCa.Items = new ObservableCollection<ThanhCaModel>(Factory.ThanhCaService.Query("Loai = @0", paramaters: new object[] { selectedLoaiThanhCa.Id }).ToList());
+            var listThanhCaModel = Mapper.Map<IEnumerable<ThanhCa>, IEnumerable<ThanhCaModel>>(dbContext.ThanhCas.All(where: "Loai = @0", parms: new object[] { selectedLoaiThanhCa.Id }).ToList());
+            dbThanhCa.Items = new ObservableCollection<ThanhCaModel>(listThanhCaModel);
         }
 
         private void ckbLoaiThanhCa_Unchecked(object sender, RoutedEventArgs e)
@@ -75,7 +80,7 @@ namespace MediaTinLanh.UI.WPF.Controls
 
             if (selectedThanhCa != null)
             {
-                var media = new MediaModel();
+                var mediaModel = new MediaModel();
                 switch (btnTaiVe.Name)
                 {
                     case "btnTaiVe":
@@ -101,7 +106,8 @@ namespace MediaTinLanh.UI.WPF.Controls
                                         md.TrangThai = true;
                                         md.LocalLink = inputfilepath;
                                     }
-                                    Factory.MediaService.Update(md.Id, md);
+                                    var media = Mapper.Map<MediaModel, Media>(md);
+                                    dbContext.Medias.Update(media);
                                 }
 
                             }
@@ -118,10 +124,10 @@ namespace MediaTinLanh.UI.WPF.Controls
 
                         break;
                     case "btnTaiPPTX169":
-                        media = selectedThanhCa.Medias.Single(x => x.Loai == 4);
+                        mediaModel = selectedThanhCa.Medias.Single(x => x.Loai == 4);
 
-                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + media.Link.Substring(media.Link.LastIndexOf("."), media.Link.Length - media.Link.LastIndexOf(".")) + "\\" + media.Link.Remove(0, media.Link.IndexOf("/") + 1);
-                        filePathOnRemote = media.Link;
+                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + mediaModel.Link.Substring(mediaModel.Link.LastIndexOf("."), mediaModel.Link.Length - mediaModel.Link.LastIndexOf(".")) + "\\" + mediaModel.Link.Remove(0, mediaModel.Link.IndexOf("/") + 1);
+                        filePathOnRemote = mediaModel.Link;
 
                         //Hiện circle waiting
                         grdWaiting.Visibility = Visibility.Visible;
@@ -134,15 +140,16 @@ namespace MediaTinLanh.UI.WPF.Controls
                             {
                                 Control_FTP.Download_files(inputfilepath, filePathOnRemote);
 
-                                if (media != null)
+                                if (mediaModel != null)
                                 {
-                                    media.TrangThai = true;
-                                    media.LocalLink = inputfilepath;
+                                    mediaModel.TrangThai = true;
+                                    mediaModel.LocalLink = inputfilepath;
                                 }
-                                Factory.MediaService.Update(media.Id, media);
+                                var media = Mapper.Map<MediaModel, Media>(mediaModel);
+                                dbContext.Medias.Update(media);
                             }
 
-                            readFilePPTXAsync(media.LocalLink, "169");
+                            readFilePPTXAsync(mediaModel.LocalLink, "169");
 
                         }).ContinueWith(Task =>
                         {
@@ -152,10 +159,10 @@ namespace MediaTinLanh.UI.WPF.Controls
 
                         break;
                     case "btnTaiPPTX43":
-                        media = selectedThanhCa.Medias.Single(x => x.Loai == 4);
+                        mediaModel = selectedThanhCa.Medias.Single(x => x.Loai == 4);
 
-                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + media.Link.Substring(media.Link.LastIndexOf("."), media.Link.Length - media.Link.LastIndexOf(".")) + "\\" + media.Link.Remove(0, media.Link.IndexOf("/") + 1);
-                        filePathOnRemote = media.Link;
+                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + mediaModel.Link.Substring(mediaModel.Link.LastIndexOf("."), mediaModel.Link.Length - mediaModel.Link.LastIndexOf(".")) + "\\" + mediaModel.Link.Remove(0, mediaModel.Link.IndexOf("/") + 1);
+                        filePathOnRemote = mediaModel.Link;
 
                         //Hiện circle waiting
                         grdWaiting.Visibility = Visibility.Visible;
@@ -168,15 +175,16 @@ namespace MediaTinLanh.UI.WPF.Controls
                             {
                                 Control_FTP.Download_files(inputfilepath, filePathOnRemote);
 
-                                if (media != null)
+                                if (mediaModel != null)
                                 {
-                                    media.TrangThai = true;
-                                    media.LocalLink = inputfilepath;
+                                    mediaModel.TrangThai = true;
+                                    mediaModel.LocalLink = inputfilepath;
                                 }
-                                Factory.MediaService.Update(media.Id, media);
+                                var media = Mapper.Map<MediaModel, Media>(mediaModel);
+                                dbContext.Medias.Update(media);
                             }
 
-                            readFilePPTXAsync(media.LocalLink);
+                            readFilePPTXAsync(mediaModel.LocalLink);
 
                         }).ContinueWith(Task =>
                         {
@@ -186,9 +194,9 @@ namespace MediaTinLanh.UI.WPF.Controls
 
                         break;
                     case "btnTaiTXT":
-                        media = selectedThanhCa.Medias.Single(x => x.Loai == 1);
+                        mediaModel = selectedThanhCa.Medias.Single(x => x.Loai == 1);
 
-                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + media.Link.Substring(media.Link.LastIndexOf("."), media.Link.Length - media.Link.LastIndexOf(".")) + "\\" + media.Link.Remove(0, media.Link.IndexOf("/") + 1);
+                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + mediaModel.Link.Substring(mediaModel.Link.LastIndexOf("."), mediaModel.Link.Length - mediaModel.Link.LastIndexOf(".")) + "\\" + mediaModel.Link.Remove(0, mediaModel.Link.IndexOf("/") + 1);
                         //filePathOnRemote = media.Link;
 
                         //Hiện circle waiting
@@ -217,13 +225,14 @@ namespace MediaTinLanh.UI.WPF.Controls
                                     fs.Write(contentByte, 0, contentByte.Length);
                                 }
 
-                                media = selectedThanhCa.Medias.Single(x => x.Loai == 1);
-                                if (media != null)
+                                mediaModel = selectedThanhCa.Medias.Single(x => x.Loai == 1);
+                                if (mediaModel != null)
                                 {
-                                    media.TrangThai = true;
-                                    media.LocalLink = inputfilepath;
+                                    mediaModel.TrangThai = true;
+                                    mediaModel.LocalLink = inputfilepath;
                                 }
-                                Factory.MediaService.Update(media.Id, media);
+                                var media = Mapper.Map<MediaModel, Media>(mediaModel);
+                                dbContext.Medias.Update(media);
                             }
 
                             var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
@@ -240,10 +249,10 @@ namespace MediaTinLanh.UI.WPF.Controls
 
                         break;
                     case "btnTaiPDF":
-                        media = selectedThanhCa.Medias.Single(x => x.Loai == 5);
+                        mediaModel = selectedThanhCa.Medias.Single(x => x.Loai == 5);
 
-                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + media.Link.Substring(media.Link.LastIndexOf("."), media.Link.Length - media.Link.LastIndexOf(".")) + "\\" + media.Link.Remove(0, media.Link.IndexOf("/") + 1);
-                        filePathOnRemote = media.Link;
+                        inputfilepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\" + mediaModel.Link.Substring(mediaModel.Link.LastIndexOf("."), mediaModel.Link.Length - mediaModel.Link.LastIndexOf(".")) + "\\" + mediaModel.Link.Remove(0, mediaModel.Link.IndexOf("/") + 1);
+                        filePathOnRemote = mediaModel.Link;
 
                         //Hiện circle waiting
                         grdWaiting.Visibility = Visibility.Visible;
@@ -256,12 +265,13 @@ namespace MediaTinLanh.UI.WPF.Controls
                             {
                                 Control_FTP.Download_files(inputfilepath, filePathOnRemote);
 
-                                if (media != null)
+                                if (mediaModel != null)
                                 {
-                                    media.TrangThai = true;
-                                    media.LocalLink = inputfilepath;
+                                    mediaModel.TrangThai = true;
+                                    mediaModel.LocalLink = inputfilepath;
                                 }
-                                Factory.MediaService.Update(media.Id, media);
+                                var media = Mapper.Map<MediaModel, Media>(mediaModel);
+                                dbContext.Medias.Update(media);
 
                                 var myMessageQueue = new SnackbarMessageQueue(TimeSpan.FromMilliseconds(3000));
                                 myMessageQueue.Enqueue("Đã tải xong file PDF!");
