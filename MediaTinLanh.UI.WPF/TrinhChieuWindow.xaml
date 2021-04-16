@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaTinLanh.UI.WPF"
-        xmlns:u="clr-namespace:MediaTinLanh.UI.WPF.ViewModel"
+        xmlns:u="clr-namespace:MediaTinLanh.UI.WPF.ViewModels"
         xmlns:c="clr-namespace:MediaTinLanh.UI.WPF.Controls"
         xmlns:TuTaoTrinhChieu="clr-namespace:MediaTinLanh.UI.WPF.TaoTrinhChieu"
         mc:Ignorable="d"

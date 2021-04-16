@@ -620,7 +620,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Trạng thái"
-                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter},                      ConverterParameter=@VALUE/4*1}">
+                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/4*1}">
                                     <GridViewColumn.HeaderContainerStyle>
                                         <Style TargetType="GridViewColumnHeader">
                                             <Setter Property="BorderBrush" Value="Transparent"></Setter>
