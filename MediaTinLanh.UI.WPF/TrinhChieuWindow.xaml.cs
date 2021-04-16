@@ -16,7 +16,7 @@ using MediaTinLanh.Model;
 using MediaTinLanh.Control;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
-using MediaTinLanh.UI.WPF.ViewModel;
+using MediaTinLanh.UI.WPF.ViewModels;
 using MediaTinLanh.UI.WPF.Useful;
 using System.IO;
 using MaterialDesignThemes.Wpf;
