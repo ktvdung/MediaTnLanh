@@ -162,6 +162,7 @@
     </Compile>
     <Compile Include="Useful\Useful.cs" />
     <Compile Include="TaoTrinhChieu\TaoTrinhChieuViewModel.cs" />
+    <Compile Include="ViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\ThanhCaViewModel.cs" />
     <Page Include="Controls\ucThuVienBaiHat.xaml">
       <SubType>Designer</SubType>

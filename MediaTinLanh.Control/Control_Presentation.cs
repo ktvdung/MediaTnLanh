@@ -277,6 +277,40 @@ namespace MediaTinLanh.Control
 
         }
 
+        public void PptxFileToImages(
+            Stream fileStream,
+            ObservableCollection<ImageSource> slideImageSources,
+            int customHeight = 0,
+            int customWidth = 0)
+        {
+            //Opens a PowerPoint Presentation file
+            using (IPresentation pptxDoc = Presentation.Open(fileStream))
+            {
+                try
+                {
+                    foreach (var slide in pptxDoc.Slides)
+                    {
+                        using (Image image = slide.ConvertToImage(Syncfusion.Drawing.ImageType.Bitmap))
+                        {
+                            Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+
+                            using (Stream ms = new MemoryStream())
+                            {
+                                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                slideImageSources.Add(decoder.Frames[0]);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+        }
+
         public bool ThumbnailCallback()
         {
             return false;

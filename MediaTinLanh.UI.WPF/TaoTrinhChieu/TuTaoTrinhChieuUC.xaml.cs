@@ -3,7 +3,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
+using System.Windows;
+//using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -18,11 +19,18 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
         private ObservableCollection<ImageSource> slideImageSources = new ObservableCollection<ImageSource>();
         int currentSlideIndex = 0;
 
-        private string currentDirectoryPath = Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory()));
-        private string backgroundImagePath = string.Empty;
-        private string templateFilePath = string.Empty;
+        //private string currentDirectoryPath = Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory()));
+        //private string backgroundImagePath = string.Empty;
+        //private string templateFilePath = string.Empty;
+        //private string tempFilePath = string.Empty;
+        //private FileStream backgroundImage;
+        //private readonly Control_Presentation _controller;
+        //private DispatcherTimer timer = new DispatcherTimer();
+
+        private Uri backgroundImagePath = new Uri("pack://application:,,,/Skin/Images/trinh-chieu/bg.jpg");
+        private Uri templateFilePath = new Uri("pack://application:,,,/Files/template.pptx");
         private string tempFilePath = string.Empty;
-        private FileStream backgroundImage;
+        private Stream backgroundImage;
         private readonly Control_Presentation _controller;
         private DispatcherTimer timer = new DispatcherTimer();
 
@@ -31,11 +39,18 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             InitializeComponent();
             this.DataContext = viewModel;
             _controller = new Control_Presentation();
-            templateFilePath = currentDirectoryPath + Path.Combine(@"\Files\template.pptx");
+            //templateFilePath = currentDirectoryPath + Path.Combine(@"\Files\template.pptx");
+            //tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp\\temp.pptx";
+            //backgroundImagePath = currentDirectoryPath + Path.Combine(@"\Skin\Images\trinh-chieu\", "bg.jpg");
+            //backgroundImage = new FileStream(backgroundImagePath, FileMode.Open);
+            //OpenTempFile(templateFilePath);
+
+            
             tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp\\temp.pptx";
-            backgroundImagePath = currentDirectoryPath + Path.Combine(@"\Skin\Images\trinh-chieu\", "bg.jpg");
-            backgroundImage = new FileStream(backgroundImagePath, FileMode.Open);
-            OpenTempFile(templateFilePath);
+
+            backgroundImage = Application.GetResourceStream(backgroundImagePath).Stream;
+            OpenTempFile(Application.GetResourceStream(templateFilePath).Stream);
+
             CurrentSlide.Source = slideImageSources[currentSlideIndex];
             SlidesListView.ItemsSource = slideImageSources;
         }
@@ -45,11 +60,11 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             viewModel.NoiDungToSlide();
             if (viewModel.Slides.Count > 0)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
                 saveFileDialog.Filter = "MS Powerpoint file (*.pptx)|*.pptx|Text file (*.txt)|*.txt";
                 saveFileDialog.FileName = "Sample.pptx";
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\";
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     Control_Presentation.CreateFiles(
                         saveFileDialog.FileName,
@@ -87,6 +102,21 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
                 SlidesListView.Items.Refresh();
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void OpenTempFile(Stream fileStream)
+        {
+            slideImageSources.Clear();
+
+            try
+            {
+                _controller.PptxFileToImages(fileStream, slideImageSources);
+                SlidesListView.Items.Refresh();
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

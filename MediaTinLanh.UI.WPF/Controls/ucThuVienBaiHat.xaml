@@ -503,7 +503,7 @@
                         <ListView.View>
                             <GridView x:Name="gridViewBaiHat">
                                 <GridViewColumn Header="Tên bài hát"
-                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/4*2}">
+                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/5*3}">
                                     <GridViewColumn.HeaderContainerStyle>
                                         <Style TargetType="GridViewColumnHeader">
                                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -563,7 +563,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Thể loại"
-                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/4*1}">
+                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/5*1}">
                                     <GridViewColumn.HeaderContainerStyle>
                                         <Style TargetType="GridViewColumnHeader">
                                             <Setter Property="BorderBrush" Value="Transparent"></Setter>
@@ -620,7 +620,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Header="Trạng thái"
-                                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/4*1}">
+                                                Width="{Binding ElementName=listViewThanhCa, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/5*1}">
                                     <GridViewColumn.HeaderContainerStyle>
                                         <Style TargetType="GridViewColumnHeader">
                                             <Setter Property="BorderBrush" Value="Transparent"></Setter>

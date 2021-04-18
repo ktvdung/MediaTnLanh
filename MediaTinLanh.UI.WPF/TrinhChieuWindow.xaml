@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaTinLanh.UI.WPF"
-        xmlns:u="clr-namespace:MediaTinLanh.UI.WPF.ViewModels"
+        xmlns:vm="clr-namespace:MediaTinLanh.UI.WPF.ViewModels"
         xmlns:c="clr-namespace:MediaTinLanh.UI.WPF.Controls"
         xmlns:TuTaoTrinhChieu="clr-namespace:MediaTinLanh.UI.WPF.TaoTrinhChieu"
         mc:Ignorable="d"
@@ -298,6 +298,23 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid x:Name="grdWaiting" Grid.Column="1" Grid.Row="1" Panel.ZIndex="1" Background="Gray" Opacity="0.6" Visibility="Hidden">
+            <materialDesign:DialogHost Identifier="RootDialog">
+                <materialDesign:DialogHost.DialogContentTemplate>
+                    <DataTemplate DataType="vm:MessageViewModel">
+                        <StackPanel Margin="16">
+                            <TextBlock Text="{Binding Message}" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                <Button Style="{StaticResource MDTLMaterialDesignRaisedDarkButton}"
+                                        IsDefault="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                                    Đóng
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </materialDesign:DialogHost.DialogContentTemplate>
+            </materialDesign:DialogHost>
             <fa:ImageAwesome x:Name="faCircleWaiting" RenderTransformOrigin="0.5, 0.5" Icon="Spinner" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="40" >
                 <fa:ImageAwesome.RenderTransform>
                     <RotateTransform/>
