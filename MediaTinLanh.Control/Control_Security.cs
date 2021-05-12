@@ -54,7 +54,7 @@ namespace MediaTinLanh.Control
             }
 
         }
-        public String Encrypt(String plainText)
+        public String Decrypt(String plainText)
         {
             bool useHashing = true;
             byte[] keyArray;
@@ -79,7 +79,7 @@ namespace MediaTinLanh.Control
             return UTF8Encoding.UTF8.GetString(resultArray);
         }
 
-        public String Decrypt(String cipherText)
+        public String Encrypt (String cipherText)
         {
             bool useHashing = true;
             byte[] keyArray;
