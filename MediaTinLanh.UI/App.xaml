@@ -1,0 +1,28 @@
+﻿<Application x:Class="MediaTinLanh.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MediaTinLanh.UI"
+             StartupUri="Controls/IntroWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MediaTinLanh.UI;component/Resources/CustomResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="RobotoBlack">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoBlackItalic">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoBold">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoBoldItalic">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoItalic">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoLight">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoLightItalic">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoMedium">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoRegular">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoThin">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+            <FontFamily x:Key="RobotoThinItalic">pack://application:,,,/MediaTinLanh.UI;component/Resources/fonts/Roboto/#Roboto</FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

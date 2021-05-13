@@ -8,8 +8,7 @@ namespace MediaTinLanh.Data
 {
     public partial class ThanhCa : Entity<ThanhCa>
     {
-        public LoaiThanhCa LoaiThanhCa { get; set; }
+        public LoaiBaiHat LoaiThanhCa { get; set; }
         public List<LoiBaiHat> DanhSachLoiBaiHat { get; set; }
-        public List<Media> DanhSachMedia { get; set; }
     }
 }
