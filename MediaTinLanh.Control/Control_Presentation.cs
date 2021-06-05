@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using Syncfusion.Presentation;
 using System.Drawing.Imaging;
 using Syncfusion.OfficeChartToImageConverter;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MediaTinLanh.Control
 {
@@ -115,7 +115,7 @@ namespace MediaTinLanh.Control
 
         #region  Slide đầu tiên
 
-        public static void CreateSlide1(IPresentation presentation, string content,ILayoutSlide LayputLayoutSlide)
+        public static void CreateSlide1(IPresentation presentation, string content, ILayoutSlide LayputLayoutSlide)
         {
             ISlide firstSlide = presentation.Slides.Add(LayputLayoutSlide);
             IShape textShape = firstSlide.AddTextBox(0, 0, firstSlide.SlideSize.Width, firstSlide.SlideSize.Height);
@@ -212,9 +212,17 @@ namespace MediaTinLanh.Control
 
         #region Slide sang JPG
 
-        public static Image SlideToImage (string fileName, int indexSlide, int customWidth,
+        public static Image SlideToImage (
+            string fileName, 
+            int indexSlide, 
+            int customWidth,
             int customHeight)
         {
+            if (!File.Exists(fileName))
+            {
+                throw new Exception($"Cannot find file name {fileName}");
+            }
+
             //Opens a PowerPoint Presentation file
             IPresentation pptxDoc = Presentation.Open(fileName);
 
@@ -242,14 +250,78 @@ namespace MediaTinLanh.Control
             return img ;
         }
 
-
-        public void PptxFileToImages(
-            string fileName, 
-            ObservableCollection<ImageSource> slideImageSources, 
-            int customHeight = 0,
-            int customWidth = 0)
+        public static void ConvertContentToImages(
+            string folderPath,
+            string tempFileName,
+            string[] content,
+            List<ImageSource> slideImageSources,
+            List<ImageSource> thumbnailImageSources,
+            string[] format,
+            Stream img)
         {
-            //Opens a PowerPoint Presentation file
+            string tempFileFullPath = Path.Combine(folderPath, tempFileName);
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            if (File.Exists(tempFileFullPath))
+            {
+                File.Delete(tempFileFullPath);
+            }
+
+            using (IPresentation pptxDoc = Presentation.Create())
+            {
+                string font = format[0];
+                string size = format[1];
+                string style = format[2];
+
+                if (img != Stream.Null)
+                {
+                    ILayoutSlide layoutSlide = pptxDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+                    //Thiết lập background
+                    ISlideSize slidesize = layoutSlide.SlideSize;
+
+                    //Thêm Background
+                    layoutSlide.Shapes.AddPicture(img, 0, 0, slidesize.Width, slidesize.Height);
+
+                    ////Tạo slide đầu tiên
+                    CreateSlide1(pptxDoc, content[0], layoutSlide);
+                    for (int i = 1; i < content.Length; i++)
+                    {
+                        //Chèn dữ liệu vào slide
+                        CreateSlide2(i - 1, pptxDoc, content[i], font, size, style, layoutSlide);
+                    }
+                }
+                else
+                {
+                    ILayoutSlide layoutSlide = pptxDoc.Masters[0].LayoutSlides.Add(SlideLayoutType.Blank, "CustomLayout");
+                    CreateSlide1(pptxDoc, content[0], layoutSlide);
+                    for (int i = 1; i < content.Length; i++)
+                    {
+                        //Tạo slide khác
+                        CreateSlide2(i - 1, pptxDoc, content[i], font, size, style, layoutSlide);
+                    }
+                }
+
+                pptxDoc.Save(tempFileFullPath);
+                pptxDoc.Close();
+            }
+
+            PptxFileToImages(tempFileFullPath, slideImageSources, thumbnailImageSources);
+        }
+
+        public static bool ThumbnailCallback()
+        {
+            return false;
+        }
+
+        
+
+        public static void PptxFileToImages(string fileName,
+            List<ImageSource> slideImageSources,
+            List<ImageSource> thumbnailImageSource)
+        {
             using (IPresentation pptxDoc = Presentation.Open(fileName))
             {
                 try
@@ -259,6 +331,14 @@ namespace MediaTinLanh.Control
                         using (Image image = slide.ConvertToImage(Syncfusion.Drawing.ImageType.Bitmap))
                         {
                             Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+                            System.Drawing.Image newImage = image.GetThumbnailImage(170, 100, myCallback, System.IntPtr.Zero);
+
+                            using (Stream ms = new MemoryStream())
+                            {
+                                newImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                var decoder = BitmapDecoder.Create(ms, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                                thumbnailImageSource.Add(decoder.Frames[0]);
+                            }
 
                             using (Stream ms = new MemoryStream())
                             {
@@ -274,12 +354,6 @@ namespace MediaTinLanh.Control
                     throw e;
                 }
             }
-
-        }
-
-        public bool ThumbnailCallback()
-        {
-            return false;
         }
         #endregion
 

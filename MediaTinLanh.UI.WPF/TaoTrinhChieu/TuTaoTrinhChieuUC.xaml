@@ -6,14 +6,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MediaTinLanh.UI.WPF"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
-             Height="{Binding 
-                RelativeSource={RelativeSource Self}, 
-                Path=Parent.ActualHeight}"
-             Width="{Binding RelativeSource={RelativeSource Self},
-                Path=Parent.ActualWidth}"
-             Background="#282828"
+             Height="{Binding  RelativeSource={RelativeSource Self}, Path=Parent.ActualHeight}"
+             Width="{Binding RelativeSource={RelativeSource Self}, Path=Parent.ActualWidth}"
              >
 
     <UserControl.Resources>
@@ -212,36 +208,101 @@
     </UserControl.Resources>
 
     <Grid x:Name="gridTaoTrinhChieu" Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="6*" />
             <RowDefinition Height="2*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid 
+            x:Name="grdWaiting" 
+            Grid.RowSpan="3" 
+            Grid.Column="0" 
+            Panel.ZIndex="1" 
+            Background="Gray" 
+            Opacity="0.6" 
+            Visibility="Hidden">
+            <fa:ImageAwesome 
+                x:Name="faCircleWaiting" 
+                RenderTransformOrigin="0.5, 0.5" 
+                Icon="Spinner" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center" 
+                Height="40" 
+                Width="40" >
+                <fa:ImageAwesome.RenderTransform>
+                    <RotateTransform/>
+                </fa:ImageAwesome.RenderTransform>
+                <fa:ImageAwesome.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation 
+                                    Storyboard.TargetProperty="Foreground.Color"
+                                    From="White"
+                                    To="White"      
+                                    Duration="0:0:9.0"
+                                    AutoReverse="True"/>
+                                <DoubleAnimation 
+                                    Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)"
+                                    To="360"
+                                    Duration="0:0:1"
+                                    RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </fa:ImageAwesome.Triggers>
+            </fa:ImageAwesome>
+        </Grid>
+        <Grid Grid.ColumnSpan="3" Grid.Row="0" Panel.ZIndex="1">
+            <materialDesign:Snackbar x:Name="mySnackbar" MessageQueue="{materialDesign:MessageQueue}"/>
+        </Grid>
         <DockPanel Grid.Row="0" Margin="0,0,5,0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
                 </Grid.ColumnDefinitions>
-                <DockPanel Grid.Column="0">
+                <DockPanel Grid.Column="0" Margin="10">
                     <TextBlock 
+                        Text="Lời bài hát:"
                         FontFamily="{DynamicResource RobotoRegular}"
-                        FontSize="16"
                         DockPanel.Dock="Top"
                         Margin="0,0,0,5"
+                        Foreground="{DynamicResource TextColor}"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        LineHeight="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.02}"
+                        FontSize="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE*0.03}" />
+                    <Button 
+                        Name="btnTranslate"
+                        Click="btnTranslate_Click"
+                        DockPanel.Dock="Bottom"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource MenuButton}"
+                        Width="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*16}"
+                        Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
                         >
-                        Lời bài hát:
-                    </TextBlock>
+                        <TextBlock
+                            Text="Chuyển thành slide"
+                            Foreground="{StaticResource TextColor}"
+                            FontSize="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
+                            FontFamily="{DynamicResource RobotoRegular}" 
+                            IsHyphenationEnabled="True" 
+                            LineHeight="{Binding ElementName=btnThanCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
+                            LineStackingStrategy="BlockLineHeight" TextAlignment="Left" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
+                    </Button>
                     <TextBox 
                         Text="{Binding NoiDungNhap, UpdateSourceTrigger=PropertyChanged}"
-                        TextChanged="TextBox_TextChanged"
                         FontFamily="{StaticResource RobotoRegular}"
                         TextWrapping="WrapWithOverflow"
                         AcceptsReturn="True"
                         VerticalScrollBarVisibility="Auto"
                         Foreground="{StaticResource TextColor}"
-                        Padding="10">
+                        KeyUp="TxtboxNoiDung_KeyUp"
+                        Padding="10"
+                        Margin="0, 10, 10, 10">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Setter Property="Background">
@@ -257,23 +318,19 @@
                             </Style>
                         </TextBox.Style>
                     </TextBox>
+                 
                 </DockPanel>
-                <DockPanel Grid.Column="1"  x:Name="slidesList">
-                    <Image Name="CurrentSlide"></Image>
-                </DockPanel>
+                <Grid Grid.Column="1" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Name="CurrentSlide" Grid.Column="0"></Image>
 
-                <ListView
-                        Grid.Column="2"
-                        Name="SlidesListView">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <Image Width="300px" Source="{Binding}">
-                                </Image>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    <StackPanel x:Name="SlideList"
+                            Grid.Column="1"></StackPanel>
+                </Grid>
+                
             </Grid>
         </DockPanel>
         <DockPanel Grid.Row="1">
@@ -284,10 +341,10 @@
                 </Grid.ColumnDefinitions>
 
                 <DockPanel Grid.Column="0">
-                    <TextBlock FontSize="16"
-                               DockPanel.Dock="Top">
-                        Lựa chọn mẫu Powerpoint định dạng 16:9
-                    </TextBlock>
+                    <TextBlock 
+                        FontSize="16"
+                        Text="Lựa chọn mẫu Powerpoint định dạng 16:9"
+                        DockPanel.Dock="Top"/>
                     <!-- list hình 16:9 -->
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -301,7 +358,7 @@
                             Icon="AngleLeft" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"
-                            FontSize="150"
+                            FontSize="100"
                             Foreground="{StaticResource IconColor}"/>
                         <Image Grid.Column="1"
                             Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
@@ -313,7 +370,7 @@
                             Icon="AngleRight" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"
-                            FontSize="150"
+                            FontSize="100"
                             Foreground="{StaticResource IconColor}"/>
                     </Grid>
                 </DockPanel>
@@ -334,7 +391,7 @@
                             Icon="AngleLeft" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"
-                            FontSize="150"
+                            FontSize="100"
                             Foreground="{StaticResource IconColor}"/>
                         <Image Grid.Column="1"
                             Source="/MediaTinLanh.UI.WPF;component/Skin/Images/main/Layer 27.png" />
@@ -346,7 +403,7 @@
                             Icon="AngleRight" 
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Center"
-                            FontSize="150"
+                            FontSize="100"
                             Foreground="{StaticResource IconColor}"/>
                     </Grid>
                 </DockPanel>
@@ -377,21 +434,21 @@
 
                         <Border Grid.Column="0" >
                             <Button x:Name="btnTaiPPTX" 
-                                Click="btnTaiPPTX_Click"
                                 Style="{StaticResource MenuButton}"
                                 Width="{Binding ActualWidth, ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*8}"
                                 Height="{Binding ActualHeight, ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
+                                Click="btnTaiPPTX_Click"
                                 >
-                                <TextBlock x:Name="tbxTaiPPTX"
+                                <TextBlock 
+                                    x:Name="tbxTaiPPTX"
+                                    Text="Khởi tạo PPTX"
                                     Foreground="{DynamicResource TextColor}"
                                     FontSize="{Binding ActualWidth,ElementName=gridTaoTrinhChieu, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1.1}" 
                                     FontFamily="{DynamicResource RobotoRegular}" 
                                     IsHyphenationEnabled="True" 
                                     LineHeight="{Binding ElementName=btnThanCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
                                     LineStackingStrategy="BlockLineHeight" TextAlignment="Left" VerticalAlignment="Bottom" TextWrapping="Wrap"           
-                                >
-                                    Khởi tạo PPTX
-                                </TextBlock>
+                                />
                             </Button>
                         </Border>
 
@@ -400,15 +457,15 @@
                             x:Name="btnUploadBaiHai"
                             Style="{StaticResource MenuButton}"
                             Width="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*16}"
-                            Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
+                            Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}" Click="btnUploadBaiHai_Click"
                              >
-                                <TextBlock
+                                <TextBlock 
+                                    x:Name="tbxUpload"
+                                    Text="Tải bài hát lên máy chủ"
                                     Foreground="{StaticResource TextColor}"
                                     FontSize="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
                                     FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnThanCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
-                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" VerticalAlignment="Bottom" TextWrapping="Wrap">
-                                        Tải bài hát lên máy chủ
-                                </TextBlock>
+                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
                             </Button>
                         </Border>
 
@@ -420,12 +477,11 @@
                                 Height="{Binding ElementName=gridTaoTrinhChieu, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*6}"
                             >
                                 <TextBlock x:Name="tbxVideoHD"
+                                    Text="Xem video hướng dẫn"
                                     Foreground="{StaticResource TextColor}"
                                     FontSize="{Binding ElementName=gridTaoTrinhChieu, Path=ActualWidth, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*1}" 
                                     FontFamily="{DynamicResource RobotoRegular}" IsHyphenationEnabled="True" LineHeight="{Binding ElementName=btnThanCa, Path=ActualHeight, Converter={StaticResource mathConverter}, ConverterParameter=@VALUE/100*50}"
-                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" VerticalAlignment="Bottom" TextWrapping="Wrap">
-                                    Xem video hướng dẫn
-                                </TextBlock>
+                                    LineStackingStrategy="BlockLineHeight" TextAlignment="Left" VerticalAlignment="Bottom" TextWrapping="Wrap" />
                             </Button>
                         </Border>
 
