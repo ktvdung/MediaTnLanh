@@ -1,7 +1,6 @@
 ﻿using MediaTinLanh.Control;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -53,35 +52,19 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
             slideImageSources = new List<ImageSource>();
             thumbnailImageSource = new List<ImageSource>();
 
-            HideControls();
             InitializeNonUITasks();
             InitializeUITasks();
-            DisplayControls();
         }
 
         #region Helper methods
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            HideControls();
             InitializeNonUITasks();
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             InitializeUITasks();
-            DisplayControls();
-        }
-
-        private void HideControls()
-        {
-            Dispatcher.Invoke(new Action(() => { this.CurrentSlide.Visibility = Visibility.Collapsed; }));
-            Dispatcher.Invoke(new Action(() => { this.SlideList.Visibility = Visibility.Collapsed; }));
-        }
-
-        private void DisplayControls()
-        {
-            Dispatcher.Invoke(new Action(() => { this.CurrentSlide.Visibility = Visibility.Visible; }));
-            Dispatcher.Invoke(new Action(() => { this.SlideList.Visibility = Visibility.Visible; }));
         }
 
         private void InitializeNonUITasks()
@@ -174,7 +157,23 @@ namespace MediaTinLanh.UI.WPF.TaoTrinhChieu
 
         private void btnUploadBaiHai_Click(object sender, RoutedEventArgs e)
         {
-            displayBackroundWorker.RunWorkerAsync();
+            
+        }
+
+        private void btnTranslate_Click(object sender, RoutedEventArgs e)
+        {
+            grdWaiting.Visibility = Visibility.Visible;
+
+
+            Task.Factory.StartNew(() =>
+            {
+                InitializeNonUITasks();
+            }).ContinueWith(Task =>
+            {
+                InitializeUITasks();
+                //Ẩn circle waiting
+                grdWaiting.Visibility = Visibility.Hidden;
+            }, System.Threading.CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }
