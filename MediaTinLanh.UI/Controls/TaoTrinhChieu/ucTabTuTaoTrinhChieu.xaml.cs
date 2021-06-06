@@ -2,13 +2,15 @@
 using MediaTinLanh.UI.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -108,39 +110,97 @@ namespace MediaTinLanh.UI.Controls
                         backgroundImage);
                 }
             }
+            
+            DataContext = viewModel;
 
+            displayBackroundWorker.DoWork += worker_DoWork;
+            displayBackroundWorker.RunWorkerCompleted += worker_RunWorkerCompleted;
+
+            // Load background image
+            templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Assets\template.pptx");
+            tempFolderPath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\temp");
+            tempPptxName = "temp.pptx";
+            backgroundImagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg");
+            img = new FileStream(backgroundImagePath, FileMode.Open);
+
+            slideImageSources = new List<ImageSource>();
+            thumbnailImageSource = new List<ImageSource>();
+
+            InitializeNonUITasks();
+            InitializeUITasks();
         }
 
-        private void SaveTempFile()
+        #region Helper methods
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (viewModel.Slides.Count != 0)
-            {
-                var tempFolder = tempFilePath.Substring(0, tempFilePath.LastIndexOf("\\"));
-                var exists = Directory.Exists(tempFolder);
-                if (!exists)
-                {
-                    Directory.CreateDirectory(tempFolder);
-                }
-
-                Control_Presentation.CreateFiles(tempFilePath,
-                    viewModel.Slides.Select(slide => slide.NoiDung).ToArray(), new string[] { "Arial", "70", "Bold" }, backgroundImage);
-            }
+            InitializeNonUITasks();
         }
 
-        private void OpenTempFile(string filePath)
+        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            InitializeUITasks();
+        }
+
+        private void InitializeNonUITasks()
         {
             slideImageSources.Clear();
+            thumbnailImageSource.Clear();
 
-            try
+            if (!String.IsNullOrEmpty(this.viewModel.NoiDungNhap))
             {
-                _controller.PptxFileToImages(filePath, slideImageSources);
-                SlidesListView.Items.Refresh();
+                this.viewModel.NoiDungToSlide();
+                if (this.viewModel.Slides.Count > 0)
+                {
+                    // TODO: thumbnails
+                    Control_Presentation.ConvertContentToImages(
+                        tempFolderPath,
+                        tempPptxName,
+                        this.viewModel.Slides.ToArray(), 
+                        slideImageSources, 
+                        thumbnailImageSource, 
+                        FORMAT, 
+                        img
+                    );
+                }
             }
-            catch(Exception ex)
+            else
             {
-                throw ex;
+                Control_Presentation.PptxFileToImages(templateFilePath, slideImageSources, thumbnailImageSource);
             }
         }
+
+        private void InitializeUITasks()
+        {
+            this.SlideList.Children.Clear();
+
+            foreach (ImageSource imgSource in thumbnailImageSource)
+            {
+                StackPanel stackpanel = new StackPanel();
+
+                Border myBorder1 = new Border(); 
+                myBorder1.Background = Brushes.SkyBlue;
+                myBorder1.Margin = new Thickness(0, 0, 0, 30);
+                myBorder1.BorderBrush = new SolidColorBrush(Color.FromRgb(210, 71, 38));
+                myBorder1.BorderThickness = new Thickness(0.7f);
+
+                Image imageControl = new Image();
+                imageControl.Source = imgSource;
+                myBorder1.Child = imageControl;
+
+                stackpanel.Children.Add(myBorder1);
+
+                SlideList.Children.Add(stackpanel);
+            }
+
+            //Initiating the first slide
+            if (slideImageSources.Count > 0)
+            {
+                CurrentSlide.Source = slideImageSources[0];
+                currentSlideNumber = 1;
+            }
+
+        }
+        #endregion
 
         private void OpenTempFile(Stream fileStream)
         {
@@ -156,21 +216,42 @@ namespace MediaTinLanh.UI.Controls
                 throw ex;
             }
         }
-
-        private void Update()
+        
+        private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            viewModel.NoiDungToSlide();
-            SaveTempFile();
-            OpenTempFile(tempFilePath);
-            if (currentSlideIndex < slideImageSources.Count)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "MS Powerpoint file (*.pptx)|*.pptx|Text file (*.txt)|*.txt";
+            if (saveFileDialog.ShowDialog() ==  System.Windows.Forms.DialogResult.OK)
             {
-                CurrentSlide.Source = slideImageSources[currentSlideIndex];
+                Control_Presentation.CreateFiles(saveFileDialog.FileName,
+                viewModel.Slides.ToArray(), FORMAT, img);
             }
         }
 
-        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void TxtboxNoiDung_KeyUp(object sender, System.Windows.RoutedEventArgs e)
         {
-            Update();
+            // TODO: Phải có filePath 
+            //displayBackroundWorker.RunWorkerAsync();
+        }
+
+        private void btnUploadBaiHai_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnTranslate_Click(object sender, RoutedEventArgs e)
+        {
+            grdWaiting.Visibility = Visibility.Visible;
+            
+            Task.Factory.StartNew(() =>
+            {
+                InitializeNonUITasks();
+            }).ContinueWith(Task =>
+            {
+                InitializeUITasks();
+                //Ẩn circle waiting
+                grdWaiting.Visibility = Visibility.Hidden;
+            }, System.Threading.CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
     }
