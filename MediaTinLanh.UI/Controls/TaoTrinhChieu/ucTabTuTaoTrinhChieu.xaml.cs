@@ -1,12 +1,16 @@
 ﻿using MediaTinLanh.Control;
+using MediaTinLanh.UI.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -17,17 +21,14 @@ namespace MediaTinLanh.UI.Controls
     /// </summary>
     public partial class ucTabTuTaoTrinhChieu : UserControl
     {
-        TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
+        private System.Windows.Data.ListCollectionView Context { get; }
+        private ImageViewModel ImageDataContext { get; set; }
         private ObservableCollection<ImageSource> slideImageSources = new ObservableCollection<ImageSource>();
+        
+        TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
         int currentSlideIndex = 0;
 
-        //private string currentDirectoryPath = Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory()));
-        //private string backgroundImagePath = string.Empty;
-        //private string templateFilePath = string.Empty;
-        //private string tempFilePath = string.Empty;
-        //private FileStream backgroundImage;
         private readonly Control_Presentation _controller;
-        //private DispatcherTimer timer = new DispatcherTimer();
 
         private Uri backgroundImagePath = new Uri("pack://application:,,,/Resources/images/trinh-chieu/bg.jpg");
         private Uri templateFilePath = new Uri("pack://application:,,,/Files/template.pptx");
@@ -38,19 +39,55 @@ namespace MediaTinLanh.UI.Controls
         {
             InitializeComponent();
             this.DataContext = viewModel;
+
+            ImageDataContext = (ImageViewModel)this.Resources["ImageContext"];
+
+            ImageDataContext.Images.Add(new BitmapImage(new Uri("pack://application:,,,/Resources/images/main/Layer-169.png")));
+            ImageDataContext.Images.Add(new BitmapImage(new Uri("pack://application:,,,/Resources/images/main/Layer-43.png")));
+            ImageDataContext.Images.Add(new BitmapImage(new Uri("pack://application:,,,/Resources/images/main/Layer-30.png")));
+
+            ImageDataContext.SelectedImage = ImageDataContext.Images[0];
             _controller = new Control_Presentation();
 
             tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp\\temp.pptx";
-            //backgroundImagePath = currentDirectoryPath + "\\Resources\\images\\trinh-chieu\\bg.jpg";
-            //backgroundImage = new FileStream(backgroundImagePath, FileMode.Open);
-            //OpenTempFile(templateFilePath);
-            //CurrentSlide.Source = slideImageSources[currentSlideIndex];
-            //SlidesListView.ItemsSource = slideImageSources;
-
             backgroundImage = Application.GetResourceStream(backgroundImagePath).Stream;
             OpenTempFile(Application.GetResourceStream(templateFilePath).Stream);
             CurrentSlide.Source = slideImageSources[currentSlideIndex];
             SlidesListView.ItemsSource = slideImageSources;
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            txtTieuDe.GotFocus += RemovePlaceholderTextBox;
+            txtTieuDe.LostFocus += AddPlaceholderTextBox;
+
+            txtMoTa.GotFocus += RemovePlaceholderTextBox;
+            txtMoTa.LostFocus += AddPlaceholderTextBox;
+
+            txtNoiDung.GotFocus += RemovePlaceholderTextBox;
+            txtNoiDung.LostFocus += AddPlaceholderTextBox;
+
+
+        }
+
+        public void RemovePlaceholderTextBox(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            if (textBox.Text == textBox.Tag.ToString())
+            {
+                textBox.Text = "";
+            }
+        }
+
+        public void AddPlaceholderTextBox(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+                textBox.Text = textBox.Tag.ToString();
         }
 
         private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -135,5 +172,6 @@ namespace MediaTinLanh.UI.Controls
         {
             Update();
         }
+
     }
 }
