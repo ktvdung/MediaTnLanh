@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MediaTinLanh.UI.Controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:resources="clr-namespace:MediaTinLanh.UI.Resources"
              xmlns:vm="clr-namespace:MediaTinLanh.UI.ViewModels"
              mc:Ignorable="d" 
@@ -40,32 +41,72 @@
             <RowDefinition Height="20*" />
             <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
+        <Grid x:Name="grdWaiting" 
+            Grid.RowSpan="3" 
+            Grid.ColumnSpan="3" 
+            Panel.ZIndex="1" 
+            Background="Gray" 
+            Opacity="0.6" 
+            Visibility="Hidden">
+            <fa:ImageAwesome 
+                x:Name="faCircleWaiting" 
+                RenderTransformOrigin="0.5, 0.5" 
+                Icon="Spinner" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center" 
+                Height="40" 
+                Width="40" >
+                <fa:ImageAwesome.RenderTransform>
+                    <RotateTransform/>
+                </fa:ImageAwesome.RenderTransform>
+                <fa:ImageAwesome.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation 
+                                    Storyboard.TargetProperty="Foreground.Color"
+                                    From="White"
+                                    To="White"      
+                                    Duration="0:0:9.0"
+                                    AutoReverse="True"/>
+                                <DoubleAnimation 
+                                    Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)"
+                                    To="360"
+                                    Duration="0:0:1"
+                                    RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </fa:ImageAwesome.Triggers>
+            </fa:ImageAwesome>
+        </Grid>
         <DockPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10*"/>
                     <RowDefinition Height="10*"/>
                     <RowDefinition Height="80*"/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="txtTieuDe" Grid.Row="0" Tag="Nhập tựa đề"
+                <TextBox x:Name="txtTieuDe" Grid.ColumnSpan="2" Grid.Row="0" Tag="Nhập tựa đề"
                          Style="{StaticResource DashedTextBoxStyle}"
                          Text="{Binding TieuDe, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                         FontFamily="{StaticResource RobotoRegular}"
+                         FontFamily="{StaticResource RobotoRegular}" FontSize="16"
                          Foreground="WhiteSmoke" TextAlignment="Center"
                          VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                <TextBox x:Name="txtMoTa" Grid.Row="1" Tag="Nhập thông tin Nhạc &amp; lời, thơ, chuyển ngữ, năm sáng tác (nếu có)"
+                <TextBox x:Name="txtMoTa" Grid.ColumnSpan="2" Grid.Row="1" Tag="Nhập thông tin Nhạc &amp; lời, thơ, chuyển ngữ, năm sáng tác (nếu có)"
                          Style="{StaticResource DashedTextBoxStyle}"
                          Text="{Binding MoTa, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                         FontFamily="{StaticResource RobotoRegular}" 
+                         FontFamily="{StaticResource RobotoRegular}" FontSize="16"
                          Foreground="WhiteSmoke" TextAlignment="Center"
                          VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                 <TextBox x:Name="txtNoiDung" Grid.Row="2" Tag="Nhập nội dung"
-                         TextAlignment="Left"
+                         TextAlignment="Left" KeyUp="TxtboxNoiDung_KeyUp"
                          Text="{Binding NoiDungNhap, UpdateSourceTrigger=PropertyChanged}"
-                         TextChanged="TextBox_TextChanged" FontFamily="{StaticResource RobotoRegular}"
+                         FontFamily="{StaticResource RobotoRegular}" FontSize="16"
                          TextWrapping="WrapWithOverflow" AcceptsReturn="True" Padding="10"
                          VerticalScrollBarVisibility="Auto" Foreground="WhiteSmoke" >
                     <TextBox.Style>
@@ -83,6 +124,13 @@
                         </Style>
                     </TextBox.Style>
                 </TextBox>
+                <Button x:Name="btnTranslate" Grid.Column="1" Grid.Row="2" 
+                        Click="btnTranslate_Click"
+                        Style="{StaticResource MDTLButtonDarkBrownText}">
+                    <TextBlock Text="Chuyển thành slide" FontSize="12"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               TextWrapping="WrapWithOverflow"  TextAlignment="Center"/>
+                </Button>
             </Grid>
         </DockPanel>
         <DockPanel Grid.Row="0" Grid.Column="2">
@@ -95,16 +143,7 @@
                     <Image Name="CurrentSlide"></Image>
                 </DockPanel>
                 <Viewbox Grid.Column="1" Stretch="Uniform" StretchDirection="DownOnly">
-                    <ListView x:Name="SlidesListView">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Image Source="{Binding}" HorizontalAlignment="Stretch" Margin="15">
-                                    </Image>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    <StackPanel x:Name="SlideList"></StackPanel>
                 </Viewbox>
             </Grid>
         </DockPanel>

@@ -243,6 +243,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Temp\temp.pptx" />
     <Resource Include="Resources\images\main\Layer-30.png" />
     <Resource Include="Resources\images\trinh-chieu\bg.jpg" />
     <Resource Include="Resources\images\main\main background.png" />
@@ -268,10 +269,10 @@
     <Content Include="Media.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Files\template.pptx" />
     <Content Include="mediatinlanh.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Assets\template.pptx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

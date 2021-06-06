@@ -10,11 +10,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace MediaTinLanh.UI.Controls
 {
@@ -25,23 +25,33 @@ namespace MediaTinLanh.UI.Controls
     {
         private System.Windows.Data.ListCollectionView Context { get; }
         private ImageViewModel ImageDataContext { get; set; }
-        private ObservableCollection<ImageSource> slideImageSources = new ObservableCollection<ImageSource>();
         
         TaoTrinhChieuViewModel viewModel = new TaoTrinhChieuViewModel();
-        int currentSlideIndex = 0;
+        private readonly BackgroundWorker displayBackroundWorker = new BackgroundWorker();
 
-        private readonly Control_Presentation _controller;
+        //private Uri backgroundImagePath = new Uri("pack://application:,,,/Resources/images/trinh-chieu/bg.jpg");
+        //private Uri templateFilePath = new Uri("pack://application:,,,/Files/template.pptx");
+        //private string tempFilePath = string.Empty;
+        //private Stream backgroundImage;
 
-        private Uri backgroundImagePath = new Uri("pack://application:,,,/Resources/images/trinh-chieu/bg.jpg");
-        private Uri templateFilePath = new Uri("pack://application:,,,/Files/template.pptx");
-        private string tempFilePath = string.Empty;
-        private Stream backgroundImage;
+        private readonly string backgroundImagePath = string.Empty;
+        private readonly string templateFilePath = string.Empty;
+        private readonly string tempPptxName = string.Empty;
+        private readonly string tempFolderPath = string.Empty;
+
+        private readonly string[] FORMAT = new string[] { "Arial", "70", "Bold" };
+
+        List<ImageSource> slideImageSources;
+        List<ImageSource> thumbnailImageSource;
+        int currentSlideNumber = 0;
+        Stream img = null;
 
         public ucTabTuTaoTrinhChieu()
         {
             InitializeComponent();
-            this.DataContext = viewModel;
+            DataContext = viewModel;
 
+            //Load templates image
             ImageDataContext = (ImageViewModel)this.Resources["ImageContext"];
 
             ImageDataContext.Images.Add(new BitmapImage(new Uri("pack://application:,,,/Resources/images/main/Layer-169.png")));
@@ -49,13 +59,26 @@ namespace MediaTinLanh.UI.Controls
             ImageDataContext.Images.Add(new BitmapImage(new Uri("pack://application:,,,/Resources/images/main/Layer-30.png")));
 
             ImageDataContext.SelectedImage = ImageDataContext.Images[0];
-            _controller = new Control_Presentation();
 
-            tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\temp\\temp.pptx";
-            backgroundImage = Application.GetResourceStream(backgroundImagePath).Stream;
-            OpenTempFile(Application.GetResourceStream(templateFilePath).Stream);
-            CurrentSlide.Source = slideImageSources[currentSlideIndex];
-            SlidesListView.ItemsSource = slideImageSources;
+            //tempFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\Temp\\temp.pptx";
+            //backgroundImage = Application.GetResourceStream(backgroundImagePath).Stream;
+            //OpenTempFile(Application.GetResourceStream(templateFilePath).Stream);
+
+            displayBackroundWorker.DoWork += worker_DoWork;
+            displayBackroundWorker.RunWorkerCompleted += worker_RunWorkerCompleted;
+
+            // Load background image
+            templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Assets\template.pptx");
+            tempFolderPath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Temp");
+            tempPptxName = "temp.pptx";
+            backgroundImagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Resources\Images\trinh-chieu\", "bg.jpg");
+            img = new FileStream(backgroundImagePath, FileMode.Open);
+
+            slideImageSources = new List<ImageSource>();
+            thumbnailImageSource = new List<ImageSource>();
+
+            InitializeNonUITasks();
+            InitializeUITasks();
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -90,44 +113,6 @@ namespace MediaTinLanh.UI.Controls
 
             if (string.IsNullOrWhiteSpace(textBox.Text))
                 textBox.Text = textBox.Tag.ToString();
-        }
-
-        private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            viewModel.NoiDungToSlide();
-            if (viewModel.Slides.Count > 0)
-            {
-                System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-                saveFileDialog.Filter = "MS Powerpoint file (*.pptx)|*.pptx|Text file (*.txt)|*.txt";
-                saveFileDialog.FileName = "Sample.pptx";
-                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MediaTinLanh\\";
-                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    Control_Presentation.CreateFiles(
-                        saveFileDialog.FileName,
-                        viewModel.Slides.Select(slide => slide.NoiDung).ToArray(),
-                        new string[] { "Arial", "70", "Bold" },
-                        backgroundImage);
-                }
-            }
-            
-            DataContext = viewModel;
-
-            displayBackroundWorker.DoWork += worker_DoWork;
-            displayBackroundWorker.RunWorkerCompleted += worker_RunWorkerCompleted;
-
-            // Load background image
-            templateFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Assets\template.pptx");
-            tempFolderPath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\temp");
-            tempPptxName = "temp.pptx";
-            backgroundImagePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\Skin\Images\trinh-chieu\", "bg.jpg");
-            img = new FileStream(backgroundImagePath, FileMode.Open);
-
-            slideImageSources = new List<ImageSource>();
-            thumbnailImageSource = new List<ImageSource>();
-
-            InitializeNonUITasks();
-            InitializeUITasks();
         }
 
         #region Helper methods
@@ -202,29 +187,18 @@ namespace MediaTinLanh.UI.Controls
         }
         #endregion
 
-        private void OpenTempFile(Stream fileStream)
-        {
-            slideImageSources.Clear();
-
-            try
-            {
-                _controller.PptxFileToImages(fileStream, slideImageSources);
-                SlidesListView.Items.Refresh();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        
         private void btnTaiPPTX_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "MS Powerpoint file (*.pptx)|*.pptx|Text file (*.txt)|*.txt";
-            if (saveFileDialog.ShowDialog() ==  System.Windows.Forms.DialogResult.OK)
+            viewModel.NoiDungToSlide();
+            if (viewModel.Slides.Count > 0)
             {
-                Control_Presentation.CreateFiles(saveFileDialog.FileName,
-                viewModel.Slides.ToArray(), FORMAT, img);
+                System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+                saveFileDialog.Filter = "MS Powerpoint file (*.pptx)|*.pptx|Text file (*.txt)|*.txt";
+                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Control_Presentation.CreateFiles(saveFileDialog.FileName,
+                    viewModel.Slides.ToArray(), FORMAT, img);
+                }
             }
         }
 

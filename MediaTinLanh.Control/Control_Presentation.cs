@@ -391,10 +391,6 @@ namespace MediaTinLanh.Control
 
         }
 
-        public bool ThumbnailCallback()
-        {
-            return false;
-        }
         #endregion
 
         #region Áp dụng theme cho file
